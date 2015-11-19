@@ -1,0 +1,43 @@
+<div class="formulaire">
+	<h2>
+		<span ng-if="idNdf">Edition</span><span ng-if="!idNdf">Création</span> d'une note de frais
+	</h2>
+
+	<p>
+		Mois:
+		<input type="text" month-picker="yes" ng-model="ndf.dateMois"/>
+	</p>
+	<form name="detailNdf" ng-submit="submitNdf()">
+		Lignes de la note de frais
+		<input type="button" class="appliBtn" value="Ajouter" ng-click="ajouteLigne()"/>
+		<table>
+			<tr>
+				<th></th>
+				<th>Date</th>
+				<th>Descriptif</th>
+				<th>TVA 5.5%</th>
+				<th>TVA 10%</th>
+				<th>TVA 20%</th>
+			</tr>
+			<tr ng-repeat="ligne in ndf.lignes">
+				<td class="action" ng-click="supprimeLigne($index)">X</td>
+				<td><input type="text" date-picker="yes" ng-model="ligne.dateNote"/></td>
+				<td><input type="text" ng-model="ligne.descriptif"/></td>
+				<td><input type="text" numeric class="montant" ng-model="ligne.tva55"/></td>
+				<td><input type="text" numeric class="montant" ng-model="ligne.tva10"/></td>
+				<td><input type="text" numeric class="montant" ng-model="ligne.tva20"/></td>
+			</tr>
+			<!--Lignes de totalisation -->
+			<tr ng-if="ndf.lignes.length > 1">
+				<td colspan="2"></td>
+				<td>Total</td>
+				<td class="montant" ng-bind="getNdfTotal('tva55') | currency"></td>
+				<td class="montant" ng-bind="getNdfTotal('tva10') | currency"></td>
+				<td class="montant" ng-bind="getNdfTotal('tva20') | currency"></td>
+			</tr>
+		</table>
+		<input class="appliBtn" type="submit" value="Enregistrer"/>
+	</form>
+</div>
+
+</div>

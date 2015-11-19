@@ -1,0 +1,20 @@
+<div class="formulaire">
+	<span ng-if="contact.id===undefined"><h3>Création</h3></span>
+	<form name="contactForm">
+		<table>
+			<tr>
+				<th>Nom:</th><td><input type="text" name="nom" ng-model="contact.nom"/></td>
+			</tr><tr>
+				<th>Prénom:</th><td><input type="text" name="prenom" ng-model="contact.prenom"/></td>
+			</tr><tr>
+				<th>Mail:</th><td><input type="mail" name="mail" ng-model="contact.mail"/></td>
+			</tr><tr>
+				<th>Téléphone:</th><td><input type="text" name="tel" ng-model="contact.tel"/></td>
+			</tr><tr>
+				<th>Infos:</th><td><textarea name="info" ng-model="contact.info"></textarea></td>
+			</tr><tr>
+				<td style="text-align:center" ><input class="btn" type="submit" value="Enregistrer" ng-click="submitContact()"/></td>
+			</tr>
+		</table>
+	</form>
+</div>

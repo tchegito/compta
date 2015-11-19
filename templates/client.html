@@ -1,0 +1,33 @@
+<div class="formulaire">
+	<h2>
+		<span ng-if="idClient">Edition</span><span ng-if="!idClient">Création</span> d'un client
+	</h2>
+	<!-- l'overflow:hidden permet que les div contenus ne soient pas en dehors du parent -->
+	<div style="overflow:hidden">
+	<div style="width:40%;float:left">
+		<h3>Informations</h3>
+		<form name="clientForm" ng-submit="submitClient()">
+			<table>
+				<tr>
+				<th>Nom:</th><td><input type="text" ng-model="client.nom"/></td>
+			</tr><tr>
+				<th>Adresse:</th><td><textarea name="adresse" ng-model="client.adresse"></textarea></td>
+			</tr><tr>
+				<th>Récit d'expérience:</th><td><textarea name="recitXP" ng-model="client.recitXP"></textarea></td>
+			</tr>
+			</table>
+			<input class="appliBtn" type="submit" value="Enregistrer"/>
+		</form>
+	</div>
+	<div style="overflow:hidden;width:40%;float:left">
+		<h3>Contacts</h3>
+		<div style="float:left" ng-show="contacts.length  > 0">
+			<div class="clientTab">
+				<div class="clientLine" ng-repeat="contact in contacts"><a href="" ng-click="openContact(contact.id)">{{contact.prenom}} {{contact.nom}} {{contact.mail}}</a></div>
+			</div>
+		</div>
+		<input class="appliBtn" type="button" value="Ajouter" ng-click="creerContact()"/>
+		<div ng-if="isVisibleContact()" ng-include="'templates/contact.html'" style="float:left;width:100%"></div>
+	</div>
+	</div>
+</div>

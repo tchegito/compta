@@ -1,0 +1,11 @@
+Tous les fichiers HTML, JS sont en UTF-8 !
+
+Testé dans cette appli:
+-routage
+-ng-view
+-ng-include
+
+Reste à implémenter:
+-ng-pluralize
+-localisation (peut-être ?)
+-validation de formulaires

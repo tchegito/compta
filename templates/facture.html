@@ -1,0 +1,65 @@
+<div class="formulaire">
+	<h2>
+		<span ng-if="idFacture">Edition</span><span ng-if="!idFacture">Création</span> d'une facture
+	</h2>
+
+	<div style="float:left">
+			Client:
+			<select ng-model="facture.idClient" ng-options="c.id as c.nom for c in clients">
+			</select>
+			TJM:
+			<input type="text" ng-model="facture.tjm"/>
+	</div>
+	<div style="float:left;margin-left:100px">
+			<input type="checkbox" ng-model="facture.payee"/> payée
+	</div>
+	<p style="clear:both">
+		Début de la mission:
+		<input type="text" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
+	</p>
+	<p>
+		Fin de la mission:
+		<input type="text" date-picker="yes" ng-model="facture.fin"/>
+	</p>
+	<form name="detailFacture" ng-submit="submitFacture()">
+		Lignes de la facture
+		<input type="button" class="appliBtn" value="Ajouter" ng-click="ajouteLigne()"/>
+		<table>
+			<tr>
+				<th></th>
+				<th>Descriptif</th>
+				<th>Prix unitaire</th>
+				<th>Quantité</th>
+				<th>Total HT</th>
+			</tr>
+			<tr ng-repeat="ligne in facture.lignes">
+				<td class="action" ng-click="supprimeLigne($index)">X</td>
+				<td><input type="text" ng-model="ligne.descriptif"/></td>
+				<td><input type="text" ng-model="ligne.pu"/></td>
+				<td><input type="text" ng-model="ligne.qte"/></td>
+				<td class="montant" ng-bind="calculLigneMontantHT(ligne) | currency"></td>
+			</tr>
+			<!--Lignes de totalisation -->
+			<tr ng-if="facture.lignes.length > 1">
+				<td colspan="3"></td>
+				<td>Total HT</td>
+				<td class="montant" ng-bind="getFactureTotalHT() | currency"></td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
+				<td>TVA</td>
+				<td class="montant" ng-bind="0.2*getFactureTotalHT() | currency"></td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
+				<td>Total TTC</td>
+				<td class="montantGras" ng-bind="getFactureTotalTTC() | currency"></td>
+			</tr>
+		</table>
+		<input class="appliBtn" type="submit" value="Enregistrer"/>
+		<input class="appliBtn" type="button" ng-click="exportPDF()" value="Générer le PDF"/>
+	</form>
+</div>
+
+<div id="modeleFacture" ng-include="'templates/modeleFacture.html'" ng-show="false">
+</div>

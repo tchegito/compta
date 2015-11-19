@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app="comptaClient">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<script src="lib/jquery-1.11.3.min.js"></script>
+		<script src="lib/jquery-ui.min.js"></script>
+		<script src="lib/datepicker-fr.js"></script>
+		<script src="lib/angular.min.js"></script>
+		<script src="lib/angular-route.js"></script>
+		<script src="lib/angular-locale_fr-fr.js"></script>
+
+
+		<script src="lib/FileSaver.js"></script>
+		<script src="js/pdfmake_fromHtml.js"></script>
+		<script src="lib/pdfmake.js"></script>
+		<script src="js/vfs_fonts_times.js"></script>
+
+		<script src="js/fwk.js"></script>
+		<script src="js/modele.js"></script>
+		<script src="js/date.js"></script>
+		<script src="js/controllers.js"></script>
+
+		<!-- Jeu de test -->
+		<script>
+			restoreDb();
+		</script>
+
+		<!-- Pour construire un jeu de test -->
+<!--
+		<script src="js/testdata.js"></script>
+-->
+		<link rel="stylesheet" type="text/css" href="css/comptaClient.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+
+
+	</head>
+	<body ng-controller="main">
+
+		<h1>ComptaClient</h1>
+
+		<ul class="tabs">
+			<li ng-class="{active:selectedTab()==1}" ng-click="selectTab(1)">
+				Clients
+			</li>
+			<li ng-class="{active:selectedTab()==2}" ng-click="selectTab(2)">
+				Factures
+			</li>
+			<li ng-class="{active:selectedTab()==3}" ng-click="selectTab(3)">
+				Notes de frais
+			</li>
+			<li ng-class="{active:selectedTab()==4}" ng-click="selectTab(4)">
+				Données
+			</li>
+		</ul>
+
+		<div style="clear:both;"></div>
+
+		<div ng-show="selectedTab() === 1">
+			<div ng-include="'templates/listeClients.html'"></div>
+		</div>
+		<div ng-show="selectedTab() === 2">
+			<div ng-controller="factures" ng-include="'templates/listeFactures.html'"></div>
+		</div>
+		<div ng-show="selectedTab() === 3">
+			<div ng-controller="ndfs" ng-include="'templates/listeNdf.html'"></div>
+		</div>
+		<div ng-show="selectedTab() === 4">
+			<input class="appliBtn" type="button" value="Enregistrer les données" onclick="persistDb()"/>
+			<input class="appliBtn" type="button" value="Exporter les données" onclick="exportDb()"/>
+			<input class="appliBtn" type="file" id="input" name="file" onchange="angular.element(this).scope().importDb(this.files[0])">
+		</div>
+
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- Very important ! Avoid validation errors with FF
+     Note: there's no solution today about 'ng-view='ng-view''. We wouldn't have
+           been forced to use this syntax inside parent HTML, but with ng-include,
+           this becomes mandatory.-->
+<html>
+<body>
+
+<div class="clientTab">
+	<div class="clientHead">Liste des clients</div>
+	<div class="clientLine" ng-repeat="client in clients">
+		<a href="#/client{{client.id}}">{{client.nom}}
+		({{client.contacts.length}} contacts)</a>
+	</div>
+</div>
+<p>
+	<a class="appliBtn" href="#/client" ng-click="$parent.resetForm()">Créer un client</a>
+</p>
+<div ng-view="ng-view"></div>
+</body>
+</html>

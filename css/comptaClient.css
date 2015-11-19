@@ -1,0 +1,144 @@
+body {
+	border: 4px solid #8ac007;
+	border-radius: 25px;
+	padding: 15px;
+}
+
+.formulaire {
+	border: 2px solid orange;
+	border-radius:15px;
+	border-top-left-radius:0px;
+}
+
+th {
+	vertical-align: text-top;
+	text-align:left;
+}
+
+ul.tabs {
+	float:left;
+	border-bottom:2px solid black;
+	width:90%;
+	margin-bottom:20px;
+}
+
+.tabs li {
+	float:left;
+	margin: 5px 10px 0px 0px;
+	padding-left:30px;
+	padding-right:30px;
+	list-style:none;
+	background-color: #a0a0a0;
+	font-size:20px;
+	border:1px solid black;
+	border-bottom:none;
+	border-top-right-radius:5px;
+	cursor:pointer;
+	color:#1144aa;
+}
+
+li.active {
+	background-color: #44cc33;
+}
+
+li:hover {
+	background: #55dd44;
+}
+
+li a {
+	text-decoration:none;
+}
+
+.formulaire h3 {
+	margin-top:0px;
+	margin-left:5px;
+}
+
+.formulaire h2 {
+	margin-top:0px;
+	background-color:orange;
+	border-top-right-radius:12px;
+}
+.clientHead {
+	background-color: #99aa77;
+	font-weight:bold;
+	font-size:22;
+	color: #44ff22;
+}
+.clientTab {
+	border:2px solid blue;
+	border-radius:7px;
+	padding-left:0px;
+	width:100%;
+}
+
+.clientLine {
+	background-color: #44cc33;
+	border-bottom:1px solid #22bb11;
+	font-size:18;
+}
+
+.clientLine a {
+	text-decoration: none;
+	color: #334488;
+	transition:background-color 0.5s;
+	display:block;
+}
+
+.clientLine a:hover {
+	color: #7788ff;
+	background: #66ee44;
+}
+
+.clientLine a.active {
+	color: #7788ff;
+	background: #66ee44;
+}
+
+td.montant {
+	text-align:right;
+}
+
+input.montant {
+	text-align:right;
+}
+
+td.montantGras {
+	text-align:right;
+	font-weight:bold;
+}
+
+td.action {
+	cursor:pointer;
+}
+
+.appliBtn {
+  background: #ff7700;
+  background-image: -webkit-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -moz-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -ms-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -o-linear-gradient(top, #ff7700, #97b82c);
+  background-image: linear-gradient(to bottom, #ff7700, #97b82c);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  text-shadow: 2px 2px 0px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  border: solid #421f3b 0px;
+  text-decoration: none;
+  transition: color 0.5s;
+}
+
+.appliBtn:hover {
+  color: #44ff44;
+  background-image: -webkit-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -moz-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -ms-linear-gradient(top, #ff7700, #97b82c);
+  background-image: -o-linear-gradient(top, #ff7700, #97b82c);
+  background-image: linear-gradient(to bottom, #ff7700, #97b82c);
+  text-decoration: none;
+  cursor:pointer;
+}

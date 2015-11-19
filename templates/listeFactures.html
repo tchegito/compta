@@ -1,0 +1,31 @@
+<html>
+<body>
+
+<div class="clientTab">
+	<div class="clientHead">Liste des factures</div>
+		<div class="clientLine" ng-repeat="facture in factures track by facture.id">
+			<a href="#/facture{{facture.id}}" ng-click="selFacture(facture.id)"
+			   ng-class="{active:selectedFacture==facture.id}">
+				<div style="float:left;width:40%;background-color: transparent">
+					{{getNomClient(facture.idClient)}} : {{facture.montantTTC | currency}}
+				</div>
+				<div style="background-color: transparent">
+					{{facture.dateDebut | date : 'MM/yyyy'}}
+					<span style="margin-left:50px" ng-show="facture.payee">
+						Payée
+					</span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="clientHead">
+		Total: <span ng-bind="getTotalFactures() | currency"/>
+	</div>
+</div>
+<p>
+	<a class="appliBtn" href="#/facture" ng-click="resetForm()">Créer une facture</a>
+</p>
+<div ng-view="ng-view"></div>
+</body>
+</html>

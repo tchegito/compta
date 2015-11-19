@@ -1,0 +1,15 @@
+<html>
+<body>
+
+<div class="clientTab">
+	<div class="clientHead">Liste des notes de frais</div>
+	<div class="clientLine" ng-repeat="ndf in ndfs">
+		<a href="#/ndf{{ndf.id}}">{{getNdf(ndf.idNdf)}} : {{ndf.dateMois | date : "MMMM yyyy"}}</a>
+	</div>
+</div>
+<p>
+	<a class="appliBtn" href="#/ndf" ng-click="resetForm()">Créer une note de frais</a>
+</p>
+<div ng-view="ng-view"></div>
+</body>
+</html>
