@@ -316,6 +316,12 @@ app.controller("ndfs", function($scope, $location, $routeParams) {
 	console.log("on est dans le controller ndf");
 	init();
 
+	$scope.selectedNdf = -1;
+
+	$scope.selNdf = function(id) {
+		$scope.selectedNdf = id;
+	}
+
 	$scope.$on('reinit', function(event, args) {
 		console.log('reinit ndfs controller');
 		init();
@@ -437,6 +443,8 @@ app.directive('datePicker', function($filter) {
 	};
 });
 
+// JQueryUI can't parse date format without day (see this: http://bugs.jqueryui.com/ticket/8510)
+// So we use an alternate plugin 'MonthPicker', which usage differs slightly about method/parameter names, but works great.
 app.directive('monthPicker', function($filter) {
 	return {
 		restrict: "A",
@@ -444,19 +452,14 @@ app.directive('monthPicker', function($filter) {
 		link: function (scope, element, attrs, ngModelCtrl) {
 			var ngModelName = scope.$eval(attrs.ngModel);
 			var initDate = getValue(scope, attrs.ngModel+'Time');
-			element.datepicker({
-				dateFormat:'MM yy',
-				onSelect: function (formattedDate) {
-					var val = element.datepicker('getDate');
-					initTimeField(val);
-					ngModelCtrl.$setViewValue(formattedDate);
-					console.log('on sort de onselect');
-				},
-				beforeShow: function (e, t) {
-					$(this).datepicker("hide");
-					$("#ui-datepicker-div").addClass("hide-calendar");
-					$("#ui-datepicker-div").addClass('MonthDatePicker');
-					$("#ui-datepicker-div").addClass('HideTodayButton');
+			element.MonthPicker({
+				Button: false,
+				MonthFormat:"MM yy",
+				SelectedMonth:initDate, // Init date at first view
+				OnAfterChooseMonth: function (date) {
+					initTimeField(date);
+					console.log('on sort de onselect' + date);
+
 				}
 			});
 			function initTimeField(val) {
@@ -464,11 +467,12 @@ app.directive('monthPicker', function($filter) {
 				setValue(scope, timeAtt, val);
 			}
 			// Init two fields: model and view
-			element.datepicker('setDate', initDate);
-			ngModelCtrl.$setViewValue($filter('date')(initDate, 'dd/mm/yy'));
+			ngModelCtrl.$setViewValue($filter('date')(initDate, 'MMMM yy'));
 		}
 	};
 });
+
+
 
 app.directive('numeric', function () {
 	return {
@@ -489,6 +493,16 @@ app.directive('numeric', function () {
 				}
 			});
 		}
+	};
+});
+
+app.filter("toArray", function(){
+	return function(obj) {
+		var result = [];
+		angular.forEach(obj, function(val, key) {
+			result.push(val);
+		});
+		return result;
 	};
 });
 
