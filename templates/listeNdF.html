@@ -4,6 +4,7 @@
 <div class="clientTab">
 	<div class="clientHead">Liste des notes de frais</div>
 	<div class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'dateMois'">
+		<div class="elementLineRemove" ng-click="deleteNdf(ndf.id)">X</div>
 		<a href="#/ndf{{ndf.id}}" ng-click="selNdf(ndf.id)"
 		   ng-class="{active:selectedNdf==ndf.id}">
 			<div style="float:left;width:40%;background-color: transparent">

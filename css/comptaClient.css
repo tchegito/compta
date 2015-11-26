@@ -95,6 +95,14 @@ li a {
 	background: #66ee44;
 }
 
+div.elementLineRemove {
+	float:left;
+	padding-left:5px;
+	padding-right:5px;
+	background-color:white;
+	cursor:pointer;
+}
+
 td.montant {
 	text-align:right;
 }

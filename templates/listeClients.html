@@ -8,7 +8,9 @@
 <div class="clientTab">
 	<div class="clientHead">Liste des clients</div>
 	<div class="clientLine" ng-repeat="client in clients">
-		<a href="#/client{{client.id}}">{{client.nom}}
+		<div class="elementLineRemove" ng-click="deleteClient(client.id)">X</div>
+		<a href="#/client{{client.id}}" ng-click="selClient(client.id)"
+		   ng-class="{active:selectedClient==client.id}">{{client.nom}}
 		({{client.contacts.length}} contacts)</a>
 	</div>
 </div>

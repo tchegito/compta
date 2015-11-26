@@ -4,6 +4,7 @@
 <div class="clientTab">
 	<div class="clientHead">Liste des factures</div>
 		<div class="clientLine" ng-repeat="facture in factures track by facture.id">
+			<div class="elementLineRemove" ng-click="deleteFacture(facture.id)">X</div>
 			<a href="#/facture{{facture.id}}" ng-click="selFacture(facture.id)"
 			   ng-class="{active:selectedFacture==facture.id}">
 				<div style="float:left;width:40%;background-color: transparent">

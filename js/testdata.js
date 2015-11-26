@@ -1,9 +1,9 @@
 localStorage.removeItem('ComptaClient');
 
-dbEngine.persistClient(new dataClient('Tigernoma', '12 rue de la république\n69002 Bellecour', 'Pas signé encore!'));
+var client = new dataClient('Tigernoma', '12 rue de la république\n69002 Bellecour', 'Pas signé encore!')
+dbEngine.persistClient(client);
 dbEngine.persistClient(new dataClient('JRA Company', "Somewhere in Sidney", 'En attente de mission'));
 
-var client = dbEngine.getClientByName('JRA Company');
 dbEngine.addContact(client, new dataContact('JRA', 'Himself', '0123456789', 'j.ragnagna@company.fr', 'Nice, saw once.'));
 dbEngine.addContact(client, new dataContact('Popeye', 'Muscle', '0123456789', 'pop@ye.fr', 'Strong'));
 

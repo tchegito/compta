@@ -1,32 +1,21 @@
 
-var idClient = 0;
-var idContact = 0;
-var idFacture = 0;
-var idNdf = 0;
-
 var db = {
 	clients: {},
 	contacts: {},
 	factures: {},
-	ndfs: {}
+	ndfs: {},
+	idClient: 0,
+	idContact: 0,
+	idFacture: 0,
+	idNdf: 0
 }
 
 var dbEngine = {
-	//  A voir si on ne peut pas faire une map indexée par id (et du coup virer cette méthode)
-	getClientByName: function (name) {
-	 for (var idClient in db.clients) {
-		 var c = db.clients[idClient];
-		 if (c.nom == name) {
-			 return c;
-		 }
-	 }
-	 return;
-    },
 	persistClient: function(client) {	// On récupère un client tout bien renseigné, il ne manque plus que l'ID
 		var c;
 		if (client.id === undefined) {
 			c = new dataClient(client.nom, client.adresse, client.recitXP);
-			c.id = idClient++;
+			c.id = db.idClient++;
 			client.id = c.id;
 		} else {
 			c = client;
@@ -37,7 +26,7 @@ var dbEngine = {
 		var c;
 		if (contact.id === undefined) {
 			c = new dataContact(contact.nom, contact.prenom, contact.tel, contact.mail, contact.info);
-			c.id = idContact++;
+			c.id = db.idContact++;
 			contact.id = c.id;
 		} else {
 			c = contact;
@@ -55,7 +44,7 @@ var dbEngine = {
 		if (facture.id === undefined) {
 			f = new dataFacture(facture.idClient, facture.montantHT, facture.tva, facture.montantTTC,
 				facture.dateDebut, facture.dateFin);
-			f.id = idFacture++;
+			f.id = db.idFacture++;
 		}
 		f.lignes = facture.lignes;
 		db.factures[f.id] = f;
@@ -65,7 +54,7 @@ var dbEngine = {
 		var n = ndf;
 		if (ndf.id === undefined) {
 			n = new dataNdf(ndf.dateMois, ndf.montantTTC);
-			n.id = idNdf++;
+			n.id = db.idNdf++;
 		}
 		n.lignes = ndf.lignes;
 		db.ndfs[n.id] = n;
@@ -73,13 +62,33 @@ var dbEngine = {
 	// Replace current DB by given one, and update counters
 	importDb: function (loadedDb) {
 		db = loadedDb;
-		idClient = Object.size(db.clients);
-		idContact = Object.size(db.contacts);
-		idFacture = Object.size(db.factures);
-		idNdf = Object.size(db.ndfs);
+		/* Legacy code
+		if (confirm("on deduit les id ?")) {
+			db.idClient = Object.size(db.clients);
+			db.idContact = Object.size(db.contacts);
+			db.idFacture = Object.size(db.factures);
+			db.idNdf = Object.size(db.ndfs);
+		}
 		if (db.ndfs === undefined) {
 			db.ndfs = {};
-		}
+		}*/
+		// Be sure that every data is in an object, and not an array
+		db.clients = sanitizeObj(db.clients);
+		db.factures = sanitizeObj(db.factures);
+		db.ndfs = sanitizeObj(db.ndfs);
+		db.contacts = sanitizeObj(db.contacts);
+	},
+	removeNdf: function (id) {
+		delete db.ndfs[id];
+	},
+	removeFacture: function (id) {
+		delete db.factures[id];
+	},
+	removeClient: function (id) {
+		delete db.clients[id];
+	},
+	removeContact: function (id) {
+		delete db.contacts[id];
 	}
 }
 

@@ -54,3 +54,19 @@ function openFile(mimeType, object, filename) {
 function formatNumber(value, numberDigit) {
     return ("00" + value).slice(-numberDigit);
 }
+
+// Check that a given object is not an array. In this case, transforms it into a JS object
+function sanitizeObj(container) {
+    if (container.splice != undefined) {
+        // This is an array => tranforms it to an object
+        var obj = {};
+        var length = container.length;
+        for (var i=0;i<length;i++) {
+            var element = container[i];
+            obj[element.id] = element;
+        }
+        return obj;
+    } else {
+        return container;
+    }
+}

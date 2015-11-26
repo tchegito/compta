@@ -48,6 +48,8 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 	// Stores route for each tab
 	$scope.savedRoute = [];
 
+	$scope.selectedClient = -1;
+
 	console.log("controller");
 	// Init tabs
 	$scope.tab = 1;
@@ -58,6 +60,10 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 
 	$scope.selectedTab = function() {
 		return $scope.tab;
+	}
+
+	$scope.selClient = function(id) {
+		$scope.selectedClient = id;
 	}
 
 	$scope.selectTab = function(givenTab) {
@@ -159,6 +165,26 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 
 	    reader.readAsText(file);
 	}
+
+	$scope.deleteClient = function(idClient) {
+		// Consistent checked
+		var consistent = true;
+		for (var i=0;i<Object.size(db.factures);i++) {
+			if (db.factures[i].idClient == idClient) {
+				consistent = false;
+			}
+		}
+		if (!consistent) {
+			alert('Impossible de supprimer ce client, car une facture le concerne.');
+		} else {
+			if (confirm("Etes vous sûr de supprimer ce client ?")) {
+				dbEngine.removeClient(idClient);
+				if ($scope.selectedClient == idClient) {
+					$location.url("");
+				}
+			}
+		}
+	}
 });
 
 ////////////////////////////
@@ -192,6 +218,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 	}
 
 	function init() {
+		console.log("On a "+Object.size(db.factures));
 		$scope.factures = db.factures;
 		$scope.clients = db.clients;
 	}
@@ -202,6 +229,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 	}
 
 	$scope.getNomClient = function(idClient) {
+		console.log(idClient);
 		return db.clients[idClient].nom;
 	}
 
@@ -212,7 +240,11 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 	$scope.getNumeroFacture = function() {
 		// Format number with 3 digit
 		var numFacture = formatNumber($scope.facture.id + 1, 3);
-		return (1900 + $scope.facture.debutTime.getYear()) + numFacture;
+		var d = $scope.facture.debutTime;
+		if (d == 0 || d === undefined) {
+			d = new Date();
+		}
+		return (1900 + d.getYear()) + numFacture;
 	}
 
 	$scope.ajouteLigne = function() {
@@ -276,17 +308,21 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 
 	$scope.submitFacture = function() {
 		// Update calculated fields
-		console.log("On enregistre la facture, id="+$scope.facture.id);
 		var facture = $scope.facture;
-		facture.montantHT = $scope.getFactureTotalHT();
-		facture.TVA = 0.2 * facture.montantHT;
-		facture.montantTTC = $scope.getFactureTotalTTC();
-		// Use <date>.getTime() because JSON can't encode properly
-		facture.dateDebut = retrieveDate(facture.debutTime);
-		facture.dateFin = retrieveDate(facture.finTime);
-		dbEngine.persistFacture(facture);
-		init();
-		$location.url("");
+		if (facture.idClient === undefined) {
+			alert("Impossible d'enregistrer une facture sans client !");
+		} else {
+			facture.montantHT = $scope.getFactureTotalHT();
+			facture.TVA = 0.2 * facture.montantHT;
+			facture.montantTTC = $scope.getFactureTotalTTC();
+			// Use <date>.getTime() because JSON can't encode properly
+			facture.dateDebut = retrieveDate(facture.debutTime);
+			facture.dateFin = retrieveDate(facture.finTime);
+			console.log("On enregistre la facture, id=" + $scope.facture.id);
+			dbEngine.persistFacture(facture);
+			init();
+			$location.url("");
+		}
 	}
 
 	$scope.exportPDF = function() {
@@ -307,6 +343,16 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 
 	$scope.formateDureeFacture = function(facture) {
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
+	}
+
+	$scope.deleteFacture = function(id) {
+		console.log("vue sur "+$scope.selectedFacture);
+		if (confirm("Etes vous sûr de supprimer cette facture ?")) {
+			delete $scope.factures[id];
+			if ($scope.selectedFacture == id) {
+				$location.url("");
+			}
+		}
 	}
 });
 
@@ -387,6 +433,17 @@ app.controller("ndfs", function($scope, $location, $routeParams) {
 	$scope.supprimeLigne = function(numLigne) {
 		$scope.ndf.lignes.splice(numLigne, 1);
 	}
+
+	$scope.deleteNdf = function(id) {
+		console.log($scope.ndfs);
+		console.log($scope.ndfs[0]);
+		if (confirm("Etes vous sûr de supprimer cette note de frais ?")) {
+			delete $scope.ndfs[id];
+			if ($scope.selectedNdf == id) {
+				$location.url("");
+			}
+		}
+	}
 });
 
 function persistDb() {
@@ -459,7 +516,6 @@ app.directive('monthPicker', function($filter) {
 				OnAfterChooseMonth: function (date) {
 					initTimeField(date);
 					console.log('on sort de onselect' + date);
-
 				}
 			});
 			function initTimeField(val) {
