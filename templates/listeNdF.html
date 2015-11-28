@@ -10,7 +10,7 @@
 			<div style="float:left;width:40%;background-color: transparent">
 				{{ndf.dateMois | date : "MMMM yyyy"}}
 			</div>
-			<div style="background-color: transparent" ng-bind="ndf.montantTTC">
+			<div style="background-color: transparent" ng-bind="ndf.montantTTC |currency">
 			</div>
 		</a>
 	</div>

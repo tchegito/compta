@@ -2,7 +2,7 @@ var MILLISECONDES_PAR_JOUR = 1000 * 60 * 60 * 24;
 
 /** Renvoit le nombre de jours ouvrés compris entre les 2 dates dohnnées. Gère également les jours féries. **/
 function ecartJoursOuvres(d1, d2) {
-	console.log("Ecart entre "+d1+" et "+d2);
+	alert("Ecart entre "+d1+" et "+d2);
 	var delta = d2.getTime() - d1.getTime();
 	if (delta < 0) {
 		return false;

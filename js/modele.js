@@ -77,6 +77,7 @@ var dbEngine = {
 		db.factures = sanitizeObj(db.factures);
 		db.ndfs = sanitizeObj(db.ndfs);
 		db.contacts = sanitizeObj(db.contacts);
+		sanitizeIds();
 	},
 	removeNdf: function (id) {
 		delete db.ndfs[id];
@@ -90,6 +91,29 @@ var dbEngine = {
 	removeContact: function (id) {
 		delete db.contacts[id];
 	}
+}
+
+// Check if IDs are well assigned. These IDs indicates the next PK for each category of saved data.
+function sanitizeIds() {
+	setIds(db.clients, "idClient");
+	setIds(db.factures, "idFacture");
+	setIds(db.ndfs, "idNdf");
+	setIds(db.contacts, "idContact");
+
+	function setIds(collection, idName) {
+		if (db[idName] === undefined || db[idName] == null) {
+			db[idName] = findMax(collection)+1;
+		}
+	}
+}
+
+
+function findMax(collection) {
+	var max = 0;
+	for (var key in collection) {
+		max = Math.max(collection[key].id, max);
+	}
+	return max;
 }
 
 var dataClient = function(nom, adresse, recitXP) {

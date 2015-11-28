@@ -32,7 +32,7 @@ app.run(function($location) {
 });
 
 // Controleurs
-app.controller("main", function($scope, $location, $rootScope, $routeParams) {
+app.controller("main", function($scope, $location, $rootScope, $routeParams, $filter) {
 	function init() {
 		$scope.clients = db.clients;
 	}
@@ -156,8 +156,26 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 			var temp = JSON.parse(e.target.result);
 			if (temp.clients && temp.contacts) {
 				alert('Chargement réussi pour:\n'+ Object.size(temp.clients)+ ' clients\n'
-				+ Object.size(temp.contacts)+' contacts\n'+Object.size(temp.factures)+' factures');
+				+ Object.size(temp.contacts)+' contacts\n'+
+				  Object.size(temp.factures)+' factures\n'+
+				  Object.size(temp.ndfs)+' notes de frais');
 				dbEngine.importDb(temp);
+				// Fix ndf
+/*
+				for (var prop in db.ndfs) {
+					console.log("iterate ndf");
+					var ndf = db.ndfs[prop];
+					try {
+						for (var l = 0; l < ndf.lignes.length; l++) {
+							var dat = ndf.lignes[l].dateNoteTime;
+							var formattedDat = $filter('date')(new Date(dat), 'dd/MM/yy');
+							console.log("date=" + dat + " devient " + formattedDat);
+							ndf.lignes[l].dateNote = new Date(dat).getTime();
+						}
+					} catch (e) {
+						alert(e);
+					}
+				}*/
 				// Tell all the scope to reinit
 				$rootScope.$broadcast('reinit', $scope.name);
 			}
@@ -229,7 +247,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 	}
 
 	$scope.getNomClient = function(idClient) {
-		console.log(idClient);
+		console.log("nom du client "+idClient);
 		return db.clients[idClient].nom;
 	}
 
@@ -241,7 +259,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter) {
 		// Format number with 3 digit
 		var numFacture = formatNumber($scope.facture.id + 1, 3);
 		var d = $scope.facture.debutTime;
-		if (d == 0 || d === undefined) {
+		if (d == 0 || d == null || d === undefined) {
 			d = new Date();
 		}
 		return (1900 + d.getYear()) + numFacture;
@@ -385,6 +403,10 @@ app.controller("ndfs", function($scope, $location, $routeParams) {
 		$scope.ndf = angular.copy(ndf);
 		// User real Date object
 		$scope.ndf.dateMoisTime = new Date($scope.ndf.dateMois);
+		for (var i=0;i<ndf.lignes.length;i++) {
+			var ligne = ndf.lignes[i];
+			ligne.dateNoteTime = new Date(ligne.dateNote);
+		}
 	}
 
 	$scope.resetForm = function() {
@@ -410,6 +432,11 @@ app.controller("ndfs", function($scope, $location, $routeParams) {
 		// Use <date>.getTime() because JSON can't encode date properly
 		ndf.dateMois = retrieveDate(ndf.dateMoisTime);
 		ndf.montantTTC = $scope.getNdfTotal();
+		for (var i=0;i<ndf.lignes.length;i++) {
+			var ligne = ndf.lignes[i];
+			console.log("ligne "+i+" lieu="+ligne.descriptif+" dateNoteTime="+ligne.dateNoteTime+" date="+retrieveDate(ligne.dateNoteTime));
+			ligne.dateNote = retrieveDate(ligne.dateNoteTime);
+		}
 		dbEngine.persistNdf(ndf);
 		init();
 		$location.url("");
@@ -422,9 +449,9 @@ app.controller("ndfs", function($scope, $location, $routeParams) {
 			var l = ndf.lignes[i];
 			if (field !== undefined) {
 				// If particular field is provided, only calculate on it
-				total += l[field];
+				total = addFloat(total, l[field]);
 			} else {
-			total += l.tva55 + l.tva10 + l.tva20;
+			total += addFloat(l.tva55, l.tva10, l.tva20);
 			}
 		}
 		return total;
@@ -482,12 +509,12 @@ app.directive('datePicker', function($filter) {
 			var initDate = getValue(scope, attrs.ngModel+'Time');
 			element.datepicker({
 				dateFormat:'dd/mm/yy',
-				onSelect: function (formattedDate) {
+				// onClose better than onSelect, because it concerns both click and key edition
+				onClose: function (formattedDate) {
 					var val = element.datepicker('getDate');
 					initTimeField(val);
 					ngModelCtrl.$setViewValue(formattedDate);
-					console.log('on sort de onselect');
-                }
+                },
 			});
 			function initTimeField(val) {
 				var timeAtt = attrs.ngModel + 'Time';
@@ -495,7 +522,7 @@ app.directive('datePicker', function($filter) {
 			}
 			// Init two fields: model and view
 			element.datepicker('setDate', initDate);
-			ngModelCtrl.$setViewValue($filter('date')(initDate, 'dd/mm/yy'));
+			ngModelCtrl.$setViewValue($filter('date')(initDate, 'dd/MM/yy'));
 		}
 	};
 });
@@ -544,7 +571,7 @@ app.directive('numeric', function () {
 					scope.model = 0;
 				} else if (scope.model && typeof scope.model === 'string') {
 					// console.log('value changed, new value is: ' + (typeof scope.model));
-					scope.model = parseInt(scope.model);
+					scope.model = parseFloat(scope.model);
 					// console.log('value changed, new value is: ' + (typeof scope.model));
 				}
 			});

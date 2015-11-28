@@ -19,7 +19,7 @@
 				<th>TVA 10%</th>
 				<th>TVA 20%</th>
 			</tr>
-			<tr ng-repeat="ligne in ndf.lignes">
+			<tr ng-repeat="ligne in ndf.lignes | toArray | orderBy:'dateNote'">
 				<td class="action" ng-click="supprimeLigne($index)">X</td>
 				<td><input type="text" date-picker="yes" ng-model="ligne.dateNote"/></td>
 				<td><input type="text" ng-model="ligne.descriptif"/></td>

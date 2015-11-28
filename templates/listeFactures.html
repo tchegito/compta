@@ -11,11 +11,12 @@
 					{{getNomClient(facture.idClient)}} : {{facture.montantTTC | currency}}
 				</div>
 				<div style="background-color: transparent">
-					{{facture.dateDebut | date : 'MM/yyyy'}}
+					<span ng-bind="facture.dateDebut | date : 'MM/yyyy'"/>
 					<span style="margin-left:50px" ng-show="facture.payee">
 						Payée
 					</span>
 				</div>
+				<div style="clear:both"/>
 			</a>
 		</div>
 	</div>

@@ -70,3 +70,12 @@ function sanitizeObj(container) {
         return container;
     }
 }
+
+// Add every parsed float given as parameters. That means it could be either string or numeric
+function addFloat() {
+    var total=0;
+    for (var a=0;a<arguments.length;a++) {
+        total += parseFloat(arguments[a], 10);
+    }
+    return total;
+}
