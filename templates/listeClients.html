@@ -10,7 +10,7 @@
 	<div class="clientLine" ng-repeat="client in clients">
 		<div class="elementLineRemove" ng-click="deleteClient(client.id)">X</div>
 		<a href="#/client{{client.id}}" ng-click="selClient(client.id)"
-		   ng-class="{active:selectedClient==client.id}">{{client.nom}}
+		   ng-class="{active:selClient()==client.id}">{{client.nom}}
 		({{client.contacts.length}} contacts)</a>
 	</div>
 </div>

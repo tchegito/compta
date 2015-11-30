@@ -6,7 +6,7 @@
 	<div class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'dateMois'">
 		<div class="elementLineRemove" ng-click="deleteNdf(ndf.id)">X</div>
 		<a href="#/ndf{{ndf.id}}" ng-click="selNdf(ndf.id)"
-		   ng-class="{active:selectedNdf==ndf.id}">
+		   ng-class="{active:selectedNdf()==ndf.id}">
 			<div style="float:left;width:40%;background-color: transparent">
 				{{ndf.dateMois | date : "MMMM yyyy"}}
 			</div>

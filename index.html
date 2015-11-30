@@ -21,6 +21,9 @@
 		<script src="js/modele.js"></script>
 		<script src="js/date.js"></script>
 		<script src="js/controllers.js"></script>
+		<script src="js/controllerClient.js"></script>
+		<script src="js/controllerFacture.js"></script>
+		<script src="js/controllerNdf.js"></script>
 
 		<!-- Jeu de test -->
 		<script>
@@ -59,7 +62,7 @@
 		<div style="clear:both;"></div>
 
 		<div ng-show="selectedTab() === 1">
-			<div ng-include="'templates/listeClients.html'"></div>
+			<div ng-controller="clients" ng-include="'templates/listeClients.html'"></div>
 		</div>
 		<div ng-show="selectedTab() === 2">
 			<div ng-controller="factures" ng-include="'templates/listeFactures.html'"></div>
