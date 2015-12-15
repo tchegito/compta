@@ -13,13 +13,16 @@ app.controller("factures", function($scope, $location, $routeParams, $filter, $r
 	$scope.idFacture = $routeParams.idFacture;
 
 	if ($scope.idFacture) {
-		console.log("Initialisation du formulaire, id="+$scope.idFacture);
+		console.log("Initialisation du formulaire, id=" + $scope.idFacture);
 		var facture = db.factures[$scope.idFacture];
 		// Create a copy to keep original safe
 		$scope.facture = angular.copy(facture);
 		// User real Date object
-		$scope.facture.debutTime = new Date($scope.facture.dateDebut);
-		$scope.facture.finTime = new Date($scope.facture.dateFin);
+		$scope.facture.debutTime = new Date(facture.dateDebut);
+		$scope.facture.finTime = new Date(facture.dateFin);
+		if (facture.datePaie != null) {
+			$scope.facture.datePaieTime = new Date(facture.datePaie);
+		}
 	}
 
 	$scope.selectedFacture = function() {
@@ -130,6 +133,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter, $r
 			// Use <date>.getTime() because JSON can't encode properly
 			facture.dateDebut = retrieveDate(facture.debutTime);
 			facture.dateFin = retrieveDate(facture.finTime);
+			facture.datePaie = retrieveDate(facture.datePaieTime);
 			console.log("On enregistre la facture, id=" + $scope.facture.id);
 			dbEngine.persistFacture(facture);
 			$scope.selFacture(-1);

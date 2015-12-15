@@ -8,18 +8,19 @@
 			<select ng-model="facture.idClient" ng-options="c.id as c.nom for c in clients">
 			</select>
 			TJM:
-			<input type="text" ng-model="facture.tjm"/>
+			<input type="text" class="montant" ng-model="facture.tjm"/>€
 	</div>
 	<div style="float:left;margin-left:100px">
-			<input type="checkbox" ng-model="facture.payee"/> payée
+			<input type="checkbox" ng-model="facture.payee"/> payée le
+			<input type=""text" class="dateJour" date-picker="yes" ng-model="facture.datePaie"/>
 	</div>
 	<p style="clear:both">
 		Début de la mission:
-		<input type="text" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
+		<input type="text" class="dateJour" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
 	</p>
 	<p>
 		Fin de la mission:
-		<input type="text" date-picker="yes" ng-model="facture.fin"/>
+		<input type="text" class="dateJour" date-picker="yes" ng-model="facture.fin"/>
 	</p>
 	<form name="detailFacture" ng-submit="submitFacture()">
 		Lignes de la facture

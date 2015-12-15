@@ -43,7 +43,7 @@ var dbEngine = {
 		var f = facture;
 		if (facture.id === undefined) {
 			f = new dataFacture(facture.idClient, facture.montantHT, facture.tva, facture.montantTTC,
-				facture.dateDebut, facture.dateFin);
+				facture.dateDebut, facture.dateFin, facture.paye, facture.datePaie);
 			f.id = db.idFacture++;
 		}
 		f.lignes = facture.lignes;
@@ -132,11 +132,12 @@ var dataContact = function(nom, prenom, tel, mail, info) {
 	this.info = info;
 }
 
-var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, dateFin, lignes) {
+var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, dateFin, paye, datePaiement, lignes) {
 	this.idClient = idClient;
 	this.montantHT = montantHT;
 	this.tva = tva;
-	this.paye = false;
+	this.paye = paye;
+	this.datePaie = datePaiement;
 	this.montantTTC = montantTTC;
 	// These fields are a <date>.getTime() result (=ms since 1970). Because JSON can't encode/decode Date correctly
 	this.dateDebut = dateDebut;
@@ -171,10 +172,11 @@ var dataNdf = function(dateMois, montantTTC, lignes) {
 	}
 }
 
-var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20) {
+var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, ttc) {
 	this.fkNdf = fkNdf;
 	this.dateNote = dateNote;
 	this.descriptif = descriptif;
+	this.ttc = ttc;
 	this.tva55 = tva55;
 	this.tva10 = tva10;
 	this.tva20 = tva10;

@@ -18,22 +18,25 @@
 				<th>TVA 5.5%</th>
 				<th>TVA 10%</th>
 				<th>TVA 20%</th>
+				<th>Non taxé</th>
 			</tr>
 			<tr ng-repeat="ligne in ndf.lignes | toArray | orderBy:'dateNote'">
 				<td class="action" ng-click="supprimeLigne($index)">X</td>
-				<td><input type="text" date-picker="yes" ng-model="ligne.dateNote"/></td>
+				<td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateNote"/></td>
 				<td><input type="text" ng-model="ligne.descriptif"/></td>
 				<td><input type="text" numeric class="montant" ng-model="ligne.tva55"/></td>
 				<td><input type="text" numeric class="montant" ng-model="ligne.tva10"/></td>
 				<td><input type="text" numeric class="montant" ng-model="ligne.tva20"/></td>
+				<td><input type="text" numeric class="montant" ng-model="ligne.ttc"/></td>
 			</tr>
 			<!--Lignes de totalisation -->
 			<tr ng-if="ndf.lignes.length > 1">
 				<td colspan="2"></td>
-				<td>Total</td>
-				<td class="montant" ng-bind="getNdfTotal('tva55') | currency"></td>
-				<td class="montant" ng-bind="getNdfTotal('tva10') | currency"></td>
-				<td class="montant" ng-bind="getNdfTotal('tva20') | currency"></td>
+				<td style="font-weight:bold">Total</td>
+				<td class="montantTotal" ng-bind="getNdfTotal('tva55') | currency"></td>
+				<td class="montantTotal" ng-bind="getNdfTotal('tva10') | currency"></td>
+				<td class="montantTotal" ng-bind="getNdfTotal('tva20') | currency"></td>
+				<td class="montantTotal" ng-bind="getNdfTotal('ttc') | currency"></td>
 			</tr>
 		</table>
 		<input class="appliBtn" type="submit" value="Enregistrer"/>

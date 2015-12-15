@@ -2,14 +2,14 @@ var MILLISECONDES_PAR_JOUR = 1000 * 60 * 60 * 24;
 
 /** Renvoit le nombre de jours ouvrés compris entre les 2 dates dohnnées. Gère également les jours féries. **/
 function ecartJoursOuvres(d1, d2) {
-	alert("Ecart entre "+d1+" et "+d2);
+	//alert("Ecart entre "+d1+" et "+d2);
 	var delta = d2.getTime() - d1.getTime();
 	if (delta < 0) {
 		return false;
 	}
 	var ref = utcDate(d1);
 	var dateFin = utcDate(addDay(d2, 1));
-	alert(dateToStringShort(ref));
+	//alert(dateToStringShort(ref));
 	var deltaJours = delta / MILLISECONDES_PAR_JOUR;
 	var nbJoursOuvres = 0;
 	var prevDay = -1;	// On fait ça dans le cas du changement d'heure => sinon on compte un jour de trop

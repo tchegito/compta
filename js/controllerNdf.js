@@ -31,7 +31,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 		$scope.ndf.dateMoisTime = new Date($scope.ndf.dateMois);
 		for (var i=0;i<ndf.lignes.length;i++) {
 			var ligne = ndf.lignes[i];
-			ligne.dateNoteTime = new Date(ligne.dateNote);
+			if (ligne.dateNote != null) {
+				ligne.dateNoteTime = new Date(ligne.dateNote);
+			}
 		}
 	}
 
@@ -78,7 +80,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 				// If particular field is provided, only calculate on it
 				total = addFloat(total, l[field]);
 			} else {
-			total += addFloat(l.tva55, l.tva10, l.tva20);
+				total += addFloat(l.tva55, l.tva10, l.tva20, l.ttc);
 			}
 		}
 		return total;

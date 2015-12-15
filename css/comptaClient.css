@@ -107,8 +107,26 @@ td.montant {
 	text-align:right;
 }
 
+input.dateJour {
+	width:70px;
+}
+
+td.montantTotal {
+	text-align:right;
+	font-weight:bold;
+}
+
 input.montant {
 	text-align:right;
+	width:80px;
+	border-radius:10px;
+	border:1px solid #dddddd;
+	padding-right:7px;
+}
+
+input.montant:hover {
+	border:1px solid red;
+	padding-right:7px;
 }
 
 td.montantGras {
