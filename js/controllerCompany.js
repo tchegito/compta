@@ -3,11 +3,7 @@ app.controller("company", function($scope, $location, $routeParams, $rootScope) 
 
     var fields = ["nom", "adresse1", "adresse2", "adresse3", "statut", "siret", "rcs", "tvaIntra", "urlImage"];
 
-    console.log("youhou");
-
     $scope.c = angular.copy(db.company);
-
-    $scope.c.nom="Youpi";
 
     $scope.listFields = function() {
         return fields;
@@ -23,10 +19,8 @@ app.controller("company", function($scope, $location, $routeParams, $rootScope) 
 
     function init() {
         for (i in fields) {
-            console.log(i);
             var fieldName = fields[i];
             $scope.formData[fieldName] = db.company[fieldName];
         }
-        console.log($scope.formData);
     }
 });

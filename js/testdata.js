@@ -15,4 +15,16 @@ dbEngine.persistNdf(new dataNdf(new Date(), 12, [
  {dateNote:new Date(), descriptif:"Meal", tva55:0, tva10:0, tva20:12}
 ]));
 
+db.company = {
+ nom:"AUSTRALOPITECHNOPHILE",
+ adresse1:"9 rue des boucaniers",
+ adresse2:"69007 Lyon",
+ adresse3:"",
+ statut:"SARL au capital de 50 euros",
+ siret:"123 456 789 00010",
+ rcs:"Lyon",
+ tvaIntra:"FR 77 123 456 789",
+ urlImage:"http://www.grapheine.com/wp-content/uploads/2013/01/tourism_australia_2012.jpg"
+};
+
 persistDb();
