@@ -220,3 +220,48 @@ function setValue(scope, expr, val) {
 	var an = analyse(scope, expr);
 	an.scope[an.idx] = val;
 }
+
+// Pour l'i18n
+app.factory("resourcesManager", ["$http", "$window", "$rootScope",
+	function ($http, $window, $rootScope) {
+		var that = this;
+		that.resources = [];
+		return {
+			loadLanguageAndCulture: function (lang) {
+				console.log("on charge l'i18n");
+				lang = lang || $window.navigator.userLanguage || $window.navigator.language;
+				var resourceUrl = "js/i18n/txtResources_" + lang + ".json";
+				$http({ method: "GET", url: resourceUrl})
+					.success(function(data) {
+						that.resources = data;
+						$rootScope.$broadcast("resourcesLoaded");
+					})
+					.error(function() {
+						$rootScope.$broadcast("errorLoadingResources");
+					});
+			},
+			getResource: function (key) {
+				return that.resources[key];
+			}
+		}
+	}]);
+
+app.filter("i18n", ["resourcesManager",
+	function (resourcesManager) {
+		return function (resourceName) {
+			return resourcesManager.getResource(resourceName);
+		};
+	}
+]);
+
+app.filter("cap1", function() {
+	return function (str) {
+		return capitalizeFirstLetter(str);
+	}
+});
+
+app.run(["resourcesManager",
+	function (resourcesManager) {
+		resourcesManager.loadLanguageAndCulture();
+	}
+]);

@@ -1,0 +1,50 @@
+<div class="formulaire">
+    <h2>
+        Entreprise
+    </h2>
+    <div style="float:left">
+        <form name="detailCompany" ng-submit="submitCompany()">
+            <table>
+                <tr ng-repeat="field in listFields()">
+                    <td class="formLabel">{{"comp"+(field | cap1) | i18n}}</td>
+                    <td><input class="formData" type="text" ng-model="formData[field]"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div style="float:left">
+        <img style="border: 2px solid black;max-height:220px" src="{{formData['urlImage']}}"/>
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
+<div id="imgTest"></div>
+<script type='text/javascript'>
+    function encodeImageFileAsURL(){
+
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        if (filesSelected.length > 0)
+        {
+            var fileToLoad = filesSelected[0];
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+
+                document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+                alert("Converted Base64 version is "+document.getElementById("imgTest").innerHTML);
+                console.log("Converted Base64 version is "+document.getElementById("imgTest").innerHTML);
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+</script>
+
+<input class="appliBtn" type="button" value="Enregistrer les données" onclick="persistDb()"/>
+<input class="appliBtn" type="button" value="Exporter les données" onclick="exportDb()"/>
+<input class="appliBtn" type="file" id="input" name="file" onchange="angular.element(this).scope().importDb(this.files[0])">

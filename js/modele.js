@@ -4,6 +4,7 @@ var db = {
 	contacts: {},
 	factures: {},
 	ndfs: {},
+	company: {},	// Unique
 	idClient: 0,
 	idContact: 0,
 	idFacture: 0,
@@ -90,6 +91,9 @@ var dbEngine = {
 	},
 	removeContact: function (id) {
 		delete db.contacts[id];
+	},
+	persistCompany: function (company) {
+		db.company = new company(company);
 	}
 }
 
@@ -114,6 +118,18 @@ function findMax(collection) {
 		max = Math.max(collection[key].id, max);
 	}
 	return max;
+}
+
+var company = function(c) {
+	this.nom = c.nom;
+	this.adresse1 = c.adresse1;
+	this.adresse2 = c.adresse2;
+	this.adresse3 = c.adresse3;	// Optional
+	this.statut = c.statut; // SARL au capital de xxx euros
+	this.siret = c.siret;
+	this.rcs = c.rcs;
+	this.tvaIntra = c.tvaIntra;
+	this.urlImage = c.urlImage;
 }
 
 var dataClient = function(nom, adresse, recitXP) {

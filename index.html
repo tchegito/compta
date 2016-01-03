@@ -24,6 +24,8 @@
 		<script src="js/controllerClient.js"></script>
 		<script src="js/controllerFacture.js"></script>
 		<script src="js/controllerNdf.js"></script>
+		<script src="js/controllerCompany.js"></script>
+		<script src="js/i18n/txtResources_fr.json"></script>
 
 		<!-- Jeu de test -->
 		<script>
@@ -71,9 +73,7 @@
 			<div ng-controller="ndfs" ng-include="'templates/listeNdf.html'"></div>
 		</div>
 		<div ng-show="selectedTab() === 4">
-			<input class="appliBtn" type="button" value="Enregistrer les données" onclick="persistDb()"/>
-			<input class="appliBtn" type="button" value="Exporter les données" onclick="exportDb()"/>
-			<input class="appliBtn" type="file" id="input" name="file" onchange="angular.element(this).scope().importDb(this.files[0])">
+			<div ng-controller="company" ng-include="'templates/donnees.html'"></div>
 		</div>
 
 	</body>

@@ -168,3 +168,11 @@ td.action {
   text-decoration: none;
   cursor:pointer;
 }
+
+.formLabel {
+	text-align:right;
+	padding-right:15px;
+}
+input.formData {
+	width:500px;
+}

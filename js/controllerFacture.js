@@ -37,6 +37,7 @@ app.controller("factures", function($scope, $location, $routeParams, $filter, $r
 		console.log("On a "+Object.size(db.factures));
 		$scope.factures = db.factures;
 		$scope.clients = db.clients;
+		$scope.company = db.company;
 	}
 
 	$scope.resetForm = function() {

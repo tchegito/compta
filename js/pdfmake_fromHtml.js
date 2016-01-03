@@ -58,6 +58,10 @@ function ComputeStyle(o, styles) {
                     }
                     break;
                 }
+                case "width": {
+                    o.width = st[1];
+                    break;
+                }
             }
         }
     }
@@ -75,23 +79,19 @@ function ParseElement(cnt, e, p, styles) {
 
 	// On duplique les styles pour que les balises suivantes n'héritent pas des filles
 	styles = styles.slice();
-	
+
     switch (e.nodeName.toLowerCase()) {
         case "#text": {
             var t = { text: e.textContent /*.replace(/\n/g, "")*/ };
             if (styles && styles != '') {
-				ComputeStyle(t, styles);
-			}
-            if (e.textContent.indexOf("69771") != -1) {
-                console.log("e="+JSON.stringify(p)+" cnt="+JSON.stringify(styles));
+                ComputeStyle(t, styles);
             }
             if (!t.pre) {
-                console.log("texte:"+ t.text);
                 t.text = t.text.replace(/\n/g, "");
-            } else {
-                console.log("Preserve lb");
             }
-            p.text.push(t);
+            if (p.text) {
+                p.text.push(t);
+            }
             break;
         }
         case "b":case "strong": {
@@ -118,6 +118,22 @@ function ParseElement(cnt, e, p, styles) {
         case "br": {
             p = {text:['\n']};
             cnt.push(p);
+            break;
+        }
+        case "img": {
+			// Do an ajax query to retrieve BASE64 encoded image
+			// TODO: move this (quickly) to another section, because that's a shame to do this each time
+			// we need to export PDF. But that's part of a POC, so it's ok for now.
+            var url = e.getAttribute("src");
+            var query = "http://tigernoma.fr/encode64.php?imageUrl="+url;
+            $.ajax({
+                url: query,
+                async:false,
+                success: function (data) {
+                    p = {image:data, width:50};
+                    cnt.push(p);
+                }
+            });
             break;
         }
         case "table":

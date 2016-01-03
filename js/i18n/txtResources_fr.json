@@ -1,0 +1,11 @@
+{
+    "compNom" : "Nom de l'entreprise",
+    "compAdresse1" : "Adresse ligne 1",
+    "compAdresse2" : "Adresse ligne 2",
+    "compAdresse3" : "Adresse ligne 3",
+    "compStatut" : "Statut",
+    "compSiret" : "SIRET",
+    "compRcs" : "RCS",
+    "compTvaIntra" : "TVA Intracommunataire",
+    "compUrlImage" : "URL du logo"
+}

@@ -1,12 +1,22 @@
-<div style="font-family:times">
-<p><b>TIGERNOMA</b></p>
-<p>49 avenue Barthélémy Buyer</p>
-<p>69005 Lyon</p>
-	<br/>
-<p>SARL au capital de 1000 euros</p>
-<p>SIRET&nbsp;: 813 097 607 00010 - RCS Lyon</p>
-<p></p>
-</div>
+<table widths="10%,90%">
+	<tr>
+		<td>
+			<img ng-src="{{company.urlImage}}" style="width:100px"/>
+		</td>
+		<td>
+		<div style="font-family:times">
+			<p><b ng-bind="company.nom"></b></p>
+			<p ng-bind="company.adresse1"></p>
+			<p ng-bind="company.adresse2"></p>
+			<p ng-bind="company.adresse3"></p>
+				<br/>
+			<p ng-bind="company.statut"></p>
+			<p>SIRET&nbsp;: {{company.siret}} - RCS {{company.rcs}}</p>
+			<p></p>
+			</div>
+		</td>
+	</tr>
+</table>
 <br/>
 <div style="text-align:right">
 	<p><b ng-bind="getCurrentClient().nom"/></p>
@@ -72,4 +82,4 @@
 <br/>
 <br/>
 <br/>
-<p>TVA intracommunautaire&nbsp;: FR 77 813 097 607</p>
+<p>TVA intracommunautaire&nbsp;: {{company.tvaIntra}}</p>
