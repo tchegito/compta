@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur de factures //
 ////////////////////////////
-app.controller("factures", function($scope, $location, $routeParams, $filter, $rootScope) {
+app.controller("factures", function($scope, $location, $routeParams, $rootScope) {
 	console.log("on est dans le controller factures");
 	init();
 

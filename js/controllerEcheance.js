@@ -2,29 +2,28 @@
 // Contrôleur d'échéances //
 ////////////////////////////
 app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope) {
-    console.log("on est dans le controller echeance");
     init();
 
 
     $scope.$on('reinit', function (event, args) {
-        console.log('reinit echeance controller');
         init();
     });
     $scope.idEcheance = $routeParams.idEcheance;
 
     if ($scope.idEcheance) {
-        console.log("Initialisation du formulaire, id=" + $scope.idEcheance);
         var echeance = db.echeances[$scope.idEcheance];
         // Create a copy to keep original safe
         $scope.echeance = angular.copy(echeance);
         // User real Date object
-        /**
-        $scope.facture.debutTime = new Date(facture.dateDebut);
-        $scope.facture.finTime = new Date(facture.dateFin);
-        if (facture.datePaie != null) {
-            $scope.facture.datePaieTime = new Date(facture.datePaie);
+        for (var i=0;i<echeance.lignes.length;i++) {
+            var ligne = echeance.lignes[i];
+            if (ligne.dateLimite != null) {
+                ligne.dateLimiteTime = new Date(ligne.dateLimite);
+            }
+            if (ligne.datePaiement != null) {
+                ligne.datePaiementTime = new Date(ligne.datePaiement);
+            }
         }
-         **/
     }
 
     $scope.selectedEcheance = function () {
@@ -36,7 +35,6 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     }
 
     function init() {
-        console.log("On a " + Object.size(db.echeance)+" échéances");
         $scope.factures = db.factures;
         $scope.clients = db.clients;
         $scope.company = db.company;
@@ -44,7 +42,6 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     }
 
     $scope.resetForm = function () {
-        console.log("on reset l'échéance");
         $scope.echeance = {lignes: [], nom: '', nature: ''};
     }
 
@@ -53,7 +50,7 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     $scope.ajouteLigne = function() {
         $scope.echeance.lignes.push( {
             dateLimite:"",
-            montant:12,
+            montant:0,
             datePaiement:""
         });
     }
@@ -68,14 +65,49 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
         for (var i=0;i<echeance.lignes.length;i++) {
             var ligne = echeance.lignes[i];
             ligne.dateLimite = retrieveDate(ligne.dateLimiteTime);
+            ligne.datePaiement = retrieveDate(ligne.datePaiementTime);
         }
-        console.log("On enregistre l'echeance, id=" + $scope.echeance.id);
         dbEngine.persistEcheance(echeance);
         $scope.selEcheance(-1);
 
         init();
         $location.url("");
     }
+
+    $scope.getNext = function(ech) {
+        // Determine next echeance
+        for (var i=0;i<ech.lignes.length;i++) {
+            var ligne = ech.lignes[i];
+            if (ligne.dateLimite > new Date().getTime()) {
+                var strDate = $filter('date')(new Date(ligne.dateLimite), 'dd/MM/yy');
+                var strAmount = $filter('currency')(ligne.montant);
+                return strDate + ": "+strAmount;
+            }
+        }
+        return "Rien trouvé";
+    }
+
+    // Returns "x€ / y€" where x is paid amounts, and y total amounts on the current year
+    $scope.getTotalEcheances = function() {
+        var amount = 0;
+        var amountPaid = 0;
+        for (var e in db.echeances) {
+            var ech = db.echeances[e];
+            for (var i=0;i<ech.lignes.length;i++) {
+                var l = ech.lignes[i];
+                var echAmount = parseInt(l.montant, 10);
+                amount += echAmount;
+                if (l.datePaiement != null) {
+                    amountPaid += echAmount;
+                }
+            }
+        }
+        return $filter('currency')(amountPaid)
+            + " / "
+            + $filter('currency')(amount);
+    }
+
+
 });
 /**
  * Created by Tchegito on 05/03/2016.

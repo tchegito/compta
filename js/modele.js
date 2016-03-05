@@ -68,7 +68,6 @@ var dbEngine = {
 			e = new dataEcheance(echeance.nom, echeance.nature);
 			e.id = db.idEcheance++;
 		}
-		console.log("Enregistre "+echeance.lignes.length);
 		e.lignes = echeance.lignes;
 		db.echeances[e.id] = e;
 	},
@@ -90,8 +89,7 @@ var dbEngine = {
 		db.factures = sanitizeObj(db.factures);
 		db.ndfs = sanitizeObj(db.ndfs);
 		db.contacts = sanitizeObj(db.contacts);
-		db.echeances = {};
-		db.idEcheance = 0;
+		db.echeances = sanitizeObj(db.echeances);
 		sanitizeIds();
 	},
 	removeNdf: function (id) {
@@ -117,6 +115,7 @@ function sanitizeIds() {
 	setIds(db.factures, "idFacture");
 	setIds(db.ndfs, "idNdf");
 	setIds(db.contacts, "idContact");
+	setIds(db.echences, "idEcheance");
 
 	function setIds(collection, idName) {
 		if (db[idName] === undefined || db[idName] == null) {
