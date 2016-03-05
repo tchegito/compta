@@ -17,6 +17,10 @@ app.config( function($routeProvider) {
 	.when("/ndf:idNdf?",{
 		templateUrl:"./templates/ndf.html",
 		controller:"ndfs"
+	})
+	.when("/echeance:idEcheance?",{
+		templateUrl:"./templates/echeance.html",
+		controller:"echeances"
 		/*
 	}).when("/contact",{
 		templateUrl:"./templates/contact.html",
@@ -77,6 +81,7 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 	$scope.selectedFacture = -1;
 	$scope.selectedClient = -1;
 	$scope.selectedNdf = -1;
+	$scope.selectedEcheance = -1;
 });
 
 function persistDb() {

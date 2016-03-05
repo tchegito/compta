@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="clientTab">
+    <div class="clientHead">Liste des échéanciers</div>
+    <div class="clientLine" ng-repeat="echeance in echeances track by echeance.id">
+        <div class="elementLineRemove" ng-click="deleteEcheance(echeance.id)">X</div>
+        <a href="#/echeance{{echeance.id}}" ng-click="selEcheance(echeance.id)"
+           ng-class="{active:selectedEcheance()==echeance.id}">
+            <div style="float:left;width:40%;background-color: transparent">
+                {{echeance.nom}}
+            </div>
+            <!--
+            <div style="background-color: transparent">
+                <span ng-bind="echeance.dateDebut | date : 'MM/yyyy'"/>
+					<span style="margin-left:50px" ng-show="facture.payee">
+						Payée
+					</span>
+            </div>
+            -->
+            <div style="clear:both"/>
+        </a>
+    </div>
+</div>
+
+<div class="clientHead">
+    Total: <span ng-bind="getTotalFactures() | currency"/>
+</div>
+</div>
+<p>
+    <a class="appliBtn" href="#/echeance" ng-click="resetForm()">Créer un échéancier</a>
+</p>
+<div ng-view="ng-view"></div>
+</body>
+</html>

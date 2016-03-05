@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+    <div class="formulaire">
+        <h2>
+            <span ng-if="idEcheance">Edition</span><span ng-if="!idEcheance">Création</span> d'une échéance
+        </h2>
+
+        <form name="detailEcheance" ng-submit="submitEcheance()">
+
+            <div>
+                Nom:
+                <input type="text" ng-model="echeance.nom"/>
+                Nature:
+                <select ng-model="echeance.nature" ng-options="n for n in naturesDispo">
+                </select>
+            </div>
+            <!--
+            <div style="float:left;margin-left:100px">
+                <input type="checkbox" ng-model="echeance.payee"/> payée le
+                <input type=""text" class="dateJour" date-picker="yes" ng-model="echeance.datePaiement"/>
+            </div>
+            <p style="clear:both">
+                Début de la mission:
+                <input type="text" class="dateJour" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
+            </p>
+            <p>
+                Fin de la mission:
+                <input type="text" class="dateJour" date-picker="yes" ng-model="facture.fin"/>
+            </p>
+            -->
+            <p>
+                Dates des échéances
+                <input type="button" class="appliBtn" value="Ajouter" ng-click="ajouteLigne()"/>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Date limite</th>
+                        <th>Montant</th>
+                        <th>Date paiement</th>
+                    </tr>
+                    <tr ng-repeat="ligne in echeance.lignes">
+                        <td class="action" ng-click="supprimeLigne($index)">X</td>
+                        <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateLimite"/></td>
+                        <td><input type="text" ng-model="ligne.montant"/></td>
+                        <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.datePaiement"/></td>
+                    </tr>
+                </table>
+            </p>
+            <input class="appliBtn" type="submit" value="Enregistrer"/>
+        </form>
+    </div>
+</body>
+</html>

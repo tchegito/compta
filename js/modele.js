@@ -5,10 +5,12 @@ var db = {
 	factures: {},
 	ndfs: {},
 	company: {},	// Unique
+	echeances: {},
 	idClient: 0,
 	idContact: 0,
 	idFacture: 0,
-	idNdf: 0
+	idNdf: 0,
+	idEcheance: 0
 }
 
 var dbEngine = {
@@ -60,6 +62,16 @@ var dbEngine = {
 		n.lignes = ndf.lignes;
 		db.ndfs[n.id] = n;
 	},
+	persistEcheance: function (echeance) {
+		var e = echeance;
+		if (echeance.id === undefined) {
+			e = new dataEcheance(echeance.nom, echeance.nature);
+			e.id = db.idEcheance++;
+		}
+		console.log("Enregistre "+echeance.lignes.length);
+		e.lignes = echeance.lignes;
+		db.echeances[e.id] = e;
+	},
 	// Replace current DB by given one, and update counters
 	importDb: function (loadedDb) {
 		db = loadedDb;
@@ -78,6 +90,8 @@ var dbEngine = {
 		db.factures = sanitizeObj(db.factures);
 		db.ndfs = sanitizeObj(db.ndfs);
 		db.contacts = sanitizeObj(db.contacts);
+		db.echeances = {};
+		db.idEcheance = 0;
 		sanitizeIds();
 	},
 	removeNdf: function (id) {
@@ -196,4 +210,21 @@ var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, tt
 	this.tva55 = tva55;
 	this.tva10 = tva10;
 	this.tva20 = tva10;
+}
+
+// Echéances
+var dataEcheance = function(nom, nature, lignes) {
+	this.nom = nom;
+	this.nature = nature;
+	if (lignes === undefined) {
+		this.lignes = [];
+	} else {
+		this.lignes = lignes;
+	}
+}
+
+var dataLigneEcheance = function(dateLimite, montant, datePaiement) {
+	this.dateLimite = dateLimite;
+	this.montant = montant;
+	this.datePaiement = datePaiement;
 }
