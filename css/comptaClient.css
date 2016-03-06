@@ -99,6 +99,7 @@ div.elementLineRemove {
 	float:left;
 	padding-left:5px;
 	padding-right:5px;
+	margin-right:5px;
 	background-color:white;
 	cursor:pointer;
 }

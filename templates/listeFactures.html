@@ -19,11 +19,11 @@
 				<div style="clear:both"/>
 			</a>
 		</div>
+		<div class="clientHead">
+			Total: <span ng-bind="getTotalFactures() | currency"/>
+		</div>
 	</div>
 
-	<div class="clientHead">
-		Total: <span ng-bind="getTotalFactures() | currency"/>
-	</div>
 </div>
 <p>
 	<a class="appliBtn" href="#/facture" ng-click="resetForm()">Créer une facture</a>
