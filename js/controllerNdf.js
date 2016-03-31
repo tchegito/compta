@@ -72,7 +72,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 	}
 
 	$scope.getNdfTotal = function(field) {
-		ndf = $scope.ndf;
+		var ndf = $scope.ndf;
 		var total = 0;
 		for (var i = 0;i<ndf.lignes.length;i++) {
 			var l = ndf.lignes[i];
@@ -84,6 +84,36 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			}
 		}
 		return total;
+	}
+
+	// Calculate sum of TVA for each NDF
+	// Maybe a cache will be necessary one day for big data
+	$scope.getTvaTotal = function(ndf) {
+		var tva = 0;
+		for (var i = 0;i<ndf.lignes.length;i++) {
+			var l = ndf.lignes[i]
+			tva += addFloat(l.tva55) * 0.055;
+			tva += addFloat(l.tva10) * 0.1;
+			tva += addFloat(l.tva20) * 0.2;
+		}
+		return tva;
+	}
+
+	$scope.getListTotalTTC = function() {
+		var totalTTC = 0;
+		angular.forEach($scope.ndfs, function(ndf) {
+			totalTTC += addFloat(ndf.montantTTC);
+			console.log(totalTTC);
+		});
+		return totalTTC;
+	}
+
+	$scope.getListTotalTVA = function() {
+		var totalTVA = 0;
+		angular.forEach($scope.ndfs, function(ndf) {
+			totalTVA += $scope.getTvaTotal(ndf);
+		});
+		return totalTVA;
 	}
 
 	$scope.supprimeLigne = function(numLigne) {

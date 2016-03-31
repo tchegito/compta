@@ -10,6 +10,9 @@
 			<td>
 				Montant TTC
 			</td>
+			<td>
+				TVA
+			</td>
 		</tr>
 		<tr  class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'dateMois'">
 			<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
@@ -23,8 +26,21 @@
 			<td class="clientLineData">
 				<div ng-bind="ndf.montantTTC |currency"/>
 			</td>
+			<td class="clientLineData">
+				<div ng-bind="getTvaTotal(ndf) | currency"/>
+			</td>
 		</tr>
-	</div>
+		<tr class="clientHead">
+			<td colspan="2">
+				Total:
+			</td>
+			<td>
+				<span ng-bind="getListTotalTTC() | currency"></span>
+			</td>
+			<td>
+				<span ng-bind="getListTotalTVA() | currency"></span>
+			</td>
+		</tr>
 	</table>
 </div>
 <p>
