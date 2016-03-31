@@ -6,13 +6,24 @@
 <body>
 
 <div class="clientTab">
-	<div class="clientHead">Liste des clients</div>
-	<div class="clientLine" ng-repeat="client in clients">
-		<div class="elementLineRemove" ng-click="deleteClient(client.id)">X</div>
-		<a href="#/client{{client.id}}" ng-click="selClient(client.id)"
-		   ng-class="{active:selClient()==client.id}">{{client.nom}}
-		({{client.contacts.length}} contacts)</a>
-	</div>
+	<table border="0" style="width:100%;border-collapse:collapse;border:0">
+		<tr class="clientHead">
+			<td colspan="2">
+				Liste des clients
+			</td>
+		</tr>
+		<tr class="clientLine" ng-repeat="client in clients">
+			<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
+				X
+			</td>
+			<td>
+				<a href="#/client{{client.id}}" ng-click="selClient(client.id)"
+				   ng-class="{active:selClient()==client.id}">{{client.nom}}
+					({{client.contacts.length}} contacts)
+				</a>
+			</td>
+		</tr>
+	</table>
 </div>
 <p>
 	<a class="appliBtn" href="#/client" ng-click="$parent.resetForm()">Créer un client</a>

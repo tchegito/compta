@@ -6,29 +6,37 @@
 </head>
 <body>
 <div class="clientTab">
-    <div class="clientHead">Liste des échéanciers</div>
-    <div class="clientLine" ng-repeat="echeance in echeances track by echeance.id">
-        <div class="elementLineRemove" ng-click="deleteEcheance(echeance.id)">X</div>
-        <a href="#/echeance{{echeance.id}}" ng-click="selEcheance(echeance.id)"
-           ng-class="{active:selectedEcheance()==echeance.id}">
-            <div style="float:left;width:40%;background-color: transparent">
-                {{echeance.nom}}
-            </div>
-
-            <div style="background-color: transparent">
-                Prochaine:
+    <table border="0" style="width:100%;border-collapse:collapse;border:0">
+        <tr class="clientHead">
+            <td colspan="2">
+                Liste des échéanciers
+            </td>
+            <td>
+                Prochaine date
+            </td>
+        </tr>
+        <tr class="clientLine" ng-repeat="echeance in echeances track by echeance.id">
+            <td class="elementLineRemove" ng-click="deleteEcheance(echeance.id)">
+                X
+            </td>
+            <td>
+                <a href="#/echeance{{echeance.id}}" ng-click="selEcheance(echeance.id)"
+                   ng-class="{active:selectedEcheance()==echeance.id}">
+                    {{echeance.nom}}
+                </a>
+            </td>
+            <td>
                 <span ng-bind="getNext(echeance)"/>
-            </div>
-
-            <div style="clear:both"/>
-        </a>
-    </div>
-    <div class="clientHead">
-        Total 2016: <span ng-bind="getTotalEcheances()"/>
-    </div>
+            </td>
+        </tr>
+        <tr class="clientHead">
+            <td colspan="3">
+                Total 2016: <span ng-bind="getTotalEcheances()"/>
+            </td>
+        </tr>
+    </table>
 </div>
 
-</div>
 <p>
     <a class="appliBtn" href="#/echeance" ng-click="resetForm()">Créer un échéancier</a>
 </p>

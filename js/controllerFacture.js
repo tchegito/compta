@@ -161,6 +161,17 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope)
 		return total;
 	}
 
+	$scope.getNbJours = function(fac) {
+		var nbJours = 0;
+		var lignes = fac.lignes;
+		if (lignes) {
+			for (var i = 0; i < lignes.length; i++) {
+				nbJours += parseInt(lignes[i].qte, 10);
+			}
+		}
+		return nbJours;
+	}
+
 	$scope.formateDureeFacture = function(facture) {
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
 	}

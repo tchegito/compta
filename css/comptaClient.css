@@ -62,7 +62,7 @@ li a {
 .clientHead {
 	background-color: #99aa77;
 	font-weight:bold;
-	font-size:22;
+	//font-size:22;
 	color: #44ff22;
 }
 .clientTab {
@@ -70,19 +70,34 @@ li a {
 	border-radius:7px;
 	padding-left:0px;
 	width:100%;
+	border-collapse:collapse;
 }
 
 .clientLine {
 	background-color: #44cc33;
-	border-bottom:1px solid #22bb11;
-	font-size:18;
+    //font-size : 18;
+	position: relative;
+	color: #334488;
+}
+
+td.clientLineData {
+	opacity:.99;
+	pointer-events:none; /* Because elements with opacity less than 1 won't trigger any hover without it */
 }
 
 .clientLine a {
 	text-decoration: none;
 	color: #334488;
 	transition:background-color 0.5s;
+	border-bottom: 1px solid #22bb11;
 	display:block;
+	/* Added since tabs */
+	position:absolute;
+	left:22px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	padding-left:5px;
 }
 
 .clientLine a:hover {
@@ -92,7 +107,16 @@ li a {
 
 .clientLine a.active {
 	color: #7788ff;
-	background: #66ee44;
+	background: #66ee44
+}
+
+td.elementLineRemove {
+	padding-left:5px;
+	padding-right:5px;
+	margin-right:5px;
+	background-color:white;
+	cursor:pointer;
+	width:10px;
 }
 
 div.elementLineRemove {
@@ -103,7 +127,6 @@ div.elementLineRemove {
 	background-color:white;
 	cursor:pointer;
 }
-
 td.montant {
 	text-align:right;
 }
