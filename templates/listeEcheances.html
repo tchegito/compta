@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="clientTab">
-    <table border="0" style="width:100%;border-collapse:collapse;border:0">
+    <table border="0" class="roundTable">
         <tr class="clientHead">
             <td colspan="2">
                 Liste des échéanciers
@@ -25,7 +25,7 @@
                     {{echeance.nom}}
                 </a>
             </td>
-            <td>
+            <td class="clientLineData">
                 <span ng-bind="getNext(echeance)"/>
             </td>
         </tr>

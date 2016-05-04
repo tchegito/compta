@@ -73,6 +73,12 @@ li a {
 	border-collapse:collapse;
 }
 
+.roundTable {
+	width:100%;
+	border-collapse:collapse;
+	border:0;
+}
+
 .clientLine {
 	background-color: #44cc33;
     //font-size : 18;

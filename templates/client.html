@@ -19,15 +19,26 @@
 			<input class="appliBtn" type="submit" value="Enregistrer"/>
 		</form>
 	</div>
-	<div style="overflow:hidden;width:40%;float:left">
+	<div style="width:40%;float:left">
 		<h3>Contacts</h3>
-		<div style="float:left" ng-show="contacts.length  > 0">
-			<div class="clientTab">
-				<div class="clientLine" ng-repeat="contact in contacts"><a href="" ng-click="openContact(contact.id)">{{contact.prenom}} {{contact.nom}} {{contact.mail}}</a></div>
-			</div>
+		<div class="clientTab">
+			<table border="0" ng-show="contacts.length  > 0" class="roundTable">
+				<tr class="clientHead">
+					<td colspan="2">
+						Liste des contacts
+					</td>
+				</tr>
+				<tr class="clientLine" ng-repeat="contact in contacts">
+					<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
+						X
+					</td>
+					<td>
+						<a href="" ng-click="openContact(contact.id)">{{contact.prenom}} {{contact.nom}} {{contact.mail}}</a>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<input class="appliBtn" type="button" value="Ajouter" ng-click="creerContact()"/>
 		<div ng-if="isVisibleContact()" ng-include="'templates/contact.html'" style="float:left;width:100%"></div>
-	</div>
 	</div>
 </div>
