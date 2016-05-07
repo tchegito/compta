@@ -92,9 +92,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 		var tva = 0;
 		for (var i = 0;i<ndf.lignes.length;i++) {
 			var l = ndf.lignes[i]
-			tva += addFloat(l.tva55) * 0.055;
-			tva += addFloat(l.tva10) * 0.1;
-			tva += addFloat(l.tva20) * 0.2;
+			tva += addFloat(l.tva55) * 0.055/1.055;
+			tva += addFloat(l.tva10) * 0.1/1.1;
+			tva += addFloat(l.tva20) * 0.2/1.2;
 		}
 		return tva;
 	}
