@@ -103,7 +103,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 		var totalTTC = 0;
 		angular.forEach($scope.ndfs, function(ndf) {
 			totalTTC += addFloat(ndf.montantTTC);
-			console.log(totalTTC);
 		});
 		return totalTTC;
 	}

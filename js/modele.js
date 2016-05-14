@@ -42,6 +42,14 @@ var dbEngine = {
 		client.contacts.push(contact.id);
 		db.contacts[contact.id] = contact;
 	},
+	removeContact: function(clientId, contactId) {
+		console.log('suppression du contact '+clientId+' du client '+clientId);
+		var contacts = db.clients[clientId].contacts;
+		console.log("avant="+contacts);
+		var idx = contacts.indexOf(contactId);
+		contacts.splice(idx, 1);
+		delete db.contacts[contactId];
+	},
 	persistFacture: function (facture) {
 		var f = facture;
 		if (facture.id === undefined) {
@@ -100,9 +108,6 @@ var dbEngine = {
 	},
 	removeClient: function (id) {
 		delete db.clients[id];
-	},
-	removeContact: function (id) {
-		delete db.contacts[id];
 	},
 	persistCompany: function (company) {
 		db.company = new company(company);

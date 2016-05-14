@@ -13,7 +13,6 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	$scope.updateContacts = function(idClient) {
 		var listeContacts = [];
 		var dbContacts = db.clients[idClient].contacts;
-		console.log("idClient="+idClient+" trouve="+dbContacts);
 		for (var i=0;i<dbContacts.length;i++) {
 			listeContacts.push(db.contacts[dbContacts[i]]);
 		}
@@ -26,7 +25,6 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 		// Create a copy ot keep original safe
 		$scope.client = angular.copy(client);
 		if (client) {
-			console.log(client);
 			$scope.contact = {};
 			$scope.updateContacts($scope.idClient);
 			$scope.idContact = -1;
@@ -98,6 +96,14 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 					$location.url("");
 				}
 			}
+		}
+	}
+
+	$scope.deleteContact = function(id) {
+		if (confirm("Etes vous sûr de supprimer ce contact ?")) {
+			var idClient = $scope.client.id;
+			dbEngine.removeContact(idClient, id);
+			$scope.updateContacts(idClient);
 		}
 	}
 
