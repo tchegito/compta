@@ -59,8 +59,6 @@ app.controller("company", function($scope, $location, $rootScope) {
     }
 
     function init() {
-        console.log('reinit company controller');
-
         for (i in fields) {
             var fieldName = fields[i];
             $scope.formData[fieldName] = db.company[fieldName];

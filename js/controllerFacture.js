@@ -2,12 +2,10 @@
 // Contrôleur de factures //
 ////////////////////////////
 app.controller("factures", function($scope, $location, $routeParams, $rootScope) {
-	console.log("on est dans le controller factures");
 	init();
 
 
 	$scope.$on('reinit', function(event, args) {
-		console.log('reinit factures controller');
 		init();
 	});
 	$scope.idFacture = $routeParams.idFacture;
@@ -34,14 +32,12 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope)
 	}
 
 	function init() {
-		console.log("On a "+Object.size(db.factures));
 		$scope.factures = db.factures;
 		$scope.clients = db.clients;
 		$scope.company = db.company;
 	}
 
 	$scope.resetForm = function() {
-		console.log("on reset la facture");
 		$scope.facture ={lignes:[], debutTime:0, finTime:0};
 	}
 

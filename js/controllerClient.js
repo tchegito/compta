@@ -45,7 +45,7 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	};
 
 	$scope.creerContact = function() {
-		$scope.contact = {}
+		$scope.contact = {};
 		$scope.idContact = undefined;
 		console.log($scope.idContact);
 	};
@@ -73,6 +73,8 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 			console.log('On vient de créer '+contact);
 		}
 		$scope.updateContacts(idClient);
+		// Hide contact edition
+		$scope.idContact = -1;
 	};
 	$scope.resetForm = function() {
 		console.log("on reset");

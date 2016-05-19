@@ -99,6 +99,7 @@ var dbEngine = {
 		db.contacts = sanitizeObj(db.contacts);
 		db.echeances = sanitizeObj(db.echeances);
 		sanitizeIds();
+		sanitizeContacts();
 	},
 	removeNdf: function (id) {
 		delete db.ndfs[id];
@@ -129,6 +130,25 @@ function sanitizeIds() {
 	}
 }
 
+function sanitizeContacts() {
+	// Get every contact' ID
+	var arrIdContacts = [];
+	for (co in db.contacts) {
+		arrIdContacts.push(db.contacts[co].id);
+	}
+	// Remove every contact gathered in clients from this array
+	for (cl in db.clients) {
+		var client = db.clients[cl];
+		for (co in client.contacts) {
+			var idContact = client.contacts[co];
+			arrIdContacts.splice( arrIdContacts.indexOf(idContact), 1);
+		}
+	}
+	console.log("remove "+arrIdContacts.size()+" unused contacts");
+	arrIdContacts.forEach(function(unusedId) {
+		delete db.contacts[unusedId];
+	});
+}
 
 function findMax(collection) {
 	var max = 0;

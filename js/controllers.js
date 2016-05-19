@@ -31,7 +31,6 @@ app.config( function($routeProvider) {
 });
 
 app.run(function($location) {
-	console.log("init");
 	$location.url("");
 });
 
@@ -44,19 +43,16 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 	init();
 
 	$scope.$on('reinit', function (event, args) {
-		console.log('reinit main controller');
 		init();
 	});
 
 	// Stores route for each tab
 	$scope.savedRoute = [];
 
-	console.log("controller");
 	// Init tabs
 	$scope.tab = 1;
 
 	// Init form
-	console.log("idclient=" + $scope.idClient);
 	$scope.contact = {};
 
 	$scope.selectedTab = function () {
@@ -70,7 +66,6 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 		// Restore previous route (if exists)
 		var previousRoute = $scope.savedRoute[$scope.tab]
 		if (previousRoute) {
-			console.log("on a trouve "+previousRoute);
 			$location.url(previousRoute);
 		} else {
 			$location.url("");
@@ -233,7 +228,6 @@ app.factory("resourcesManager", ["$http", "$window", "$rootScope",
 		that.resources = [];
 		return {
 			loadLanguageAndCulture: function (lang) {
-				console.log("on charge l'i18n");
 				lang = lang || $window.navigator.userLanguage || $window.navigator.language;
 				var resourceUrl = "js/i18n/txtResources_" + lang + ".json";
 				$http({ method: "GET", url: resourceUrl})

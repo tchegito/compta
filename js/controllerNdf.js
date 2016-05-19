@@ -1,7 +1,6 @@
 // Contrôleur des notes de frais
 app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 
-	console.log("on est dans le controller ndf");
 	init();
 
 	$scope.selectedNdf = function() {
@@ -13,7 +12,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 	}
 
 	$scope.$on('reinit', function(event, args) {
-		console.log('reinit ndfs controller');
 		init();
 	});
 	$scope.idNdf = $routeParams.idNdf;
@@ -38,7 +36,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 	}
 
 	$scope.resetForm = function() {
-		console.log("on reset la note de frais");
 		$scope.ndf ={lignes:[], dateMoisTime:0};
 	}
 
