@@ -1,15 +1,15 @@
 // Contrôleur des notes de frais
-app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
+app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter) {
 
 	init();
 
 	$scope.selectedNdf = function() {
 		return $rootScope.selectedNdf;
-	}
+	};
 
 	$scope.selNdf = function(id) {
 		$rootScope.selectedNdf = id;
-	}
+	};
 
 	$scope.$on('reinit', function(event, args) {
 		init();
@@ -37,7 +37,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 
 	$scope.resetForm = function() {
 		$scope.ndf ={lignes:[], dateMoisTime:0};
-	}
+	};
 
 	$scope.ajouteLigne = function() {
 		// Calculate quantity
@@ -48,25 +48,62 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			tva10:0,
 			tva20:0
 		});
-	}
+	};
 
 	$scope.submitNdf = function() {
 		// Update calculated fields
-		console.log("On enregistre la note de frais, id="+$scope.ndf.id);
+		//console.log("On enregistre la note de frais, id="+$scope.ndf.id);
 		var ndf = $scope.ndf;
-		// Use <date>.getTime() because JSON can't encode date properly
-		ndf.dateMois = retrieveDate(ndf.dateMoisTime);
-		ndf.montantTTC = $scope.getNdfTotal();
-		for (var i=0;i<ndf.lignes.length;i++) {
-			var ligne = ndf.lignes[i];
-			console.log("ligne "+i+" lieu="+ligne.descriptif+" dateNoteTime="+ligne.dateNoteTime+" date="+retrieveDate(ligne.dateNoteTime));
-			ligne.dateNote = retrieveDate(ligne.dateNoteTime);
+		var valid = $scope.checkForm(ndf);
+		if (valid) {
+			// Use <date>.getTime() because JSON can't encode date properly
+			ndf.dateMois = retrieveDate(ndf.dateMoisTime);
+			ndf.montantTTC = $scope.getNdfTotal();
+			for (var i = 0; i < ndf.lignes.length; i++) {
+				var ligne = ndf.lignes[i];
+				//console.log("ligne "+i+" lieu="+ligne.descriptif+" dateNoteTime="+ligne.dateNoteTime+" date="+retrieveDate(ligne.dateNoteTime));
+				ligne.dateNote = retrieveDate(ligne.dateNoteTime);
+			}
+			dbEngine.persistNdf(ndf);
+			init();
+			$scope.selNdf(-1);
+			$location.url("");
 		}
-		dbEngine.persistNdf(ndf);
-		init();
-		$scope.selNdf(-1);
-		$location.url("");
-	}
+	};
+
+	$scope.checkForm = function(ndf) {
+		var valid = true
+		var month = $filter('date')(ndf.dateMoisTime, 'MM');
+		for (var i = 0; i < ndf.lignes.length; i++) {
+			var ligne = ndf.lignes[i];
+			// Check positive value on each amount field
+			var empty = true;
+			['tva55', 'tva10', 'tva20', 'ttc'].forEach(function (val) {
+				var amount = parseFloat(ligne[val], 10);
+				if (!isNaN(amount) && amount != 0) {
+					empty = false;
+				}
+				if (amount < 0) {
+					ligne.error = 'error.amountNegative';
+					valid = false;
+				}
+			});
+			// Check empty line
+			if (empty) {
+				ligne.error = 'error.emptyLine';
+				valid = false;
+			}
+			// Check date inside month (note that a null date is allowed)
+			if (ligne.dateNoteTime != null) {
+				var lineMonth = $filter('date')(ligne.dateNoteTime, 'MM');
+				if (lineMonth != month) {
+					ligne.error = 'error.lineOutsideMonth';
+					valid = false;
+				}
+			}
+		}
+		return valid;
+	};
 
 	$scope.getNdfTotal = function(field) {
 		var ndf = $scope.ndf;
@@ -81,7 +118,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			}
 		}
 		return total;
-	}
+	};
 
 	// Calculate sum of TVA for each NDF
 	// Maybe a cache will be necessary one day for big data
@@ -94,7 +131,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			tva += addFloat(l.tva20) * 0.2/1.2;
 		}
 		return tva;
-	}
+	};
 
 	$scope.getListTotalTTC = function() {
 		var totalTTC = 0;
@@ -102,7 +139,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			totalTTC += addFloat(ndf.montantTTC);
 		});
 		return totalTTC;
-	}
+	};
 
 	$scope.getListTotalTVA = function() {
 		var totalTVA = 0;
@@ -110,11 +147,11 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope) {
 			totalTVA += $scope.getTvaTotal(ndf);
 		});
 		return totalTVA;
-	}
+	};
 
 	$scope.supprimeLigne = function(numLigne) {
 		$scope.ndf.lignes.splice(numLigne, 1);
-	}
+	};
 
 	$scope.deleteNdf = function(id) {
 		console.log($scope.ndfs);

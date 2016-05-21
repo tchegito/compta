@@ -7,5 +7,9 @@
     "compSiret" : "SIRET",
     "compRcs" : "RCS",
     "compTvaIntra" : "TVA Intracommunataire",
-    "compUrlImage" : "URL du logo"
+    "compUrlImage" : "URL du logo",
+
+    "error.amountNegative" : "Un montant ne peut être négatif.",
+    "error.emptyLine" : "Une ligne doit avoir au moins un montant saisi.",
+    "error.lineOutsideMonth" : "La ligne doit être dans le mois de la note de frais."
 }

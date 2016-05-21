@@ -164,6 +164,11 @@ td.montantGras {
 	font-weight:bold;
 }
 
+.errorField {
+	color:red;
+	font-weight:bold;
+}
+
 td.action {
 	cursor:pointer;
 }

@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur de factures //
 ////////////////////////////
-app.controller("factures", function($scope, $location, $routeParams, $rootScope) {
+app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter) {
 	init();
 
 
@@ -151,10 +151,16 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope)
 
 	$scope.getTotalFactures = function() {
 		var total = 0;
+		var totalPaid = 0;
 		angular.forEach($scope.factures, function(fac) {
 			total += fac.montantTTC;
+			if (fac.datePaie != null) {
+				totalPaid += fac.montantTTC;
+			}
 		})
-		return total;
+		return $filter('currency')(totalPaid)
+			+ " / "
+			+ $filter('currency')(total);
 	}
 
 	$scope.getNbJours = function(fac) {

@@ -23,6 +23,7 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
             if (ligne.datePaiement != null) {
                 ligne.datePaiementTime = new Date(ligne.datePaiement);
             }
+            console.log("dateLimite="+typeof ligne.dateLimite);
         }
     }
 
@@ -78,7 +79,7 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
         // Determine next echeance
         for (var i=0;i<ech.lignes.length;i++) {
             var ligne = ech.lignes[i];
-            if (ligne.dateLimite > new Date().getTime()) {
+            if (ligne.dateLimite > new Date().getTime() && ligne.datePaiement == null) {
                 var strDate = $filter('date')(new Date(ligne.dateLimite), 'dd/MM/yy');
                 var strAmount = $filter('currency')(ligne.montant);
                 return strDate + ": "+strAmount;
