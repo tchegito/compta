@@ -168,7 +168,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		var lignes = fac.lignes;
 		if (lignes) {
 			for (var i = 0; i < lignes.length; i++) {
-				nbJours += parseInt(lignes[i].qte, 10);
+				nbJours += parseFloat(lignes[i].qte, 10);
 			}
 		}
 		return nbJours;

@@ -63,6 +63,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 				var ligne = ndf.lignes[i];
 				//console.log("ligne "+i+" lieu="+ligne.descriptif+" dateNoteTime="+ligne.dateNoteTime+" date="+retrieveDate(ligne.dateNoteTime));
 				ligne.dateNote = retrieveDate(ligne.dateNoteTime);
+				delete ligne.error;
 			}
 			dbEngine.persistNdf(ndf);
 			init();
