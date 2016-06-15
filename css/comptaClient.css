@@ -91,6 +91,11 @@ td.clientLineData {
 	pointer-events:none; /* Because elements with opacity less than 1 won't trigger any hover without it */
 }
 
+.clientLineActive {
+	opacity:0.99;
+	cursor:pointer
+}
+
 .clientLine a {
 	text-decoration: none;
 	color: #334488;

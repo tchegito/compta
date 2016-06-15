@@ -4,34 +4,42 @@
 app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter) {
 	init();
 
-
 	$scope.$on('reinit', function(event, args) {
 		init();
 	});
 	$scope.idFacture = $routeParams.idFacture;
 
+
+
+	$scope.initFacture = function(f) {
+		console.log('initFacture');
+		// Create a copy to keep original safe
+		$scope.facture = angular.copy(f);
+		// User real Date object
+		$scope.facture.debutTime = new Date(f.dateDebut);
+		$scope.facture.finTime = new Date(f.dateFin);
+		if (f.datePaie != null) {
+			$scope.facture.datePaieTime = new Date(f.datePaie);
+		}
+	};
+
 	if ($scope.idFacture) {
 		console.log("Initialisation du formulaire, id=" + $scope.idFacture);
 		var facture = db.factures[$scope.idFacture];
-		// Create a copy to keep original safe
-		$scope.facture = angular.copy(facture);
-		// User real Date object
-		$scope.facture.debutTime = new Date(facture.dateDebut);
-		$scope.facture.finTime = new Date(facture.dateFin);
-		if (facture.datePaie != null) {
-			$scope.facture.datePaieTime = new Date(facture.datePaie);
-		}
+		$scope.initFacture(facture);
 	}
 
 	$scope.selectedFacture = function() {
 		return $rootScope.selectedFacture;
-	}
+	};
 
 	$scope.selFacture = function(id) {
 		$rootScope.selectedFacture = id;
-	}
+	};
+
 
 	function init() {
+		console.log("init");
 		$scope.factures = db.factures;
 		$scope.clients = db.clients;
 		$scope.company = db.company;
@@ -39,25 +47,25 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 
 	$scope.resetForm = function() {
 		$scope.facture ={lignes:[], debutTime:0, finTime:0};
-	}
+	};
 
 	$scope.getNomClient = function(idClient) {
 		return db.clients[idClient].nom;
-	}
+	};
 
 	$scope.getCurrentClient = function() {
 		return db.clients[$scope.facture.idClient];
-	}
+	};
 
-	$scope.getNumeroFacture = function() {
+	$scope.getNumeroFacture = function(facture) {
 		// Format number with 3 digit
-		var numFacture = formatNumber($scope.facture.id + 1, 3);
-		var d = $scope.facture.debutTime;
+		var numFacture = formatNumber(facture.id + 1, 3);
+		var d = facture.debutTime;
 		if (d == 0 || d == null || d === undefined) {
 			d = new Date();
 		}
 		return (1900 + d.getYear()) + numFacture;
-	}
+	};
 
 	$scope.ajouteLigne = function() {
 		var idClient = $scope.facture.idClient;
@@ -82,17 +90,17 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			pu:tjm,
 			montantHT:0
 		});
-	}
+	};
 
 	$scope.supprimeLigne = function(numLigne) {
 		$scope.facture.lignes.splice(numLigne, 1);
-	}
+	};
 
 	// Calculate, store and return
 	$scope.calculLigneMontantHT = function(ligne) {
 		ligne.montantHT = ligne.qte * ligne.pu;
 		return ligne.montantHT;
-	}
+	};
 
 	$scope.getFactureTotalHT = function() {
 		var total = 0;
@@ -105,18 +113,18 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			}
 		}
 		return total;
-	}
+	};
 
 	$scope.getFactureTotalTTC = function() {
 		return $scope.getFactureTotalHT() * 1.20;
-	}
+	};
 
 	$scope.syncDates = function() {
 		// If end date isn't filled, automatically update with start date
 		if ($scope.facture.finTime == 0 && $scope.facture.debutTime != 0) {
 			$scope.facture.fin = $scope.facture.debut;
 		}
-	}
+	};
 
 	$scope.submitFacture = function() {
 		// Update calculated fields
@@ -139,15 +147,43 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			$location.url("");
 
 		}
-	}
+	};
 
-	$scope.exportPDF = function() {
+	// Parameter is the name of 'div' element containing HTML to print
+	// Actually, we have 1 div to print from the list, and another one to print from 1 bill
+
+	// TODO: maybe we could only use HTML in string without using DOM ?
+	// With following code:
+	//var htmlcontent = $('#modeleFacture');
+
+	//htmlcontent.load('templates/modeleFacture.html', function() {
+	//	$compile(htmlcontent.contents())($scope);
+	//	alert('compile ok');
+	//	$scope.exportPDF();
+	//});
+	$scope.exportPDF = function(name) {
 		console.log("export PDF");
 		var fileName = this.getNomClient($scope.facture.idClient);
 		fileName += '_' + $scope.facture.debut;
 		filename = 'facture_'+fileName+'.pdf';
-		exportPdf('modeleFacture', filename);
-	}
+		exportPdf(name, filename);
+	};
+
+	var countEvtRefreshModele;
+
+	$scope.contentLoaded = function(c) {
+		if (++countEvtRefreshModele == 2) {
+			// First time: div is compiled. Second time: image is loaded.
+			$scope.exportPDF('modeleFactureListe');
+		}
+	};
+
+	$scope.printFacture = function(factureId) {
+		var facture = db.factures[factureId];
+		$scope.initFacture(facture);
+		countEvtRefreshModele = 0;
+	};
+
 
 	$scope.getTotalFactures = function() {
 		var total = 0;
@@ -157,11 +193,11 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			if (fac.datePaie != null) {
 				totalPaid += fac.montantTTC;
 			}
-		})
+		});
 		return $filter('currency')(totalPaid)
 			+ " / "
 			+ $filter('currency')(total);
-	}
+	};
 
 	$scope.getNbJours = function(fac) {
 		var nbJours = 0;
@@ -172,11 +208,11 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			}
 		}
 		return nbJours;
-	}
+	};
 
 	$scope.formateDureeFacture = function(facture) {
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
-	}
+	};
 
 	$scope.deleteFacture = function(id) {
 		console.log("vue sur "+$scope.selectedFacture());

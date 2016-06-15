@@ -1,5 +1,4 @@
 <html>
-
 <div class="clientTab">
 	<table border="0" class="roundTable">
 		<tr class="clientHead">
@@ -11,6 +10,9 @@
 			</td>
 			<td>
 				Mois
+			</td>
+			<td>
+				Impression
 			</td>
 		</tr>
 		<tr  class="clientLine" ng-repeat="facture in factures track by facture.id">
@@ -31,10 +33,13 @@
 					Payée
 				</span>
 			</td>
+			<td>
+				<img class="clientLineActive" src="images/pdfIcon32x32.png" width="16" ng-click="printFacture(facture.id)"/>
+			</td>
 			</a>
 		</tr>
 		<tr class="clientHead">
-			<td colspan="4">
+			<td colspan="5">
 				Total: <span ng-bind="getTotalFactures()"/>
 			</td>
 		</tr>
@@ -45,5 +50,9 @@
 	<a class="appliBtn" href="#/facture" ng-click="resetForm()">Créer une facture</a>
 </p>
 <div ng-view="ng-view"></div>
+<div id="modeleFactureListe" ng-include="'templates/modeleFacture.html'" ng-if="facture != null" style="display:none">
+
+</div>
+
 </body>
 </html>

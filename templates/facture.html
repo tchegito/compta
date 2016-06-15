@@ -58,9 +58,9 @@
 			</tr>
 		</table>
 		<input class="appliBtn" type="submit" value="Enregistrer"/>
-		<input class="appliBtn" type="button" ng-click="exportPDF()" value="Générer le PDF"/>
+		<input class="appliBtn" type="button" ng-click="exportPDF('modeleFacture')" value="Générer le PDF"/>
 	</form>
 </div>
+<div id="modeleFacture" ng-include="'templates/modeleFacture.html'" ng-if="facture != null" style="display:none">
 
-<div id="modeleFacture" ng-include="'templates/modeleFacture.html'" ng-show="false">
 </div>
