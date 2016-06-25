@@ -11,7 +11,7 @@ var db = {
 	idFacture: 0,
 	idNdf: 0,
 	idEcheance: 0
-}
+};
 
 var dbEngine = {
 	persistClient: function(client) {	// On récupère un client tout bien renseigné, il ne manque plus que l'ID
@@ -113,7 +113,7 @@ var dbEngine = {
 	persistCompany: function (company) {
 		db.company = new company(company);
 	}
-}
+};
 
 // Check if IDs are well assigned. These IDs indicates the next PK for each category of saved data.
 function sanitizeIds() {
@@ -168,14 +168,14 @@ var company = function(c) {
 	this.rcs = c.rcs;
 	this.tvaIntra = c.tvaIntra;
 	this.urlImage = c.urlImage;
-}
+};
 
 var dataClient = function(nom, adresse, recitXP) {
 	this.nom = nom;
 	this.adresse = adresse;
 	this.recitXP = recitXP;
 	this.contacts = [];
-}
+};
 
 
 var dataContact = function(nom, prenom, tel, mail, info) {
@@ -184,7 +184,7 @@ var dataContact = function(nom, prenom, tel, mail, info) {
 	this.tel = tel;
 	this.mail = mail;
 	this.info = info;
-}
+};
 
 var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, dateFin, paye, datePaiement, lignes) {
 	this.idClient = idClient;
@@ -204,7 +204,7 @@ var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, date
 	this.addLigne = function(ligne) {
 		this.lignes.push(ligne);
 	};
-}
+};
 
 var dataLigneFacture = function(fkFacture, prixUnitaire, quantite, totalHT, descriptif) {
 	this.fkFacture = fkFacture;
@@ -212,7 +212,7 @@ var dataLigneFacture = function(fkFacture, prixUnitaire, quantite, totalHT, desc
 	this.qte = quantite;
 	this.totalHT = totalHT;
 	this.descriptif = descriptif;
-}
+};
 
 
 // Note de frais
@@ -224,7 +224,7 @@ var dataNdf = function(dateMois, montantTTC, lignes) {
 	}else {
 		this.lignes = lignes;
 	}
-}
+};
 
 var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, ttc) {
 	this.fkNdf = fkNdf;
@@ -234,7 +234,7 @@ var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, tt
 	this.tva55 = tva55;
 	this.tva10 = tva10;
 	this.tva20 = tva10;
-}
+};
 
 // Echéances
 var dataEcheance = function(nom, nature, lignes) {
@@ -245,10 +245,13 @@ var dataEcheance = function(nom, nature, lignes) {
 	} else {
 		this.lignes = lignes;
 	}
-}
+};
 
-var dataLigneEcheance = function(dateLimite, montant, datePaiement) {
+var dataLigneEcheance = function(dateLimite, montant, datePaiement, debutPeriode, finPeriode) {
 	this.dateLimite = dateLimite;
 	this.montant = montant;
 	this.datePaiement = datePaiement;
-}
+	this.debutPeriode = debutPeriode;
+	this.finPeriode = finPeriode;
+
+};

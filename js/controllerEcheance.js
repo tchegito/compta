@@ -29,11 +29,11 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
 
     $scope.selectedEcheance = function () {
         return $rootScope.selectedEcheancee;
-    }
+    };
 
     $scope.selEcheance = function (id) {
         $rootScope.selectedEcheance = id;
-    }
+    };
 
     function init() {
         $scope.factures = db.factures;
@@ -43,8 +43,8 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     }
 
     $scope.resetForm = function () {
-        $scope.echeance = {lignes: [], nom: '', nature: ''};
-    }
+        $scope.echeance = {lignes: [], nom: '', nature: $scope.naturesDispo[0]};
+    };
 
     $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
@@ -54,26 +54,62 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
             montant:0,
             datePaiement:""
         });
-    }
+    };
 
     $scope.supprimeLigne = function(numLigne) {
         $scope.echeance.lignes.splice(numLigne, 1);
-    }
+    };
+
+    // Check 'echeance' validity
+    $scope.checkForm = function(echeance) {
+        if (echeance.nom.trim() == "") {
+            echeance.error = "error.echNoName";
+            return false;
+        }
+        return true;
+    };
 
     $scope.submitEcheance = function() {
         var echeance = $scope.echeance;
-        // Use <date>.getTime() because JSON can't encode properly
-        for (var i=0;i<echeance.lignes.length;i++) {
-            var ligne = echeance.lignes[i];
-            ligne.dateLimite = retrieveDate(ligne.dateLimiteTime);
-            ligne.datePaiement = retrieveDate(ligne.datePaiementTime);
-        }
-        dbEngine.persistEcheance(echeance);
-        $scope.selEcheance(-1);
+        var valid = $scope.checkForm(echeance);
+        if (valid) {
+            // TODO: dirty to use libelle instead of code
+            if (echeance.id === undefined && echeance.nature == 'TVA simplifiée') {
+                // Create automatically period for simplified TVA
+                var d1 = new Date(Date.UTC(2015, 0, 1));
+                // Go on until 31/12/<currentYear>
+                var lastDate = new Date();
+                lastDate.setUTCMonth(11);
+                lastDate.setUTCDate(31);
+                while (d1 < lastDate) {
+                    var d2 = addMonth(d1, 12);
+                    var finPeriode = addDay(d2, -1);
+                    var amount = calculeTva(d1, finPeriode);
+                    echeance.lignes.push({
+                        montant: Math.round(amount),    // No decimals in TVA forms
+                        dateLimite: new Date(Date.UTC(d1.getUTCFullYear() + 1, 4, 2)),
+                        datePaiment: null,
+                        debutPeriode: d1,
+                        finPeriode: addDay(d2, -1)
 
-        init();
-        $location.url("");
-    }
+                    });
+                    d1 = d2;
+                }
+            } else {
+                // Use <date>.getTime() because JSON can't encode properly
+                for (var i = 0; i < echeance.lignes.length; i++) {
+                    var ligne = echeance.lignes[i];
+                    ligne.dateLimite = retrieveDate(ligne.dateLimiteTime);
+                    ligne.datePaiement = retrieveDate(ligne.datePaiementTime);
+                }
+            }
+            dbEngine.persistEcheance(echeance);
+            $scope.selEcheance(-1);
+
+            init();
+            $location.url("");
+        }
+    };
 
     $scope.getNext = function(ech) {
         // Determine next echeance
@@ -86,9 +122,18 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
             }
         }
         return "Rien trouvé";
-    }
+    };
 
-    // Returns "x€ / y€" where x is paid amounts, and y total amounts on the current year
+    $scope.deleteEcheance = function(echId) {
+        if (confirm("Etes vous sûr de supprimer cette échéance ?")) {
+            delete $scope.echeances[echId];
+            if ($rootScope.selectedEcheance == echId) {
+                $location.url("");
+            }
+        }
+    };
+
+    // Returns a string containing "x€ / y€" where x is paid amounts, and y total amounts on the current year
     $scope.getTotalEcheances = function() {
         var amount = 0;
         var amountPaid = 0;
@@ -106,8 +151,11 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
         return $filter('currency')(amountPaid)
             + " / "
             + $filter('currency')(amount);
-    }
+    };
 
+    $scope.formatePeriode = function(ligne) {
+        return formateDureeString(new Date(ligne.debutPeriode), new Date(ligne.finPeriode));
+    };
 
 });
 /**

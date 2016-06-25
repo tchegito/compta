@@ -73,7 +73,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	};
 
 	$scope.checkForm = function(ndf) {
-		var valid = true
+		var valid = true;
 		var month = $filter('date')(ndf.dateMoisTime, 'MM');
 		for (var i = 0; i < ndf.lignes.length; i++) {
 			var ligne = ndf.lignes[i];
@@ -124,14 +124,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	// Calculate sum of TVA for each NDF
 	// Maybe a cache will be necessary one day for big data
 	$scope.getTvaTotal = function(ndf) {
-		var tva = 0;
-		for (var i = 0;i<ndf.lignes.length;i++) {
-			var l = ndf.lignes[i]
-			tva += addFloat(l.tva55) * 0.055/1.055;
-			tva += addFloat(l.tva10) * 0.1/1.1;
-			tva += addFloat(l.tva20) * 0.2/1.2;
-		}
-		return tva;
+		return calculeTotalTvaNdf(ndf);
 	};
 
 	$scope.getListTotalTTC = function() {
@@ -155,8 +148,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	};
 
 	$scope.deleteNdf = function(id) {
-		console.log($scope.ndfs);
-		console.log($scope.ndfs[0]);
 		if (confirm("Etes vous sûr de supprimer cette note de frais ?")) {
 			delete $scope.ndfs[id];
 			if ($scope.selectedNdf == id) {

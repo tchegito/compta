@@ -94,15 +94,38 @@ function formateDureeString(dateDebut, dateFin) {
 	var mois1 = dateDebut.getMonth();
 	var mois2 = dateFin.getMonth();
 
+	var annee1 = dateDebut.getYear() + 1900;
+	var annee2 = dateFin.getYear() + 1900;
+
 	var str = "du " + dateDebut.getDate();
 	if (mois1 != mois2) {
-		str += jQuery.datepicker.regional.fr.monthNames[mois1];
+		str += " " + jQuery.datepicker.regional.fr.monthNames[mois1];
+		if (annee1 != annee2) {
+			str += " " + annee1;
+
+		}
 	}
 	str += " au ";
 	str += dateFin.getDate();
 	str += " ";
 	str += jQuery.datepicker.regional.fr.monthNames[mois2];
 	str += " ";
-	str += (dateFin.getYear() + 1900);
+	str += annee2;
 	return str;
 }
+
+function addMonth(date, nbMonth) {
+	return new Date(Date.UTC(
+		date.getUTCFullYear(),
+		date.getUTCMonth()+nbMonth,
+		date.getUTCDate()))
+}
+/*
+function addDay(date, nbDay) {
+	return new Date(Date.UTC(
+		date.getUTCFullYear(),
+		date.getUTCMonth(),
+		date.getUTCDate()+nbMonth
+	));
+}
+	*/

@@ -10,12 +10,13 @@
         </h2>
 
         <form name="detailEcheance" ng-submit="submitEcheance()">
-
+            <span ng-show="echeance.error" class="errorField" ng-bind="echeance.error | i18n">
+            </span>
             <div>
                 Nom:
                 <input type="text" ng-model="echeance.nom"/>
                 Nature:
-                <select ng-model="echeance.nature" ng-options="n for n in naturesDispo">
+                <select ng-model="echeance.nature" ng-disabled="idEcheance" ng-options="n for n in naturesDispo">
                 </select>
             </div>
             <!--
@@ -32,7 +33,7 @@
                 <input type="text" class="dateJour" date-picker="yes" ng-model="facture.fin"/>
             </p>
             -->
-            <p>
+            <p ng-show="echeance.nature!='TVA simplifiée'">
                 Dates des échéances
                 <input type="button" class="appliBtn" value="Ajouter" ng-click="ajouteLigne()"/>
                 <table>
@@ -41,6 +42,7 @@
                         <th>Date limite</th>
                         <th>Montant</th>
                         <th>Date paiement</th>
+                        <th></th>
                     </tr>
                     <!-- We can't use dateLimite field because it's modified by datePicker directive -->
                     <tr ng-repeat="ligne in echeance.lignes | orderBy:'dateLimiteTime'">
@@ -48,6 +50,11 @@
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateLimite"/></td>
                         <td><input type="text" ng-model="ligne.montant"/></td>
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.datePaiement"/></td>
+                        <td>
+                            <span ng-show="echeance.nature=='TVA simplifiée'">
+                                Période {{formatePeriode(ligne)}}
+                            </span>
+                        </td>
                     </tr>
                 </table>
             </p>
