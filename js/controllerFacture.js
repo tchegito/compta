@@ -81,8 +81,11 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			nbJours = ecartJoursOuvres(dateDebut, dateFin);
 		}
 		if (idClient === undefined) {
-			alert("Il faut d'abord renseigner le client.");
+			alert($filter('i18n')("error.facSansClient"));
 			return;
+		}
+		if (dateFin < dateDebut) {
+			alert($filter('i18n')("error.datesIncoher"));
 		}
 		$scope.facture.lignes.push( {
 			descriptif:"Mission "+this.getNomClient(idClient),
