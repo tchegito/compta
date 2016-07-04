@@ -121,7 +121,7 @@ function sanitizeIds() {
 	setIds(db.factures, "idFacture");
 	setIds(db.ndfs, "idNdf");
 	setIds(db.contacts, "idContact");
-	setIds(db.echences, "idEcheance");
+	setIds(db.echeances, "idEcheance");
 
 	function setIds(collection, idName) {
 		if (db[idName] === undefined || db[idName] == null) {
@@ -144,7 +144,7 @@ function sanitizeContacts() {
 			arrIdContacts.splice( arrIdContacts.indexOf(idContact), 1);
 		}
 	}
-	console.log("remove "+arrIdContacts.size()+" unused contacts");
+	console.log("remove "+arrIdContacts.length+" unused contacts");
 	arrIdContacts.forEach(function(unusedId) {
 		delete db.contacts[unusedId];
 	});

@@ -31,6 +31,8 @@ app.controller("company", function($scope, $location, $rootScope) {
                     + Object.size(temp.contacts)+' contacts\n'+
                     Object.size(temp.factures)+' factures\n'+
                     Object.size(temp.ndfs)+' notes de frais');
+                alert('on update');
+                try {
                 dbEngine.importDb(temp);
                 // Fix ndf
                 /*
@@ -49,9 +51,12 @@ app.controller("company", function($scope, $location, $rootScope) {
                  }
                  }*/
                 // Tell all the scope to reinit
-                $rootScope.$broadcast('reinit', $scope.name);
-                // Refresh current form
-                $scope.$apply();
+                    $rootScope.$broadcast('reinit', $scope.name);
+                    // Refresh current form
+                    $scope.$apply();
+                } catch (e) {
+                    alert("erreur: "+ e.name+" / "+ e.message+" stack="+(new Error()).stack);
+                }
             }
         };
 
