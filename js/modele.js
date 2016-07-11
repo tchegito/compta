@@ -100,6 +100,7 @@ var dbEngine = {
 		db.echeances = sanitizeObj(db.echeances);
 		sanitizeIds();
 		sanitizeContacts();
+		sanitizeNdfs();
 	},
 	removeNdf: function (id) {
 		delete db.ndfs[id];
@@ -150,6 +151,18 @@ function sanitizeContacts() {
 	});
 }
 
+function sanitizeNdfs() {
+	// Remove every potential error forgotten
+	for (ndf in db.ndfs) {
+		var note = db.ndfs[ndf];
+		for (l in note.lignes) {
+			var ligne = note.lignes[l];
+			if (ligne.error) {
+				delete ligne.error;
+			}
+		}
+	}
+}
 function findMax(collection) {
 	var max = 0;
 	for (var key in collection) {

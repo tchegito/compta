@@ -102,6 +102,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 					valid = false;
 				}
 			}
+			if (valid && ligne.error) {
+				delete ligne.error;
+			}
 		}
 		return valid;
 	};
@@ -115,7 +118,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 				// If particular field is provided, only calculate on it
 				total = addFloat(total, l[field]);
 			} else {
-				total += addFloat(l.tva55, l.tva10, l.tva20, l.ttc);
+				total += calculeTotalLigne(l);
 			}
 		}
 		return total;
@@ -125,6 +128,11 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	// Maybe a cache will be necessary one day for big data
 	$scope.getTvaTotal = function(ndf) {
 		return calculeTotalTvaNdf(ndf);
+	};
+
+	// Calculate sum for a line of note
+	$scope.calculeTotalLigne = function(l) {
+		return addFloat(l.tva55, l.tva10, l.tva20, l.ttc);
 	};
 
 	$scope.getListTotalTTC = function() {

@@ -178,6 +178,12 @@ td.action {
 	cursor:pointer;
 }
 
+.grey {
+	color:#887788;
+	text-align:right;
+	width:90px;
+}
+
 .appliBtn {
   background: #ff7700;
   background-image: -webkit-linear-gradient(top, #ff7700, #97b82c);

@@ -29,6 +29,7 @@
 				<td><input type="text" numeric class="montant" ng-model="ligne.tva20"/></td>
 				<td><input type="text" numeric class="montant" ng-model="ligne.ttc"/></td>
 				<td>
+					<div class="grey" ng-bind="calculeTotalLigne(ligne) | currency"/>
 					<span ng-show="ligne.error" class="errorField" ng-bind="ligne.error | i18n">
 			   		</span>
 				</td>
