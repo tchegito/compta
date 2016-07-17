@@ -118,7 +118,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 				// If particular field is provided, only calculate on it
 				total = addFloat(total, l[field]);
 			} else {
-				total += calculeTotalLigne(l);
+				total += $scope.calculeTotalLigne(l);
 			}
 		}
 		return total;
