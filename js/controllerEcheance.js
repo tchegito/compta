@@ -115,13 +115,17 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
         // Determine next echeance
         for (var i=0;i<ech.lignes.length;i++) {
             var ligne = ech.lignes[i];
-            if (ligne.dateLimite > new Date().getTime() && ligne.datePaiement == null) {
-                var strDate = $filter('date')(new Date(ligne.dateLimite), 'dd/MM/yy');
-                var strAmount = $filter('currency')(ligne.montant);
-                return strDate + ": "+strAmount;
+            if (ligne.datePaiement == null) {
+                if (ligne.dateLimite > new Date().getTime()) {
+                    var strDate = $filter('date')(new Date(ligne.dateLimite), 'dd/MM/yy');
+                    var strAmount = $filter('currency')(ligne.montant);
+                    return strDate + ": " + strAmount;
+                } else {
+                    return "En retard !!!";
+                }
             }
         }
-        return "Rien trouvé";
+        return "N/A";
     };
 
     $scope.deleteEcheance = function(echId) {
