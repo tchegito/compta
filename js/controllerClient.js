@@ -79,7 +79,7 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	$scope.resetForm = function() {
 		console.log("on reset");
 		$scope.client ={};
-	}
+	};
 
 	$scope.deleteClient = function(idClient) {
 		// Consistent checked
@@ -99,7 +99,43 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 				}
 			}
 		}
-	}
+	};
+
+	// Return number of "factures" and money
+	$scope.getFactureDisplay = function(id) {
+		var nbFac = 0;
+		var money = 0;
+		var factures = dbEngine.getClientFactures(id);
+		factures.forEach(function (fac) {
+			nbFac++;
+			money += fac.montantTTC;
+		});
+
+		var result = "-";
+		if (nbFac != 0) {
+			result = nbFac + " ("+$filter('currency')(money)+")";
+		}
+		return result;
+	};
+
+	$scope.getClientPaymentDuration = function(id) {
+		var factures = dbEngine.getClientFactures(id);
+		var sum = 0;
+		factures.forEach(function (fac) {
+			if (fac.datePaie) {
+				var dateRemiseFacture = new Date(fac.dateDebut);
+				var dateFinMois = addDay(addMonth(firstDayOfMonth(dateRemiseFacture), 1), -1);
+				var delai = ecartJours(dateFinMois, new Date(fac.datePaie));
+				sum += delai;
+			}
+		});
+		// Calculate the average
+		if (factures.length == 0) {
+			return "-";
+		}
+		var avg = parseInt(sum / factures.length, 10);
+		return avg+" jours";
+	};
 
 	$scope.deleteContact = function(id) {
 		if (confirm("Etes vous sûr de supprimer ce contact ?")) {

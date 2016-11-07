@@ -26,6 +26,11 @@ function ecartJoursOuvres(d1, d2) {
 	return nbJoursOuvres;
 }
 
+function ecartJours(d1, d2) {
+	var delta = d2.getTime() - d1.getTime();
+	return delta / 1000 / 3600 / 24;
+}
+
 function utcDate(dat) {
 	var m = dat.getMonth();
 	var d = dat.getDate();
@@ -120,6 +125,18 @@ function addMonth(date, nbMonth) {
 		date.getUTCMonth()+nbMonth,
 		date.getUTCDate()))
 }
+
+function firstDayOfMonth(date) {
+	return new Date(Date.UTC(
+		date.getUTCFullYear(),
+		date.getUTCMonth(),
+		1));
+}
+
+function createDate(year, month, date) {
+	return new Date(Date.UTC(year, month, date));
+}
+
 /*
 function addDay(date, nbDay) {
 	return new Date(Date.UTC(

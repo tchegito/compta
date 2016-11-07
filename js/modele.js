@@ -60,6 +60,17 @@ var dbEngine = {
 		f.lignes = facture.lignes;
 		db.factures[f.id] = f;
 	},
+	getClientFactures: function (clientId) {
+		var f = db.factures;
+		var result = [];
+		for (key in db.factures) {
+			var fac = db.factures[key];
+			if (fac.idClient == clientId) {
+				result.push(fac);
+			}
+		}
+		return result;
+	},
 	// Replace current DB by given one, and update counters
 	persistNdf: function (ndf) {
 		var n = ndf;

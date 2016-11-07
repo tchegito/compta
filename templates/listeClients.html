@@ -11,6 +11,12 @@
 			<td colspan="2">
 				Liste des clients
 			</td>
+			<td>
+				Factures
+			</td>
+			<td>
+				Paiement
+			</td>
 		</tr>
 		<tr class="clientLine" ng-repeat="client in clients | toArray | orderBy:'nom'">
 			<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
@@ -21,6 +27,12 @@
 				   ng-class="{active:selClient()==client.id}">{{client.nom}}
 					({{client.contacts.length}} contacts)
 				</a>
+			</td>
+			<td class="clientLineData">
+				<span ng-bind="getFactureDisplay(client.id)"/>
+			</td>
+			<td class="clientLineData">
+				<span ng-bind="getClientPaymentDuration(client.id)"/>
 			</td>
 		</tr>
 	</table>
