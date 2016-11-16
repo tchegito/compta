@@ -26,6 +26,7 @@
 		<script src="js/controllerNdf.js"></script>
 		<script src="js/controllerCompany.js"></script>
 		<script src="js/controllerEcheance.js"></script>
+		<script src="js/controllerActivite.js"></script>
 		<script src="js/i18n/txtResources_fr.json"></script>
 		<script src="js/dao.js"></script>
 
@@ -62,6 +63,9 @@
 				Echéances
 			</li>
 			<li ng-class="{active:selectedTab()==5}" ng-click="selectTab(5)">
+				Activité
+			</li>
+			<li ng-class="{active:selectedTab()==6}" ng-click="selectTab(6)">
 				Données
 			</li>
 		</ul>
@@ -80,9 +84,11 @@
 		<div ng-show="selectedTab() === 4">
 			<div ng-controller="echeances" ng-include="'templates/listeEcheances.html'"></div>
 		</div>
-		<div ng-show="selectedTab() === 5">
+		<div ng-if="selectedTab() === 5">
+			<div ng-controller="activite" ng-include="'templates/activite.html'"></div>
+		</div>
+		<div ng-show="selectedTab() === 6">
 			<div ng-controller="company" ng-include="'templates/donnees.html'"></div>
 		</div>
-
 	</body>
 </html>

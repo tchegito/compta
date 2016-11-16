@@ -124,7 +124,7 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 		factures.forEach(function (fac) {
 			if (fac.datePaie) {
 				var dateRemiseFacture = new Date(fac.dateDebut);
-				var dateFinMois = addDay(addMonth(firstDayOfMonth(dateRemiseFacture), 1), -1);
+				var dateFinMois = lastDayOfMonth(dateRemiseFacture);
 				var delai = ecartJours(dateFinMois, new Date(fac.datePaie));
 				sum += delai;
 			}

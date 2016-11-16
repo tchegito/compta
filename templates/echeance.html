@@ -48,7 +48,7 @@
                     <tr ng-repeat="ligne in echeance.lignes | orderBy:'dateLimiteTime'">
                         <td class="action" ng-click="supprimeLigne($index)">X</td>
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateLimite"/></td>
-                        <td><input type="text" ng-model="ligne.montant"/></td>
+                        <td><input type="text" numeric class="montant" ng-model="ligne.montant"/></td>
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.datePaiement"/></td>
                         <td>
                             <span ng-show="echeance.nature=='TVA simplifiée'">

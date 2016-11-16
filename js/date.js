@@ -15,9 +15,9 @@ function ecartJoursOuvres(d1, d2) {
 	var prevDay = -1;	// On fait ça dans le cas du changement d'heure => sinon on compte un jour de trop
 	while (dateToStringShort(ref) != dateToStringShort(dateFin)) {
 		var newDay = ref.getUTCDay();
-		console.log(dateToStringShort(ref)+" "+newDay+" ?");
+		//console.log(dateToStringShort(ref)+" "+newDay+" ?");
 		if (prevDay != newDay && (newDay > 0 && newDay < 6) && !isFerie(ref)) {
-			console.log(dateToStringShort(ref)+" ==> ok");
+			//console.log(dateToStringShort(ref)+" ==> ok");
 			nbJoursOuvres++;
 		}
 		ref.setTime(ref.getTime() + MILLISECONDES_PAR_JOUR);
@@ -26,6 +26,7 @@ function ecartJoursOuvres(d1, d2) {
 	return nbJoursOuvres;
 }
 
+/** Renvoit un écart de jours sans tenir compte des jours ouvrés **/
 function ecartJours(d1, d2) {
 	var delta = d2.getTime() - d1.getTime();
 	return delta / 1000 / 3600 / 24;
@@ -83,6 +84,12 @@ function dateToStringShort(d) {
 	return d.getUTCDate() + "/" + (d.getUTCMonth()+1);
 }
 
+/** Transforme une date en <mois>/<année>. Par exemple "1/2016" ou "7/2015" **/
+function dateMoisToStringShort(d) {
+	return (d.getUTCMonth()+1) + "/" + d.getUTCFullYear();
+
+}
+
 function isFerie(d) {
 	var y = d.getYear();
 	if (feries[y] === undefined) {
@@ -131,6 +138,10 @@ function firstDayOfMonth(date) {
 		date.getUTCFullYear(),
 		date.getUTCMonth(),
 		1));
+}
+
+function lastDayOfMonth(d) {
+	return addDay(addMonth(firstDayOfMonth(d), 1), -1);
 }
 
 function createDate(year, month, date) {
