@@ -111,7 +111,6 @@ app.directive('datePicker', function($filter) {
 		restrict: "A",
 		require : "ngModel",
 		link: function (scope, element, attrs, ngModelCtrl) {
-			var ngModelName = scope.$eval(attrs.ngModel);
 			var initDate = getValue(scope, attrs.ngModel+'Time');
 			element.datepicker({
 				dateFormat:'dd/mm/yy',
@@ -120,13 +119,19 @@ app.directive('datePicker', function($filter) {
 					var val = element.datepicker('getDate');
 					initTimeField(val);
 					ngModelCtrl.$setViewValue(formattedDate);
-                },
+                }
 			});
 			function initTimeField(val) {
 				var timeAtt = attrs.ngModel + 'Time';
 				setValue(scope, timeAtt, val);
 			}
 			// Init two fields: model and view
+			if (initDate == null) { // If field with suffix 'Time' isn't initialized yet
+				initDate = getValue(scope, attrs.ngModel);
+				//console.log("On modifie "+scope+" ["+attrs.ngModel+'Time'+" avec "+initDate.getTime());
+				setValue(scope, attrs.ngModel+'Time', initDate.getTime());
+			}
+			//console.log('on init '+getValue(scope, attrs.ngModel));
 			element.datepicker('setDate', initDate);
 			ngModelCtrl.$setViewValue($filter('date')(initDate, 'dd/MM/yy'));
 		}
@@ -140,7 +145,6 @@ app.directive('monthPicker', function($filter) {
 		restrict: "A",
 		require : "ngModel",
 		link: function (scope, element, attrs, ngModelCtrl) {
-			var ngModelName = scope.$eval(attrs.ngModel);
 			var initDate = getValue(scope, attrs.ngModel+'Time');
 			element.MonthPicker({
 				Button: false,
@@ -216,6 +220,7 @@ function getValue(scope, expr) {
 	}
 	return an.scope[an.idx];
 }
+
 function setValue(scope, expr, val) {
 	var an = analyse(scope, expr);
 	an.scope[an.idx] = val;

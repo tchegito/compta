@@ -8,7 +8,19 @@
     <table>
         <tr>
             <td>Congés</td>
-            <td ng-bind="calculeConges()"></td>
+            <td>Du
+                <input type="text" class="dateJour" date-picker="yes" ng-model="rech.dateDebut"/>
+            </td>
+            <td>Au
+                <input type="text" class="dateJour" date-picker="yes" ng-model="rech.dateFin"/>
+            </td>
+        </tr>
+        <tr>
+            <td/>
+            <td>
+                <input type="button" value="Calculer"/>
+            </td>
+            <td> <span ng-bind="calculeConges()"/> jours dont <span ng-bind="calculeFeries()"/> feries</td>
         </tr>
     </table>
 </body>
