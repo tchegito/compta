@@ -50,7 +50,9 @@
 		</script>
 		-->
 		<input class="appliBtn" type="submit" value="Enregistrer"/>
+		<input class="appliBtn" type="button" value="Imprimer" ng-click="exportPDF('modeleNoteDeFrais')"/>
 	</form>
 </div>
+<div id="modeleNoteDeFrais" ng-include="'templates/print/modeleNoteDeFrais.html'" ng-if="ndf != null" style="display:none">
 
 </div>

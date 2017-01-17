@@ -182,7 +182,6 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	var countEvtRefreshModele;
 
 	$scope.contentLoaded = function(c) {
-		console.log("yo");
 		if (++countEvtRefreshModele == 2) {
 			// First time: div is compiled. Second time: image is loaded.
 			$scope.exportPDF('modeleFactureListe');
@@ -190,10 +189,10 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	};
 
 	$scope.printFacture = function(factureId) {
-		var facture = db.factures[factureId];
-		$scope.initFacture(facture);
-		countEvtRefreshModele = 0;
-	};
+        var facture = db.factures[factureId];
+        $scope.initFacture(facture);
+        countEvtRefreshModele = 0;
+    };
 
 
 	$scope.getTotalFactures = function() {

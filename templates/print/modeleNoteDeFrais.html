@@ -1,0 +1,60 @@
+<table widths="10%,20%,70%">
+    <tr>
+        <td>
+            <img ng-src="{{company.urlImage}}" style="width:100px"/>
+        </td>
+        <td>
+            <div style="font-family:times">
+                <p><b ng-bind="company.nom"></b></p>
+                <p ng-bind="company.adresse1"></p>
+                <p ng-bind="company.adresse2"></p>
+                <p ng-bind="company.adresse3"></p>
+            </div>
+        </td>
+        <td><div style="text-align:center;vertical-align:middle;font-size:20px;font-weight:bold">Note de frais</div></td>
+    </tr>
+</table>
+<br/>
+<div style="text-align:center">
+    <p style="white-space:pre-wrap">{{ndf.dateMoisTime | date :'MMMM yyyy' | cap1}}</p>
+</div>
+<p></p>
+<br/>
+<p><b>Montant TTC:</b>{{ndf.montantTTC |currency}}</p>
+<p><b>TVA:</b>{{getTvaTotal(ndf) | currency}}</p>
+<br/>
+<table border="1" cellpadding="4" cellspacing="0" widths="10%,38%,12%, 12%,12%,12%">
+    <thead>
+    <tr style="font-weight:bold">
+        <th>Date</th>
+        <th>Descriptif</th>
+        <th>TVA 5.5</th>
+        <th>TVA 10</th>
+        <th>TVA 20</th>
+        <th>Non taxé</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="ligne in ndf.lignes | toArray | orderBy:'dateNote'">
+        <td>{{ligne.dateNote}}</td>
+        <td>{{ligne.descriptif}}</td>
+        <td>{{ligne.tva55}}</td>
+        <td>{{ligne.tva10}}</td>
+        <td>{{ligne.tva20}}</td>
+        <td>{{ligne.ttc}}</td>
+    </tr>
+    <!--Lignes de totalisation -->
+    <tr ng-if="ndf.lignes.length > 1">
+        <td colspan="2"><b>TOTAL</b></td>
+        <td style="font-weight:bold">Total</td>
+        <td class="montantTotal" ng-bind="getNdfTotal('tva55') | currency"></td>
+        <td class="montantTotal" ng-bind="getNdfTotal('tva10') | currency"></td>
+        <td class="montantTotal" ng-bind="getNdfTotal('tva20') | currency"></td>
+        <td class="montantTotal" ng-bind="getNdfTotal('ttc') | currency"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div ng-if="contentLoaded(count)"/>
+

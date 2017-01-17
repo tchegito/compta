@@ -16,23 +16,38 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	});
 	$scope.idNdf = $routeParams.idNdf;
 
-	function init() {
+    var countEvtRefreshModele;
+
+    function init() {
 		$scope.ndfs = db.ndfs;
+		// Access to company for print PDF
+        $scope.company = db.company;
 	}
+
+    $scope.initNdf = function(f, forPrint) {
+        console.log('initNdf');
+        // Create a copy ot keep original safe
+        $scope.ndf = angular.copy(f);
+        // User real Date object
+        $scope.ndf.dateMoisTime = new Date($scope.ndf.dateMois);
+        for (var i=0;i<$scope.ndf.lignes.length;i++) {
+            var ligne = $scope.ndf.lignes[i];
+            if (ligne.dateNote != null) {
+            	// In edition mode (from button in the list of 'ndf') datePicker hasn't filtered date
+				// So we must do it ourselves here
+                if (forPrint) {
+                    ligne.dateNote = $filter('date')(ligne.dateNote, "dd/MM/yy");
+                } else {
+                	ligne.dateNoteTime = new Date(ligne.dateNote);
+                }
+            }
+        }
+    };
 
 	if ($scope.idNdf) {
 		console.log("Initialisation du formulaire, id="+$scope.idNdf);
-		var ndf = db.ndfs[$scope.idNdf];
-		// Create a copy ot keep original safe
-		$scope.ndf = angular.copy(ndf);
-		// User real Date object
-		$scope.ndf.dateMoisTime = new Date($scope.ndf.dateMois);
-		for (var i=0;i<ndf.lignes.length;i++) {
-			var ligne = ndf.lignes[i];
-			if (ligne.dateNote != null) {
-				ligne.dateNoteTime = new Date(ligne.dateNote);
-			}
-		}
+        var ndf = db.ndfs[$scope.idNdf];
+        $scope.initNdf(ndf);
 	}
 
 	$scope.resetForm = function() {
@@ -162,5 +177,25 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 				$location.url("");
 			}
 		}
-	}
+	};
+
+    $scope.exportPDF = function(name) {
+        console.log("export PDF");
+        var fileName = '_' + $scope.ndf.dateMois;
+        filename = 'noteDeFrais_'+fileName+'.pdf';
+        exportPdf(name, filename);
+    };
+
+    $scope.contentLoaded = function(c) {
+        if (++countEvtRefreshModele == 2) {
+            // First time: div is compiled. Second time: image is loaded.
+            $scope.exportPDF('modeleNoteDeFraisListe');
+        }
+    };
+
+    $scope.printNdf = function(ndfId) {
+        var ndf = db.ndfs[ndfId];
+        $scope.initNdf(ndf, true);
+        countEvtRefreshModele = 0;
+    };
 });
