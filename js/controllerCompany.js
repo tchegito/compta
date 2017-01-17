@@ -5,15 +5,19 @@ app.controller("company", function($scope, $location, $rootScope) {
 
     $scope.listFields = function() {
         return fields;
-    }
+    };
 
     $scope.formData = [];
 
     init();
 
     $scope.submitCompany = function() {
-
-    }
+        console.log("submit");
+        for (i in fields) {
+            var fieldName = fields[i];
+            db.company[fieldName] = $scope.formData[fieldName];
+        }
+    };
 
     $scope.$on('reinit', function(event, args) {
         init();
@@ -61,7 +65,7 @@ app.controller("company", function($scope, $location, $rootScope) {
         };
 
         reader.readAsText(file);
-    }
+    };
 
     function init() {
         for (i in fields) {
