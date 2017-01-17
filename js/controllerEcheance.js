@@ -157,8 +157,24 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
             + $filter('currency')(amount);
     };
 
+    // Returns total amount of a given echeance
+    $scope.getTotal = function(ech) {
+        var amount = 0;
+        for (var i=0;i<ech.lignes.length;i++) {
+            var l = ech.lignes[i];
+            var echAmount = parseInt(l.montant, 10);
+            amount += echAmount;
+        }
+        return $filter('currency')(amount);
+    };
+
     $scope.formatePeriode = function(ligne) {
         return formateDureeString(new Date(ligne.debutPeriode), new Date(ligne.finPeriode));
+    };
+
+    $scope.calculeTva= function(ligne) {
+        // Take the two date and launch TVA calculation
+        return calculeTva(new Date(ligne.debutPeriode), new Date(ligne.finPeriode));
     };
 
 });

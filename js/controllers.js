@@ -64,7 +64,7 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 		$scope.idClient = undefined;
 		$scope.tab = givenTab;
 		// Restore previous route (if exists)
-		var previousRoute = $scope.savedRoute[$scope.tab]
+		var previousRoute = $scope.savedRoute[$scope.tab];
 		if (previousRoute) {
 			$location.url(previousRoute);
 		} else {
@@ -80,6 +80,9 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 });
 
 function persistDb() {
+	// Save company data
+
+	// Save whole data in DB
 	localStorage.setItem(DB_NAME, JSON.stringify(db));
 }
 
@@ -128,8 +131,10 @@ app.directive('datePicker', function($filter) {
 			// Init two fields: model and view
 			if (initDate == null) { // If field with suffix 'Time' isn't initialized yet
 				initDate = getValue(scope, attrs.ngModel);
-				//console.log("On modifie "+scope+" ["+attrs.ngModel+'Time'+" avec "+initDate.getTime());
-				setValue(scope, attrs.ngModel+'Time', initDate.getTime());
+				if (initDate) {
+					//console.log("On modifie "+scope+" ["+attrs.ngModel+'Time'+" avec "+initDate.getTime());
+					setValue(scope, attrs.ngModel + 'Time', initDate.getTime());
+				}
 			}
 			//console.log('on init '+getValue(scope, attrs.ngModel));
 			element.datepicker('setDate', initDate);
@@ -172,7 +177,7 @@ app.directive('numeric', function () {
 		restrict: 'A',
 		require: 'ngModel',
 		scope: {
-			model: '=ngModel',
+			model: '=ngModel'
 		},
 		link: function (scope, element, attrs) {
 			scope.$watch(attrs.ngModel, function () {

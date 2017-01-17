@@ -53,6 +53,7 @@
                         <td>
                             <span ng-show="echeance.nature=='TVA simplifiée'">
                                 Période {{formatePeriode(ligne)}}
+                                (calcul=<span ng-bind="calculeTva(ligne) | currency"/>)
                             </span>
                         </td>
                     </tr>

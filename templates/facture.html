@@ -12,7 +12,7 @@
 	</div>
 	<div style="float:left;margin-left:100px">
 			<input type="checkbox" ng-model="facture.payee"/> payée le
-			<input type=""text" class="dateJour" date-picker="yes" ng-model="facture.datePaie"/>
+			<input type="text" class="dateJour" date-picker="yes" ng-model="facture.datePaie" ng-change="syncPaidCheck()"/>
 	</div>
 	<p style="clear:both">
 		Début de la mission:
@@ -61,6 +61,6 @@
 		<input class="appliBtn" type="button" ng-click="exportPDF('modeleFacture')" value="Générer le PDF"/>
 	</form>
 </div>
-<div id="modeleFacture" ng-include="'templates/modeleFacture.html'" ng-if="facture != null" style="display:none">
+<div id="modeleFacture" ng-include="'templates/print/modeleFacture.html'" ng-if="facture != null" style="display:none">
 
 </div>

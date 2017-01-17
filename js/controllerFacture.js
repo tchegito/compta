@@ -129,6 +129,13 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		}
 	};
 
+	// Called when user changes 'pay date' field ==> automatically check 'paid' field
+    $scope.syncPaidCheck = function() {
+    	if ($scope.facture.datePaie != null) {
+    		$scope.facture.payee = true;
+		}
+	};
+
 	$scope.submitFacture = function() {
 		// Update calculated fields
 		var facture = $scope.facture;
@@ -175,6 +182,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	var countEvtRefreshModele;
 
 	$scope.contentLoaded = function(c) {
+		console.log("yo");
 		if (++countEvtRefreshModele == 2) {
 			// First time: div is compiled. Second time: image is loaded.
 			$scope.exportPDF('modeleFactureListe');
