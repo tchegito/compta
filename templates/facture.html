@@ -1,6 +1,10 @@
+<script>
+    displayPopup();
+</script>
 <div class="formulaire">
-	<h2>
+	<h2 style="position:relative">
 		<span ng-if="idFacture">Edition</span><span ng-if="!idFacture">Création</span> d'une facture
+		<span class="close" ng-click="selFacture(-1)">&times;</span>
 	</h2>
 
 	<div style="float:left">
@@ -58,7 +62,7 @@
 			</tr>
 		</table>
 		<input class="appliBtn" type="submit" value="Enregistrer"/>
-		<input class="appliBtn" type="button" ng-click="exportPDF('modeleFacture')" value="Générer le PDF"/>
+		<input class="appliBtn" type="button" ng-click="exportPDF('modeleFacture')" value="Imprimer"/>
 	</form>
 </div>
 <div id="modeleFacture" ng-include="'templates/print/modeleFacture.html'" ng-if="facture != null" style="display:none">

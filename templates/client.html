@@ -1,6 +1,11 @@
+<script>
+    displayPopup();
+</script>
 <div class="formulaire">
-	<h2>
+	<div>
+	<h2 style="position:relative">
 		<span ng-if="idClient">Edition</span><span ng-if="!idClient">Création</span> d'un client
+		<span class="close" ng-click="selClient(-1)">&times;</span>
 	</h2>
 	<!-- l'overflow:hidden permet que les div contenus ne soient pas en dehors du parent -->
 	<div style="overflow:hidden">

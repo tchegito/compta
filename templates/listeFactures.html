@@ -20,7 +20,7 @@
 				X
 			</td>
 			<td style="background-color: transparent">
-				<a ng-class="{active:selectedFacture()==facture.id}" href="#/facture{{facture.id}}" ng-click="selFacture(facture.id)">
+				<a ng-class="{active:selectedFacture()==facture.id}" ng-click="selFacture(facture.id)">
 					{{getNomClient(facture.idClient)}} : {{facture.montantTTC | currency}}
 				</a>
 			</td>
@@ -36,7 +36,6 @@
 			<td>
 				<img class="clientLineActive" src="images/pdfIcon32x32.png" width="16" ng-click="printFacture(facture.id)"/>
 			</td>
-			</a>
 		</tr>
 		<tr class="clientHead">
 			<td colspan="5">
@@ -47,9 +46,8 @@
 </div>
 
 <p>
-	<a class="appliBtn" href="#/facture" ng-click="resetForm()">Créer une facture</a>
+	<a class="appliBtn" ng-click="createFacture()">Créer une facture</a>
 </p>
-<div ng-view="ng-view"></div>
 <div id="modeleFactureListe" ng-include="'templates/print/modeleFacture.html'" ng-if="facture != null" style="display:none">
 
 </div>

@@ -1,6 +1,11 @@
+<script>
+	displayPopup();
+</script>
+
 <div class="formulaire">
-	<h2>
+	<h2 style="position:relative">
 		<span ng-if="idNdf">Edition</span><span ng-if="!idNdf">Création</span> d'une note de frais
+		<span class="close" ng-click="selNdf(-1)">&times;</span>
 	</h2>
 
 	<p>
@@ -44,15 +49,12 @@
 				<td class="montantTotal" ng-bind="getNdfTotal('ttc') | currency"></td>
 			</tr>
 		</table>
-		<!--
-		<script>
-			$(montant).
-		</script>
-		-->
+
 		<input class="appliBtn" type="submit" value="Enregistrer"/>
 		<input class="appliBtn" type="button" value="Imprimer" ng-click="exportPDF('modeleNoteDeFrais')"/>
 	</form>
 </div>
+
 <div id="modeleNoteDeFrais" ng-include="'templates/print/modeleNoteDeFrais.html'" ng-if="ndf != null" style="display:none">
 
 </div>

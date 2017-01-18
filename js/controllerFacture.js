@@ -12,7 +12,6 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 
 
 	$scope.initFacture = function(f) {
-		console.log('initFacture');
 		// Create a copy to keep original safe
 		$scope.facture = angular.copy(f);
 		// User real Date object
@@ -24,7 +23,6 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	};
 
 	if ($scope.idFacture) {
-		console.log("Initialisation du formulaire, id=" + $scope.idFacture);
 		var facture = db.factures[$scope.idFacture];
 		$scope.initFacture(facture);
 	}
@@ -35,18 +33,25 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 
 	$scope.selFacture = function(id) {
 		$rootScope.selectedFacture = id;
+        if (id == -1) {
+        	hidePopup();
+        } else {
+        	preparePopup();
+        	$location.url("facture"+id);
+		}
 	};
 
 
 	function init() {
-		console.log("init");
 		$scope.factures = db.factures;
 		$scope.clients = db.clients;
 		$scope.company = db.company;
 	}
 
-	$scope.resetForm = function() {
+	$scope.createFacture = function() {
 		$scope.facture ={lignes:[], debutTime:0, finTime:0};
+		preparePopup();
+		$location.url("facture");
 	};
 
 	$scope.getNomClient = function(idClient) {

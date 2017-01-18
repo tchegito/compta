@@ -23,7 +23,7 @@
                 X
             </td>
             <td>
-                <a href="#/echeance{{echeance.id}}" ng-click="selEcheance(echeance.id)"
+                <a ng-click="selEcheance(echeance.id)"
                    ng-class="{active:selectedEcheance()==echeance.id}">
                     {{echeance.nom}}
                 </a>
@@ -44,8 +44,7 @@
 </div>
 
 <p>
-    <a class="appliBtn" href="#/echeance" ng-click="resetForm()">Créer un échéancier</a>
+    <a class="appliBtn" ng-click="createEcheance()">Créer un échéancier</a>
 </p>
-<div ng-view="ng-view"></div>
 </body>
 </html>

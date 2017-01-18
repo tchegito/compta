@@ -1,31 +1,30 @@
 // Contrôleur des notes de frais
 app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter) {
 
-	init();
+    init();
 
 	$scope.selectedNdf = function() {
 		return $rootScope.selectedNdf;
 	};
 
 	$scope.selNdf = function(id) {
+        if (arguments.length == 0) {
+            return $rootScope.selectedNdf;
+        }
 		$rootScope.selectedNdf = id;
+		if (id == -1) {
+			hidePopup();
+		} else {
+			preparePopup();
+        	$location.url("ndf"+id);
+        }
 	};
 
 	$scope.$on('reinit', function(event, args) {
 		init();
 	});
-	$scope.idNdf = $routeParams.idNdf;
-
-    var countEvtRefreshModele;
-
-    function init() {
-		$scope.ndfs = db.ndfs;
-		// Access to company for print PDF
-        $scope.company = db.company;
-	}
 
     $scope.initNdf = function(f, forPrint) {
-        console.log('initNdf');
         // Create a copy ot keep original safe
         $scope.ndf = angular.copy(f);
         // User real Date object
@@ -33,25 +32,39 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
         for (var i=0;i<$scope.ndf.lignes.length;i++) {
             var ligne = $scope.ndf.lignes[i];
             if (ligne.dateNote != null) {
-            	// In edition mode (from button in the list of 'ndf') datePicker hasn't filtered date
-				// So we must do it ourselves here
+                // In edition mode (from button in the list of 'ndf') datePicker hasn't filtered date
+                // So we must do it ourselves here
                 if (forPrint) {
                     ligne.dateNote = $filter('date')(ligne.dateNote, "dd/MM/yy");
                 } else {
-                	ligne.dateNoteTime = new Date(ligne.dateNote);
+                    ligne.dateNoteTime = new Date(ligne.dateNote);
                 }
             }
         }
     };
 
+    $scope.idNdf = $routeParams.idNdf;
+
 	if ($scope.idNdf) {
-		console.log("Initialisation du formulaire, id="+$scope.idNdf);
-        var ndf = db.ndfs[$scope.idNdf];
-        $scope.initNdf(ndf);
+		var ndf = db.ndfs[$scope.idNdf];
+		$scope.initNdf(ndf);
 	}
 
-	$scope.resetForm = function() {
-		$scope.ndf ={lignes:[], dateMoisTime:0};
+    var countEvtRefreshModele;
+
+    function init() {
+		$scope.ndfs = db.ndfs;
+		// Access to company for print PDF
+        $scope.company = db.company;
+        if (!$scope.ndf) {
+            $scope.ndf ={lignes:[], dateMoisTime:new Date()};
+        }
+	}
+
+
+	$scope.createNdf = function() {
+        preparePopup();
+		$location.url("ndf");
 	};
 
 	$scope.ajouteLigne = function() {

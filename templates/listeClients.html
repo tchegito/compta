@@ -19,11 +19,11 @@
 			</td>
 		</tr>
 		<tr class="clientLine" ng-repeat="client in clients | toArray | orderBy:'nom'">
-			<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
+			<td class="elementLineRemove" ng-click="deleteClient(client.id)">
 				X
 			</td>
 			<td>
-				<a href="#/client{{client.id}}" ng-click="selClient(client.id)"
+				<a ng-click="selClient(client.id)"
 				   ng-class="{active:selClient()==client.id}">{{client.nom}}
 					({{client.contacts.length}} contacts)
 				</a>
@@ -38,8 +38,8 @@
 	</table>
 </div>
 <p>
-	<a class="appliBtn" href="#/client" ng-click="$parent.resetForm()">Créer un client</a>
+	<a class="appliBtn" ng-click="createClient()">Créer un client</a>
 </p>
-<div ng-view="ng-view"></div>
+
 </body>
 </html>

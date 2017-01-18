@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title></title>
 </head>
+    <script>
+        displayPopup();
+    </script>
     <div class="formulaire">
-        <h2>
+        <h2 style="position:relative">
             <span ng-if="idEcheance">Edition</span><span ng-if="!idEcheance">Création</span> d'une échéance
+            <span class="close" ng-click="selEcheance(-1)">&times;</span>
         </h2>
 
         <form name="detailEcheance" ng-submit="submitEcheance()">

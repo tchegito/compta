@@ -90,5 +90,10 @@
 		<div ng-show="selectedTab() === 6">
 			<div ng-controller="company" ng-include="'templates/donnees.html'"></div>
 		</div>
+		<div class="modal">
+			<div class="middle">
+				<div id="subWin" ng-view="ng-view"></div>
+			</div>
+		</div>
 	</body>
 </html>

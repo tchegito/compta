@@ -85,6 +85,9 @@ li a {
 	position: relative;
 	color: #334488;
 }
+.clientLine td a {
+	cursor:pointer;
+}
 
 td.clientLineData {
 	opacity:.99;
@@ -221,4 +224,47 @@ td.action {
 }
 input.formData {
 	width:500px;
+}
+
+.modal {
+	width:100%;
+	height:100%;
+	//position:fixed;
+	top:0;
+	left:0;
+	z-index:1;
+	display:none;
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	overflow: auto; /* Enable scroll if needed */
+	position: absolute;
+}
+.middle {
+	display: table-cell;
+	vertical-align: middle;
+}
+#subWin {
+	//opacity:0.95;
+	box-shadow: 10px 10px 5px #888888;
+	width:80%;
+	margin-left: auto;
+	margin-right: auto;
+	//margin:auto;
+	background-color:#ffffff;
+}
+
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	position:absolute;
+	right:0;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }

@@ -8,7 +8,14 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 			return $rootScope.selectedClient;
 		}
 		$rootScope.selectedClient = id;
-	}
+        if (id == -1) {
+        	$scope.idClient = -1;
+        	hidePopup();
+        } else {
+            preparePopup();
+			$location.url("client" + id);
+        }
+	};
 
 	$scope.updateContacts = function(idClient) {
 		var listeContacts = [];
@@ -17,10 +24,10 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 			listeContacts.push(db.contacts[dbContacts[i]]);
 		}
 		$scope.contacts = listeContacts;
-	}
+	};
 
 	if ($scope.idClient) {
-		console.log("Initialisation du formulaire, id="+$scope.idClient);
+		console.log("on reinitialise "+$scope.idClient);
 		var client = db.clients[$scope.idClient];
 		// Create a copy ot keep original safe
 		$scope.client = angular.copy(client);
@@ -30,13 +37,17 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 			$scope.idContact = -1;
 			//$scope.idContact = $scope.contact.id;
 		}
-	}
+    }
 
+    $scope.createClient = function() {
+		preparePopup();
+		$location.url("client");
+	};
 
 
 	$scope.isVisibleContact = function() {
 		return $scope.idContact != -1;
-	}
+	};
 
 	$scope.openContact = function(idContact) {
 		$scope.contact = angular.copy(db.contacts[idContact]);
@@ -76,16 +87,13 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 		// Hide contact edition
 		$scope.idContact = -1;
 	};
-	$scope.resetForm = function() {
-		console.log("on reset");
-		$scope.client ={};
-	};
 
 	$scope.deleteClient = function(idClient) {
 		// Consistent checked
 		var consistent = true;
-		for (var i=0;i<Object.size(db.factures);i++) {
-			if (db.factures[i].idClient == idClient) {
+		for (key in db.factures) {
+			var fac = db.factures[key];
+			if (fac.idClient == idClient) {
 				consistent = false;
 			}
 		}

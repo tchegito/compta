@@ -2,8 +2,9 @@
 // Contrôleur d'échéances //
 ////////////////////////////
 app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope) {
-    init();
+    $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
+    init();
 
     $scope.$on('reinit', function (event, args) {
         init();
@@ -33,20 +34,31 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
 
     $scope.selEcheance = function (id) {
         $rootScope.selectedEcheance = id;
+        console.log("ech "+id);
+        if (id == -1) {
+            $scope.idEcheance = -1;
+            hidePopup();
+        } else {
+            preparePopup();
+            $location.url("echeance"+id);
+        }
     };
+
 
     function init() {
         $scope.factures = db.factures;
         $scope.clients = db.clients;
         $scope.company = db.company;
         $scope.echeances = db.echeances;
+        if (!$scope.echeance) {
+            $scope.echeance = {lignes: [], nom: '', nature: $scope.naturesDispo[0]};
+        }
     }
 
-    $scope.resetForm = function () {
-        $scope.echeance = {lignes: [], nom: '', nature: $scope.naturesDispo[0]};
+    $scope.createEcheance = function () {
+        preparePopup();
+        $location.url("echeance");
     };
-
-    $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
     $scope.ajouteLigne = function() {
         $scope.echeance.lignes.push( {

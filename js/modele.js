@@ -14,7 +14,7 @@ var db = {
 };
 
 var dbEngine = {
-	persistClient: function(client) {	// On récupère un client tout bien renseigné, il ne manque plus que l'ID
+	persistClient: function(client) {	// On rï¿½cupï¿½re un client tout bien renseignï¿½, il ne manque plus que l'ID
 		var c;
 		if (client.id === undefined) {
 			c = new dataClient(client.nom, client.adresse, client.recitXP);
@@ -174,6 +174,7 @@ function sanitizeNdfs() {
 		}
 	}
 }
+
 function findMax(collection) {
 	var max = 0;
 	for (var key in collection) {
@@ -260,7 +261,7 @@ var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, tt
 	this.tva20 = tva10;
 };
 
-// Echéances
+// Echï¿½ances
 var dataEcheance = function(nom, nature, lignes) {
 	this.nom = nom;
 	this.nature = nature;

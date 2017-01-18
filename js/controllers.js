@@ -64,7 +64,7 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 		$scope.idClient = undefined;
 		$scope.tab = givenTab;
 		// Restore previous route (if exists)
-		var previousRoute = $scope.savedRoute[$scope.tab];
+		var previousRoute; // = $scope.savedRoute[$scope.tab];
 		if (previousRoute) {
 			$location.url(previousRoute);
 		} else {
@@ -265,7 +265,9 @@ app.filter("i18n", ["resourcesManager",
 
 app.filter("cap1", function() {
 	return function (str) {
-		return capitalizeFirstLetter(str);
+        if (str) {
+        return capitalizeFirstLetter(str);
+	    }
 	}
 });
 

@@ -22,7 +22,7 @@
 				X
 			</td>
 			<td style="background-color: transparent">
-				<a ng-class="{active:selectedNdf()==ndf.id}" href="#/ndf{{ndf.id}}" ng-click="selNdf(ndf.id)">
+				<a ng-class="{active:selectedNdf()==ndf.id}" ng-click="selNdf(ndf.id)">
 					{{ndf.dateMois | date : "MMMM yyyy"}}
 				</a>
 			</td>
@@ -50,10 +50,12 @@
 	</table>
 </div>
 <p>
-	<a class="appliBtn" href="#/ndf" ng-click="resetForm()">Créer une note de frais</a>
+	<a class="appliBtn" ng-click="createNdf()">Créer une note de frais</a>
 </p>
-<div ng-view="ng-view"></div>
-<div id="modeleNoteDeFraisListe" ng-include="'templates/print/modeleNoteDeFrais.html'" ng-if="ndf != null" style="display:inline">
+
+<div id="modeleNoteDeFraisListe" ng-include="'templates/print/modeleNoteDeFrais.html'" ng-if="ndf != null" style="display:none">
+
+</div>
 
 </body>
 </html>

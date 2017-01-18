@@ -31,11 +31,11 @@ app.controller("company", function($scope, $location, $rootScope) {
         reader.onload = function(e) {
             var temp = JSON.parse(e.target.result);
             if (temp.clients && temp.contacts) {
-                alert('Chargement réussi pour:\n'+ Object.size(temp.clients)+ ' clients\n'
+                var message = 'Chargement réussi pour:\n'+ Object.size(temp.clients)+ ' clients\n'
                     + Object.size(temp.contacts)+' contacts\n'+
                     Object.size(temp.factures)+' factures\n'+
-                    Object.size(temp.ndfs)+' notes de frais');
-                alert('on update');
+                    Object.size(temp.ndfs)+' notes de frais';
+                console.log(message);
                 try {
                 dbEngine.importDb(temp);
                 // Fix ndf

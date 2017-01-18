@@ -83,3 +83,24 @@ function addFloat() {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function preparePopup() {
+    $('.modal').css('opacity', 0);
+    $('.modal').css('display', 'table');
+    $('.modal').animate({opacity: 1}, 1000);
+}
+function displayPopup() {
+    $(document).ready(function () {
+        var value = 1;
+        $('#subWin').css('opacity', 0);
+        $('#subWin').animate({opacity: value}, 100);
+    });
+}
+
+function hidePopup() {
+    $('#subWin').animate({opacity: 0}, 100, function () {
+        $('.modal').animate({opacity: 0}, 100, function () {
+            $('.modal').hide();
+        });
+    });
+}
