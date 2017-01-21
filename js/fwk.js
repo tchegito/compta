@@ -104,3 +104,24 @@ function hidePopup() {
         });
     });
 }
+
+function messageBottom(mess) {
+    var elem = jQuery('<div/>', {
+        class:'messageBottom'
+    });
+    $('body').append(elem);
+    elem.html(mess);
+    var height = elem.css('height');
+    elem.css('top', '+='+height);
+    elem.css('height', height);
+    elem.animate( { "top" : "-="+height}, 1000);
+    setTimeout(function() {
+        elem.animate( { opacity : 0}, 3000, function() {
+            elem.remove();
+        });
+    }, 5000);
+}
+
+$(document).ready(function() {
+    messageBottom('Tigernoma vous souhaite la bienvenue dans ComptaClient !');
+});

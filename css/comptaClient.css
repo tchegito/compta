@@ -226,10 +226,10 @@ input.formData {
 	width:500px;
 }
 
+/* Styles for the div popup */
 .modal {
 	width:100%;
 	height:100%;
-	//position:fixed;
 	top:0;
 	left:0;
 	z-index:1;
@@ -267,4 +267,18 @@ input.formData {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+/* Styles for the messages coming from the bottom of the screen */
+.messageBottom {
+	position:absolute;
+	right:0;
+	bottom:0;
+	border:solid 1px #445533;
+	padding:5px;
+	width:20%;
+	margin-right:5px;
+	background-color:#88ff66;
+	font-family: 'Titillium Web',arial,sans-serif;
+	border-radius:5px;
 }

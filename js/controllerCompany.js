@@ -31,11 +31,12 @@ app.controller("company", function($scope, $location, $rootScope) {
         reader.onload = function(e) {
             var temp = JSON.parse(e.target.result);
             if (temp.clients && temp.contacts) {
-                var message = 'Chargement réussi pour:\n'+ Object.size(temp.clients)+ ' clients\n'
-                    + Object.size(temp.contacts)+' contacts\n'+
-                    Object.size(temp.factures)+' factures\n'+
-                    Object.size(temp.ndfs)+' notes de frais';
+                var message = '<p>Chargement réussi pour:</p><ul><li>'+ Object.size(temp.clients)+ ' clients</li>'
+                    + "<li>" + Object.size(temp.contacts)+' contacts</li>'+
+                    "<li>" + Object.size(temp.factures)+' factures</li>'+
+                    "<li>" + Object.size(temp.ndfs)+' notes de frais</li></ul>';
                 console.log(message);
+                messageBottom(message);
                 try {
                 dbEngine.importDb(temp);
                 // Fix ndf
