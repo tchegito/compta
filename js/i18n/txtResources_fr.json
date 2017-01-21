@@ -16,5 +16,8 @@
     "error.echNoName" : "L'échéance doit obligatoirement avoir un nom.",
 
     "error.facSansClient" : "Il faut d'abord renseigner le client.",
-    "error.datesIncoher" : "La date de fin doit être après la date de début"
+    "error.datesIncoher" : "La date de fin doit être après la date de début",
+
+    "saveDb" : "Comptabilité enregistrée en local dans le navigateur.",
+    "exportDb" : "Comptabilité exportée dans le fichier "
 }

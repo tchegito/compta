@@ -106,20 +106,35 @@ function hidePopup() {
 }
 
 function messageBottom(mess) {
+    // Search for existing messages (used at the end of the function)
+    var elems = $('.messageBottom');
+
+    // Create a new box
     var elem = jQuery('<div/>', {
         class:'messageBottom'
     });
     $('body').append(elem);
     elem.html(mess);
-    var height = elem.css('height');
+    var realHeight = elem.css('height');
+    // Count padding/margin with outerHeight() on Y-axis to get the real height
+    var height = elem.outerHeight(); //realHeight + padTop + padBottom;
     elem.css('top', '+='+height);
-    elem.css('height', height);
-    elem.animate( { "top" : "-="+height}, 1000);
+    elem.css('height', realHeight);
+    elem.animate( { top : "-="+height}, 1000);
     setTimeout(function() {
+        // Diminush opacity, then remove completely element after a given time
         elem.animate( { opacity : 0}, 3000, function() {
             elem.remove();
         });
     }, 5000);
+
+    // Shift all existing box upside with new box height
+    if (elems.length > 0) {
+        elems.each(function(idx, e) {
+            $(e).animate( { "top" : "-="+height }, 1000);
+        })
+
+    }
 }
 
 $(document).ready(function() {

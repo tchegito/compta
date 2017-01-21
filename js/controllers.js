@@ -35,7 +35,7 @@ app.run(function($location) {
 });
 
 // Controleurs
-app.controller("main", function($scope, $location, $rootScope, $routeParams) {
+app.controller("main", function($scope, $location, $rootScope, $routeParams, $filter) {
 	function init() {
 		$scope.clients = db.clients;
 	}
@@ -70,21 +70,29 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams) {
 		} else {
 			$location.url("");
 		}
-	}
+	};
 
-	// Keep here, in main scope, all selected items
+    $scope.persistDb = function() {
+        // Save company data
+
+        // Save whole data in DB
+        localStorage.setItem(DB_NAME, JSON.stringify(db));
+        messageBottom($filter('i18n')('saveDb'));
+    };
+
+    $scope.exportDb = function() {
+    	var filename = 'data.txt';
+        openFile('text/attachment', db, filename);
+        messageBottom($filter('i18n')('exportDb') + filename);
+    };
+
+    // Keep here, in main scope, all selected items
 	$scope.selectedFacture = -1;
 	$scope.selectedClient = -1;
 	$scope.selectedNdf = -1;
 	$scope.selectedEcheance = -1;
 });
 
-function persistDb() {
-	// Save company data
-
-	// Save whole data in DB
-	localStorage.setItem(DB_NAME, JSON.stringify(db));
-}
 
 function restoreDb() {
 	var temp= JSON.parse(localStorage.getItem(DB_NAME));
@@ -93,9 +101,7 @@ function restoreDb() {
 	}
 }
 
-function exportDb() {
-	openFile('text/attachment', db, 'data.txt');
-}
+
 
 function retrieveDate(field) {
 	if (field && field.getTime()) {
