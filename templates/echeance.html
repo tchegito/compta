@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title></title>
 </head>
-    <script>
-        displayPopup();
-    </script>
+<body>
+
     <div class="formulaire">
         <h2 style="position:relative">
             <span ng-if="idEcheance">Edition</span><span ng-if="!idEcheance">Création</span> d'une échéance
@@ -52,10 +51,11 @@
                     <tr ng-repeat="ligne in echeance.lignes | orderBy:'dateLimiteTime'">
                         <td class="action" ng-click="supprimeLigne($index)">X</td>
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateLimite"/></td>
+
                         <td><input type="text" numeric class="montant" ng-model="ligne.montant"/></td>
                         <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.datePaiement"/></td>
                         <td>
-                            <span ng-show="echeance.nature=='TVA simplifiée'">
+                            <span ng-if="echeance.nature=='TVA simplifiée'">
                                 Période {{formatePeriode(ligne)}}
                                 (calcul=<span ng-bind="calculeTva(ligne) | currency"/>)
                             </span>

@@ -3,10 +3,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 
     init();
 
-	$scope.selectedNdf = function() {
-		return $rootScope.selectedNdf;
-	};
-
 	$scope.selNdf = function(id) {
         if (arguments.length == 0) {
             return $rootScope.selectedNdf;

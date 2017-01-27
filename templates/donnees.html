@@ -46,6 +46,6 @@
     }
 </script>
 
-<input class="appliBtn" type="button" value="Enregistrer les données" onclick="persistDb()"/>
-<input class="appliBtn" type="button" value="Exporter les données" onclick="exportDb()"/>
+<input class="appliBtn" type="button" value="Enregistrer les données" ng-click="persistDb()"/>
+<input class="appliBtn" type="button" value="Exporter les données" ng-click="exportDb()"/>
 <input class="appliBtn" type="file" id="input" name="file" onchange="angular.element(this).scope().importDb(this.files[0])">

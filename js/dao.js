@@ -23,7 +23,7 @@ function getFraisPeriod(date1, date2) {
     var result = [];
     for (ndf in db.ndfs) {
         var ndf = db.ndfs[ndf];
-        console.log("test frais : dateMois="+new Date(ndf.dateMois)+" et date1="+date1+" montant="+calculeTotalTvaNdf(ndf));
+        //console.log("test frais : dateMois="+new Date(ndf.dateMois)+" et date1="+date1+" montant="+calculeTotalTvaNdf(ndf));
         if (ndf.dateMois < date2 && ndf.dateMois >= date1) {
             result.push(ndf);
         }
@@ -52,15 +52,15 @@ function calculeTva(debut, fin) {
     var frais = getFraisPeriod(debut, fin);
     var sommeTvaFactures = 0;
     for (f in factures) {
-        console.log("facture: "+factures[f].montantTTC);
+        //console.log("facture: "+factures[f].montantTTC);
         sommeTvaFactures += factures[f].montantTTC - factures[f].montantHT;
     }
-    console.log("total tva facture="+sommeTvaFactures);
+    //console.log("total tva facture="+sommeTvaFactures);
     var sommeTvaFrais = 0;
     for (n in frais) {
-        console.log("frais: "+calculeTotalTvaNdf(frais[n]));
+        //console.log("frais: "+calculeTotalTvaNdf(frais[n]));
         sommeTvaFrais += calculeTotalTvaNdf(frais[n]);
     }
-    console.log("total tva frais="+sommeTvaFrais);
+    //console.log("total tva frais="+sommeTvaFrais);
     return sommeTvaFactures - sommeTvaFrais;
 }

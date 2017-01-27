@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur d'échéances //
 ////////////////////////////
-app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope) {
+app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope, $window) {
     $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
     init();
@@ -9,34 +9,34 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     $scope.$on('reinit', function (event, args) {
         init();
     });
-    $scope.idEcheance = $routeParams.idEcheance;
 
-    if ($scope.idEcheance) {
-        var echeance = db.echeances[$scope.idEcheance];
+    $scope.initEcheance = function(ech) {
         // Create a copy to keep original safe
-        $scope.echeance = angular.copy(echeance);
+        $scope.echeance = angular.copy(ech);
         // User real Date object
-        for (var i=0;i<echeance.lignes.length;i++) {
-            var ligne = echeance.lignes[i];
+        for (var i=0;i<$scope.echeance.lignes.length;i++) {
+            var ligne = $scope.echeance.lignes[i];
             if (ligne.dateLimite != null) {
                 ligne.dateLimiteTime = new Date(ligne.dateLimite);
             }
             if (ligne.datePaiement != null) {
                 ligne.datePaiementTime = new Date(ligne.datePaiement);
             }
-            console.log("dateLimite="+typeof ligne.dateLimite);
         }
+    };
+    $scope.idEcheance = $routeParams.idEcheance;
+
+    if ($scope.idEcheance) {
+        var ech = db.echeances[$scope.idEcheance];
+        $scope.initEcheance(ech);
     }
 
-    $scope.selectedEcheance = function () {
-        return $rootScope.selectedEcheancee;
-    };
-
     $scope.selEcheance = function (id) {
+        if (arguments.length == 0) {
+            return $rootScope.selectedEcheance;
+        }
         $rootScope.selectedEcheance = id;
-        console.log("ech "+id);
         if (id == -1) {
-            $scope.idEcheance = -1;
             hidePopup();
         } else {
             preparePopup();
@@ -82,6 +82,7 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
     };
 
     $scope.submitEcheance = function() {
+        console.log("submit");
         var echeance = $scope.echeance;
         var valid = $scope.checkForm(echeance);
         if (valid) {

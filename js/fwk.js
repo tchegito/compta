@@ -85,17 +85,14 @@ function capitalizeFirstLetter(string) {
 }
 
 function preparePopup() {
+    // We'll increase opacity of modal, without touching to subWin opacity.
+    // Both div will benefits from container opacity
     $('.modal').css('opacity', 0);
     $('.modal').css('display', 'table');
+    $('#subWin').css('opacity', 1);
     $('.modal').animate({opacity: 1}, 1000);
 }
-function displayPopup() {
-    $(document).ready(function () {
-        var value = 1;
-        $('#subWin').css('opacity', 0);
-        $('#subWin').animate({opacity: value}, 100);
-    });
-}
+
 
 function hidePopup() {
     $('#subWin').animate({opacity: 0}, 100, function () {

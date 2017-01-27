@@ -57,7 +57,7 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams, $fi
 
 	$scope.selectedTab = function () {
 		return $scope.tab;
-	}
+	};
 
 	$scope.selectTab = function(givenTab) {
 		$scope.savedRoute[$scope.tab] = $location.url();
@@ -143,6 +143,7 @@ app.directive('datePicker', function($filter) {
 				}
 			}
 			//console.log('on init '+getValue(scope, attrs.ngModel));
+			//console.log(initDate +" ==> "+$filter('date')(initDate, 'dd/MM/yy'));
 			element.datepicker('setDate', initDate);
 			ngModelCtrl.$setViewValue($filter('date')(initDate, 'dd/MM/yy'));
 		}
