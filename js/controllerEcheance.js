@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur d'échéances //
 ////////////////////////////
-app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope, $window) {
+app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope) {
     $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
     init();
