@@ -1,12 +1,12 @@
-<div class="formulaire">
-	<div>
+<div class="formulaire shadowed">
 	<h2 style="position:relative">
 		<span ng-if="idClient">Edition</span><span ng-if="!idClient">Création</span> d'un client
 		<span class="close" ng-click="selClient(-1)">&times;</span>
 	</h2>
+	<div>
 	<!-- l'overflow:hidden permet que les div contenus ne soient pas en dehors du parent -->
 	<div style="overflow:hidden">
-	<div style="width:40%;float:left">
+	<div style="width:50%;float:left">
 		<h3>Informations</h3>
 		<form name="clientForm" ng-submit="submitClient()">
 			<table>
@@ -15,7 +15,7 @@
 			</tr><tr>
 				<th>Adresse:</th><td><textarea name="adresse" ng-model="client.adresse"></textarea></td>
 			</tr><tr>
-				<th>Récit d'expérience:</th><td><textarea name="recitXP" ng-model="client.recitXP"></textarea></td>
+				<th>Expérience:</th><td><textarea cols="40" rows="5" name="recitXP" ng-model="client.recitXP"></textarea></td>
 			</tr>
 			</table>
 			<input class="appliBtn" type="submit" value="Enregistrer"/>

@@ -5,9 +5,26 @@ body {
 }
 
 .formulaire {
-	border: 2px solid orange;
+	border: 2px solid #cc9900;
 	border-radius:15px;
 	border-top-left-radius:0px;
+	background-color: #ffffff;
+	font-family: "Helvetica Neue",Helvetica,Arial;
+	font-size:15px;
+}
+
+.formulaire form {
+	padding-left:10px;
+}
+.formulaire div {
+	padding-left:10px;
+}
+.formulaire p {
+	padding-left:10px;
+}
+
+.shadowed {
+	box-shadow: 10px 10px 5px #448888;
 }
 
 th {
@@ -56,8 +73,11 @@ li a {
 
 .formulaire h2 {
 	margin-top:0px;
-	background-color:orange;
+	background-color:#fedd32;
 	border-top-right-radius:12px;
+	color: #8f7313;
+	padding-left:5px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .clientHead {
 	background-color: #99aa77;
@@ -201,10 +221,11 @@ td.action {
   font-family: Arial;
   color: #ffffff;
   font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  border: solid #421f3b 0px;
+  padding: 5px 10px 5px 10px;
+  border: solid #8f7313 1px;
   text-decoration: none;
   transition: color 0.5s;
+	margin:5px;
 }
 
 .appliBtn:hover {
@@ -245,12 +266,11 @@ input.formData {
 }
 #subWin {
 	//opacity:0.95;
-	box-shadow: 10px 10px 5px #888888;
 	width:80%;
 	margin-left: auto;
 	margin-right: auto;
 	//margin:auto;
-	background-color:#ffffff;
+	//background-color:#ffffff;
 }
 
 .close {
