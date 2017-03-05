@@ -1,15 +1,13 @@
 ////////////////////////////
 // Contrôleur de factures //
 ////////////////////////////
-app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter) {
+app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter, $interval) {
 	init();
 
 	$scope.$on('reinit', function(event, args) {
 		init();
 	});
 	$scope.idFacture = $routeParams.idFacture;
-
-
 
 	$scope.initFacture = function(f) {
 		// Create a copy to keep original safe
@@ -33,7 +31,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 
 	$scope.selFacture = function(id) {
 		$rootScope.selectedFacture = id;
-        if (id == -1) {
+        if (id == -1) {	// Hide the popup and reinitialize route at the end to forget about unsaved data
         	hidePopup();
         } else {
         	preparePopup();
@@ -41,15 +39,17 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		}
 	};
 
-
 	function init() {
-		$scope.factures = db.factures;
-		$scope.clients = db.clients;
-		$scope.company = db.company;
+        $scope.factures = db.factures;
+        $scope.clients = db.clients;
+        $scope.company = db.company;
+        if (!$scope.facture) {
+    	    $scope.facture = {lignes: [], debutTime: 0, finTime: 0};
+	    }
 	}
 
 	$scope.createFacture = function() {
-		$scope.facture ={lignes:[], debutTime:0, finTime:0};
+		// Facture will be initialized in 'init' method
 		preparePopup();
 		$location.url("facture");
 	};
@@ -154,7 +154,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			facture.dateDebut = retrieveDate(facture.debutTime);
 			facture.dateFin = retrieveDate(facture.finTime);
 			facture.datePaie = retrieveDate(facture.datePaieTime);
-			console.log("On enregistre la facture, id=" + $scope.facture.id);
+			//console.log("On enregistre la facture, id=" + $scope.facture.id);
 			dbEngine.persistFacture(facture);
 			$scope.selFacture(-1);
 
@@ -177,7 +177,6 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	//	$scope.exportPDF();
 	//});
 	$scope.exportPDF = function(name) {
-		console.log("export PDF");
 		var fileName = this.getNomClient($scope.facture.idClient);
 		fileName += '_' + $scope.facture.debut;
 		filename = 'facture_'+fileName+'.pdf';
@@ -190,6 +189,14 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		if (++countEvtRefreshModele == 2) {
 			// First time: div is compiled. Second time: image is loaded.
 			$scope.exportPDF('modeleFactureListe');
+
+			// Schedule because if we update scope data here, no rendering will be done
+			$interval(function() {
+                if ($scope.facturesToPrint && $scope.facturesToPrint.length > 0) {
+                    var facId = $scope.facturesToPrint.pop();
+                    $scope.printFacture(facId);
+                }
+            }, 100, 1);
 		}
 	};
 
@@ -237,5 +244,24 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 				$location.url("");
 			}
 		}
-	}
+	};
+
+	$scope.printFactures = function() {
+		var ids = [];
+		angular.forEach($scope.factures, function(fac) {
+			if (fac.checked) {
+				ids.push(fac.id);
+            }
+		});
+		// Store all IDs to print
+		$scope.facturesToPrint = ids;
+		// Launch the first one (remaining will be targeted in 'contentLoaded')
+        $scope.printFacture(ids.pop());
+	};
+
+    $scope.checkAll = function() {
+        angular.forEach($scope.factures, function(fac) {
+        	fac.checked = true;
+        });
+	};
 });

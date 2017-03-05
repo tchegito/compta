@@ -2,6 +2,7 @@ body {
 	border: 4px solid #8ac007;
 	border-radius: 25px;
 	padding: 15px;
+	//overflow:hidden;
 }
 
 .formulaire {
@@ -91,8 +92,30 @@ li a {
 	padding-left:0px;
 	width:100%;
 	border-collapse:collapse;
+	position:relative;
+	height:300px;
+	overflow:auto;
 }
 
+.table-scroll {
+	height:150px;
+	overflow:auto;
+	margin-top:20px;
+}
+/*
+.clientHead th {
+	position:absolute;
+	top:-20px;
+	z-index:2;
+	height:20px;
+	//width:35%;
+	//border:1px solid red;
+	background-color: #99aa77;
+	font-weight:bold;
+//font-size:22;
+	color: #44ff22;
+}
+*/
 .roundTable {
 	width:100%;
 	border-collapse:collapse;
@@ -101,7 +124,6 @@ li a {
 
 .clientLine {
 	background-color: #44cc33;
-    //font-size : 18;
 	position: relative;
 	color: #334488;
 }
@@ -265,12 +287,9 @@ input.formData {
 	vertical-align: middle;
 }
 #subWin {
-	//opacity:0.95;
 	width:80%;
 	margin-left: auto;
 	margin-right: auto;
-	//margin:auto;
-	//background-color:#ffffff;
 }
 
 .close {

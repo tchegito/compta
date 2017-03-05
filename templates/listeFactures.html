@@ -1,8 +1,12 @@
 <html>
+<body>
 <div class="clientTab">
 	<table border="0" class="roundTable">
 		<tr class="clientHead">
-			<td colspan="2">
+			<td>
+				<input type="checkbox" ng-click="checkAll()"/>
+			</td>
+			<td>
 				Liste des factures
 			</td>
 			<td>
@@ -14,10 +18,11 @@
 			<td>
 				Impression
 			</td>
+			<td></td>
 		</tr>
 		<tr  class="clientLine" ng-repeat="facture in factures track by facture.id">
-			<td class="elementLineRemove" ng-click="deleteFacture(facture.id)">
-				X
+			<td>
+				<input type="checkbox" ng-model="facture.checked"/>
 			</td>
 			<td style="background-color: transparent">
 				<a ng-class="{active:selectedFacture()==facture.id}" ng-click="selFacture(facture.id)">
@@ -36,9 +41,12 @@
 			<td>
 				<img class="clientLineActive" src="images/pdfIcon32x32.png" width="16" ng-click="printFacture(facture.id)"/>
 			</td>
+			<td class="clientLineActive elementLineRemove" ng-click="deleteFacture(facture.id)">
+				X
+			</td>
 		</tr>
 		<tr class="clientHead">
-			<td colspan="5">
+			<td colspan="6">
 				Total: <span ng-bind="getTotalFactures()"/>
 			</td>
 		</tr>
@@ -47,6 +55,7 @@
 
 <p>
 	<a class="appliBtn" ng-click="createFacture()">Créer une facture</a>
+	<a class="appliBtn" ng-click="printFactures()">Imprimer les factures</a>
 </p>
 <div id="modeleFactureListe" ng-include="'templates/print/modeleFacture.html'" ng-if="facture != null" style="display:none">
 

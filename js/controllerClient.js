@@ -10,7 +10,7 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 		$rootScope.selectedClient = id;
         if (id == -1) {
         	$scope.idClient = -1;
-        	hidePopup();
+            hidePopup();
         } else {
             preparePopup();
 			$location.url("client" + id);
@@ -109,22 +109,28 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 		}
 	};
 
-	// Return number of "factures" and money
-	$scope.getFactureDisplay = function(id) {
-		var nbFac = 0;
-		var money = 0;
-		var factures = dbEngine.getClientFactures(id);
-		factures.forEach(function (fac) {
-			nbFac++;
-			money += fac.montantTTC;
-		});
+	// Return money for a given client
+    $scope.getMoney = function(id) {
+        var nbFac = 0;
+        var money = 0;
+        var factures = dbEngine.getClientFactures(id);
+        factures.forEach(function (fac) {
+            nbFac++;
+            money += fac.montantTTC;
+        });
+        return { nbFac:nbFac, money:money };
+    };
 
-		var result = "-";
-		if (nbFac != 0) {
-			result = nbFac + " ("+$filter('currency')(money)+")";
-		}
-		return result;
-	};
+    // Return number of "factures" and money
+    $scope.getFactureDisplay = function(id) {
+        var res = $scope.getMoney(id);
+
+        var result = "-";
+        if (res.nbFac != 0) {
+            result = res.nbFac + " ("+$filter('currency')(res.money)+")";
+        }
+        return result;
+    };
 
 	$scope.getClientPaymentDuration = function(id) {
 		var factures = dbEngine.getClientFactures(id);
