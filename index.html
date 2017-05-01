@@ -78,13 +78,13 @@
 		<div ng-show="selectedTab() === 1">
 			<div ng-controller="clients" ng-include="'templates/listeClients.html'"></div>
 		</div>
-		<div ng-show="selectedTab() === 2">
+		<div ng-if="selectedTab() === 2">
 			<div ng-controller="factures" ng-include="'templates/listeFactures.html'"></div>
 		</div>
-		<div ng-show="selectedTab() === 3">
+		<div ng-if="selectedTab() === 3">
 			<div ng-controller="ndfs" ng-include="'templates/listeNdf.html'"></div>
 		</div>
-		<div ng-show="selectedTab() === 4">
+		<div ng-if="selectedTab() === 4">
 			<div ng-controller="echeances" ng-include="'templates/listeEcheances.html'"></div>
 		</div>
 		<div ng-if="selectedTab() === 5">

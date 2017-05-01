@@ -1,25 +1,29 @@
 <html>
+	<head>
+	</head>
 <body>
 <div class="clientTab">
-	<table border="0" class="roundTable">
-		<tr class="clientHead">
-			<td>
-				<input type="checkbox" ng-click="checkAll()"/>
-			</td>
-			<td>
-				Liste des factures
-			</td>
-			<td>
-				Jours
-			</td>
-			<td>
-				Mois
-			</td>
-			<td>
-				Impression
-			</td>
-			<td></td>
-		</tr>
+	<table border="0" class="roundTable" id="listeFactures">
+		<thead>
+			<tr class="clientHead">
+				<th>
+					<input type="checkbox" ng-model='check_all' ng-click="toggleCheckAll(check_all)"/>
+				</th>
+				<th>
+					Liste des factures
+				</th>
+				<th>
+					Jours
+				</th>
+				<th>
+					Mois
+				</th>
+				<th>
+					Impression
+				</th>
+				<th> </th>
+			</tr>
+		</thead>
 		<tr  class="clientLine" ng-repeat="facture in factures track by facture.id">
 			<td>
 				<input type="checkbox" ng-model="facture.checked"/>
@@ -60,6 +64,10 @@
 <div id="modeleFactureListe" ng-include="'templates/print/modeleFacture.html'" ng-if="facture != null" style="display:none">
 
 </div>
+
+<!-- Just to call a function when we're sure that angular has fully rendered the page -->
+
+<div ng-if="fixTable()"/>
 
 </body>
 </html>

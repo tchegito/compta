@@ -94,9 +94,10 @@ function preparePopup() {
 }
 
 
+/** Hide the popup smoothly **/
 function hidePopup() {
-    $('#subWin').animate({opacity: 0}, 100, function () {
-        $('.modal').animate({opacity: 0}, 100, function () {
+    $('#subWin').animate({opacity: 0}, 150, function () {
+        $('.modal').animate({opacity: 0}, 150, function () {
             $('.modal').hide();
         });
     });
@@ -132,6 +133,23 @@ function messageBottom(mess) {
         })
 
     }
+}
+
+function fixTableRows(elementId) {
+    // Find header to fix: exclude the one already fixed by floatThead plugin
+    var elements = $('table.roundTable:not(.floatThead-table)');
+
+    elements.each(function() {
+        if ($(this).prop('class').indexOf('floatThead') == -1) {
+            $(this).floatThead(
+                {
+                    scrollContainer: function ($table) {
+                        return $table.closest('.clientTab');
+                    }
+                }
+            );
+        }
+    });
 }
 
 $(document).ready(function() {

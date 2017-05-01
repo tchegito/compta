@@ -35,7 +35,7 @@ app.run(function($location) {
 });
 
 // Controleurs
-app.controller("main", function($scope, $location, $rootScope, $routeParams, $filter) {
+app.controller("main", function($scope, $location, $rootScope, $routeParams, $filter, $timeout) {
 	function init() {
 		$scope.clients = db.clients;
 	}
@@ -84,6 +84,13 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams, $fi
     	var filename = 'data.txt';
         openFile('text/attachment', db, filename);
         messageBottom($filter('i18n')('exportDb') + filename);
+    };
+
+    // Called from page which need to fix header or footer table rows
+    $scope.fixTable = function(elementId) {
+        $timeout(function() {
+        	fixTableRows(elementId);
+    	}, 0, false);	// Last parameter at 'false' is to avoid infinite 'dirty checking'
     };
 
     // Keep here, in main scope, all selected items

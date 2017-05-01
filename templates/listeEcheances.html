@@ -3,21 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+
+    <script>
+        function prepareGraph() {
+            var ctx = $('#chartEcheances');
+
+            var colors = ['FF6384', '36A2EB', 'FFCE56'];
+
+            var data = {
+                //labels: [],
+                datasets: []
+            };
+
+
+            var options = {
+                maintainAspectRatio: false,
+                //responsive: true,
+                //hoverMode: 'single',
+                scales: {
+                    xAxes: [{
+                        type: "time",
+                        gridLines: {
+                            zeroLineColor: "rgba(0,0,0,1)"
+                        }
+                    }]
+                }
+                ,
+                elements: {
+                    line: {
+                        // Remove bezier curve, because it's not appropriate there
+                        tension: 0
+                    }
+                }
+            };
+
+            // Build labels, with month/year
+            var firstDate = createDate(2015, 9 - 1, 15);
+
+            var i=0;
+            var multiplier = 1;
+            for (key in db.echeances) {
+                var ech = db.echeances[key];
+                var dataset = {
+                    label: ech.nom,
+                    data: [],
+                    fill: false
+                };
+                data.datasets.push(dataset);
+
+                for (var l=0;l<ech.lignes.length;l++) {
+
+                    var echLine = ech.lignes[l];
+                    var dateLimit = new Date(echLine.dateLimiteTime);
+                    dataset.data.push( {
+                        x:dateLimit.getTime(),
+                        y:echLine.montant /100
+                    });
+                }
+                var color = colors[i++ % colors.length];
+                color = parseInt(color, 16) * multiplier;
+                color = color & 0xffffff;
+                color = color.toString(16);
+                dataset.backgroundColor = "#" + color;
+                dataset.borderColor = "#" + color;
+                dataset.hoverBackgroundColor = "#" + color;
+                if (i % colors.length == 0) {
+                    multiplier *= 4
+                }
+            }
+            var myPie = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+
+            // Resize pie
+            /*
+            var width = $('#chartContainer').css('width');
+            $('#chartEcheances').css('width', width);
+            */
+        }
+    </script>
 </head>
 <body>
 <div class="clientTab">
+    <script>
+        $(document).ready(prepareGraph());
+    </script>
     <table border="0" class="roundTable">
-        <tr class="clientHead">
-            <td colspan="2">
-                Liste des échéanciers
-            </td>
-            <td>
-                Prochaine date
-            </td>
-            <td>
-                Total
-            </td>
-        </tr>
+        <thead>
+            <tr class="clientHead">
+                <th colspan="2">
+                    Liste des échéanciers
+                </th>
+                <th>
+                    Prochaine date
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
         <tr class="clientLine" ng-repeat="echeance in echeances track by echeance.id">
             <td class="elementLineRemove" ng-click="deleteEcheance(echeance.id)">
                 X
@@ -43,8 +129,15 @@
     </table>
 </div>
 
+<div id="chartContainer" style="height:250px">
+    <canvas id='chartEcheances'></canvas>
+</div>
+
 <p>
     <a class="appliBtn" ng-click="createEcheance()">Créer un échéancier</a>
 </p>
+
+<div ng-if="fixTable()"/>
+
 </body>
 </html>

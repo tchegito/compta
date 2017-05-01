@@ -17,6 +17,8 @@
 
     "error.facSansClient" : "Il faut d'abord renseigner le client.",
     "error.datesIncoher" : "La date de fin doit être après la date de début",
+    "error.printNoFacture" : "Veuillez sélectionner au moins 1 facture.",
+    "confirm.removeFacture" : "Etes vous sûr de supprimer cette facture ?",
 
     "saveDb" : "Comptabilité enregistrée en local dans le navigateur.",
     "exportDb" : "Comptabilité exportée dans le fichier "

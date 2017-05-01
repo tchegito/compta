@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur de factures //
 ////////////////////////////
-app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter, $interval) {
+app.controller("factures", function($scope, $location, $routeParams, $rootScope, $filter, $interval, $timeout) {
 	init();
 
 	$scope.$on('reinit', function(event, args) {
@@ -238,7 +238,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 
 	$scope.deleteFacture = function(id) {
 		console.log("vue sur "+$scope.selectedFacture());
-		if (confirm("Etes vous sûr de supprimer cette facture ?")) {
+		if (confirm($filter('i18n')("confirm.removeFacture"))) {
 			delete $scope.factures[id];
 			if ($scope.selectedFacture() == id) {
 				$location.url("");
@@ -247,21 +247,25 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	};
 
 	$scope.printFactures = function() {
-		var ids = [];
-		angular.forEach($scope.factures, function(fac) {
-			if (fac.checked) {
-				ids.push(fac.id);
+        var ids = [];
+        angular.forEach($scope.factures, function (fac) {
+            if (fac.checked) {
+                ids.push(fac.id);
             }
-		});
-		// Store all IDs to print
-		$scope.facturesToPrint = ids;
-		// Launch the first one (remaining will be targeted in 'contentLoaded')
-        $scope.printFacture(ids.pop());
+        });
+        if (ids.length == 0) {
+            alert($filter('i18n')("error.printNoFacture"));
+        } else {
+			// Store all IDs to print
+			$scope.facturesToPrint = ids;
+			// Launch the first one (remaining will be targeted in 'contentLoaded')
+			$scope.printFacture(ids.pop());
+		}
 	};
 
-    $scope.checkAll = function() {
+    $scope.toggleCheckAll = function(val) {
         angular.forEach($scope.factures, function(fac) {
-        	fac.checked = true;
+        	fac.checked = val;
         });
 	};
 });

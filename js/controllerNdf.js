@@ -9,7 +9,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
         }
 		$rootScope.selectedNdf = id;
 		if (id == -1) {
-			hidePopup();
+            hidePopup();
 		} else {
 			preparePopup();
         	$location.url("ndf"+id);

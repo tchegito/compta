@@ -35,14 +35,12 @@
 			var client = db.clients[key];
 			var money = controllerClients.getMoney(client.id);
 			if (money.money > 0) {
-                console.log(money);
                 var color = colors[i++ % colors.length];
                 data.datasets[0].data.push(money.money);
                 data.labels.push(client.nom);
                 color = parseInt(color, 16) * multiplier;
                 color = color & 0xffffff;
                 color = color.toString(16);
-                console.log(color + " " + multiplier);
                 data.datasets[0].backgroundColor.push("#" + color);
                 data.datasets[0].hoverBackgroundColor.push("#" + color);
                 if (i % colors.length == 0) {
@@ -66,34 +64,38 @@
 
 <div class="clientTab" style="float:left;width:60%">
 	<table border="0" class="roundTable">
-		<tr class="clientHead">
-			<td colspan="2">
-				Liste des clients
-			</td>
-			<td>
-				Factures
-			</td>
-			<td>
-				Paiement
-			</td>
-		</tr>
-		<tr class="clientLine" ng-repeat="client in clients | toArray | orderBy:'nom'">
-			<td class="elementLineRemove" ng-click="deleteClient(client.id)">
-				X
-			</td>
-			<td>
-				<a ng-click="selClient(client.id)"
-				   ng-class="{active:selClient()==client.id}">{{client.nom}}
-					({{client.contacts.length}} contacts)
-				</a>
-			</td>
-			<td class="clientLineData">
-				<span ng-bind="getFactureDisplay(client.id)"/>
-			</td>
-			<td class="clientLineData">
-				<span ng-bind="getClientPaymentDuration(client.id)"/>
-			</td>
-		</tr>
+		<thead>
+			<tr class="clientHead">
+				<th colspan="2">
+					Liste des clients
+				</th>
+				<th>
+					Factures
+				</th>
+				<th>
+					Paiement
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="clientLine" ng-repeat="client in clients | toArray | orderBy:'nom'">
+				<td class="elementLineRemove" ng-click="deleteClient(client.id)">
+					X
+				</td>
+				<td>
+					<a ng-click="selClient(client.id)"
+					   ng-class="{active:selClient()==client.id}">{{client.nom}}
+						({{client.contacts.length}} contacts)
+					</a>
+				</td>
+				<td class="clientLineData">
+					<span ng-bind="getFactureDisplay(client.id)"/>
+				</td>
+				<td class="clientLineData">
+					<span ng-bind="getClientPaymentDuration(client.id)"/>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 <div id="chartContainer" style="width:35%;float:left">
@@ -103,6 +105,10 @@
 <p>
 	<a class="appliBtn" ng-click="createClient()">Créer un client</a>
 </p>
+
+<!-- Just to call a function when we're sure that angular has fully rendered the page -->
+
+<div ng-if="fixTable()"/>
 
 </body>
 </html>
