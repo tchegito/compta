@@ -25,16 +25,50 @@
                         type: "time",
                         gridLines: {
                             zeroLineColor: "rgba(0,0,0,1)"
+                        },
+                        ticks: {
+                            callback: function (value, index, values) {
+                                // First parameter is already formated "Jul 2017" for example, so we have to
+                                // retrieve raw date object from 'values'
+                                var v = values[index];
+
+                                if (v) {
+                                    var dat = v._d; // Get the date from 'moment.js' object used by chartjs
+                                    var frenchMonth = jQuery.datepicker.regional.fr.monthNames[dat.getMonth()];
+                                    var result = capitalizeFirstLetter(frenchMonth).substring(0, 3);
+                                    result += ' ' + dat.getUTCFullYear();
+                                }
+                            }
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            callback: function (value) {
+                                return addCommas(value);
+                            }
                         }
                     }]
-                }
-                ,
+                },
+
                 elements: {
                     line: {
                         // Remove bezier curve, because it's not appropriate there
                         tension: 0
                     }
-                }
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItem) {
+                            return dateToString(new Date(tooltipItem[0].xLabel));
+                        },
+                        // Display amount with spaces
+                        label: function(tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label;
+                            return label+": "+addCommas(tooltipItem.yLabel)+"€";
+                        }
+                    }
+                },
+                multiTooltipTemplate: "<%= 'rr' + addCommas(value) %>"
             };
 
             // Build labels, with month/year
@@ -57,7 +91,7 @@
                     var dateLimit = new Date(echLine.dateLimiteTime);
                     dataset.data.push( {
                         x:dateLimit.getTime(),
-                        y:echLine.montant /100
+                        y:echLine.montant
                     });
                 }
                 var color = colors[i++ % colors.length];

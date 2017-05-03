@@ -1,6 +1,6 @@
 var MILLISECONDES_PAR_JOUR = 1000 * 60 * 60 * 24;
 
-/** Renvoit le nombre de jours ouvrés compris entre les 2 dates dohnnées. Gère également les jours féries. **/
+/** Renvoit le nombre de jours ouvrï¿½s compris entre les 2 dates dohnnï¿½es. Gï¿½re ï¿½galement les jours fï¿½ries. **/
 function ecartJoursOuvres(d1, d2) {
 	//alert("Ecart entre "+d1+" et "+d2);
 	var delta = d2.getTime() - d1.getTime();
@@ -12,7 +12,7 @@ function ecartJoursOuvres(d1, d2) {
 	//alert(dateToStringShort(ref));
 	var deltaJours = delta / MILLISECONDES_PAR_JOUR;
 	var nbJoursOuvres = 0;
-	var prevDay = -1;	// On fait ça dans le cas du changement d'heure => sinon on compte un jour de trop
+	var prevDay = -1;	// On fait ï¿½a dans le cas du changement d'heure => sinon on compte un jour de trop
 	while (dateToStringShort(ref) != dateToStringShort(dateFin)) {
 		var newDay = ref.getUTCDay();
 		//console.log(dateToStringShort(ref)+" "+newDay+" ?");
@@ -26,7 +26,7 @@ function ecartJoursOuvres(d1, d2) {
 	return nbJoursOuvres;
 }
 
-/** Renvoit un écart de jours sans tenir compte des jours ouvrés **/
+/** Renvoit un ï¿½cart de jours sans tenir compte des jours ouvrï¿½s **/
 function ecartJours(d1, d2) {
 	var delta = d2.getTime() - d1.getTime();
 	return delta / 1000 / 3600 / 24;
@@ -76,7 +76,7 @@ function calculeJoursFeries(annee) {
 		"15/8", // Assomption
 		"1/11", // Toussaint
 		"11/11", // Armistice
-		"25/12"]; // Noël
+		"25/12"]; // Noï¿½l
 }
 
 /** Transforme une date en <jour>/<mois>. Par exemple "1/12" ou "24/8" **/
@@ -84,10 +84,14 @@ function dateToStringShort(d) {
 	return d.getUTCDate() + "/" + (d.getUTCMonth()+1);
 }
 
-/** Transforme une date en <mois>/<année>. Par exemple "1/2016" ou "7/2015" **/
+/** Transforme une date en <mois>/<annï¿½e>. Par exemple "1/2016" ou "7/2015" **/
 function dateMoisToStringShort(d) {
 	return (d.getUTCMonth()+1) + "/" + d.getUTCFullYear();
+}
 
+/**  Renvoie une date sous la forme "<jour> <mois> <annÃ©e>". Par exemple "4 novembre 2016" **/
+function dateToString(d) {
+	return d.getUTCDate() + " " + (jQuery.datepicker.regional.fr.monthNames[d.getUTCMonth()]) + " " + d.getUTCFullYear();
 }
 
 function isFerie(d) {
@@ -100,8 +104,8 @@ function isFerie(d) {
 	return joursFeries.indexOf(strDate) != -1;
 }
 
-/** Construit une chaîne "du <debut> <mois1> au <fin> <mois2>".
- * On ne repète pas le mois si c'est le même. **/
+/** Construit une chaï¿½ne "du <debut> <mois1> au <fin> <mois2>".
+ * On ne repï¿½te pas le mois si c'est le mï¿½me. **/
 function formateDureeString(dateDebut, dateFin) {
 	var mois1 = dateDebut.getMonth();
 	var mois2 = dateFin.getMonth();
