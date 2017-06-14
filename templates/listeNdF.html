@@ -23,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr  class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'dateMois'">
+			<tr  class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'-dateMois'">
 				<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
 					X
 				</td>

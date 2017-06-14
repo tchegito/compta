@@ -24,7 +24,7 @@
 				<th> </th>
 			</tr>
 		</thead>
-		<tr  class="clientLine" ng-repeat="facture in factures track by facture.id">
+		<tr  class="clientLine" ng-repeat="facture in factures | toArray | orderBy:'-dateDebut' ">
 			<td>
 				<input type="checkbox" ng-model="facture.checked"/>
 			</td>

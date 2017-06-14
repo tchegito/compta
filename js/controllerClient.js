@@ -17,11 +17,13 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
         }
 	};
 
+	/** Update current GUI elements **/
 	$scope.updateContacts = function(idClient) {
 		var listeContacts = [];
 		var dbContacts = db.clients[idClient].contacts;
 		for (var i=0;i<dbContacts.length;i++) {
-			listeContacts.push(db.contacts[dbContacts[i]]);
+            var idContact = dbContacts[i];
+			listeContacts.push(db.contacts[idContact]);
 		}
 		$scope.contacts = listeContacts;
 	};
@@ -64,7 +66,6 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	$scope.submitClient = function() {
 		var client = $scope.client;
 		dbEngine.persistClient(client);
-		console.log('On vient de créer '+client);
 
 		// Now, we have to quit this page, and go back to main menu
 		$scope.selClient(-1);
@@ -81,8 +82,9 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 			console.log('Mise a jour de '+contact);
 		} else {
 			dbEngine.addContact(db.clients[idClient], contact);
-			console.log('On vient de créer '+contact);
-		}
+			console.log('On vient de créer le contact'+contact+' sur le client '+idClient);
+            $scope.client.contacts.push(contact.id);
+        }
 		$scope.updateContacts(idClient);
 		// Hide contact edition
 		$scope.idContact = -1;
@@ -152,9 +154,13 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	};
 
 	$scope.deleteContact = function(id) {
-		if (confirm("Etes vous sûr de supprimer ce contact ?")) {
+		if (confirm($filter('i18n')("confirm.removeContact"))) {
 			var idClient = $scope.client.id;
 			dbEngine.removeContact(idClient, id);
+            // Update current model
+            var idx = $scope.client.contacts.indexOf(id);
+			$scope.client.contacts.splice(idx, 1);
+			// Update GUI
 			$scope.updateContacts(idClient);
 		}
 	}
