@@ -232,6 +232,12 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		return nbJours;
 	};
 
+    $scope.calculeRetard = function(f) {
+		var dateRemise = new Date(f.dateFin);
+		var nbJours = ecartJours(dateRemise, new Date());
+		return $filter('i18n')("factureRetard", parseInt(nbJours, 10));
+	};
+
 	$scope.formateDureeFacture = function(facture) {
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
 	};

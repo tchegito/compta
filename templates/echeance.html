@@ -22,21 +22,7 @@
                 <select ng-model="echeance.nature" ng-disabled="idEcheance" ng-options="n for n in naturesDispo">
                 </select>
             </div>
-            <!--
-            <div style="float:left;margin-left:100px">
-                <input type="checkbox" ng-model="echeance.payee"/> payée le
-                <input type=""text" class="dateJour" date-picker="yes" ng-model="echeance.datePaiement"/>
-            </div>
-            <p style="clear:both">
-                Début de la mission:
-                <input type="text" class="dateJour" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
-            </p>
             <p>
-                Fin de la mission:
-                <input type="text" class="dateJour" date-picker="yes" ng-model="facture.fin"/>
-            </p>
-            -->
-            <p ng-show="echeance.nature!='TVA simplifiée'">
                 Dates des échéances
                 <input type="button" class="appliBtn" value="Ajouter" ng-click="ajouteLigne()"/>
                 <table>

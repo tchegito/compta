@@ -23,5 +23,7 @@
     "confirm.removeFacture" : "Etes vous sûr de supprimer cette facture ?",
 
     "saveDb" : "Comptabilité enregistrée en local dans le navigateur.",
-    "exportDb" : "Comptabilité exportée dans le fichier "
+    "exportDb" : "Comptabilité exportée dans le fichier ",
+
+    "factureRetard" : "Retard: {0} jours"
 }

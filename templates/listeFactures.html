@@ -38,8 +38,9 @@
 			</td>
 			<td class="clientLineData">
 				<span ng-bind="facture.dateDebut | date : 'MM/yyyy'"/>
-				<span style="margin-left:50px" ng-show="facture.payee">
-					Payée
+				<span style="margin-left:50px">
+					<span ng-if="facture.payee">Payée</span>
+					<span ng-if="!facture.payee" style="color:red" ng-bind="calculeRetard(facture)"></span>
 				</span>
 			</td>
 			<td>

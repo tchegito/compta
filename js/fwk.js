@@ -103,6 +103,11 @@ function hidePopup() {
     });
 }
 
+console.log("riri");
+$('#subWin').keydown(function(event) {
+    console.log("press key "+event.keyCode);
+});
+
 function messageBottom(mess) {
     // Search for existing messages (used at the end of the function)
     var elems = $('.messageBottom');

@@ -264,7 +264,13 @@ app.factory("resourcesManager", ["$http", "$window", "$rootScope",
 					});
 			},
 			getResource: function (key) {
-				return that.resources[key];
+				var val = that.resources[key];
+				if (arguments.length > 1) {	// Parameters are provided, so replace strings
+					for (var i=1;i<arguments.length;i++) {
+                        val = val.replace("{"+ (i-1) +"}", arguments[i]);
+                    }
+				}
+				return val;
 			}
 		}
 	}]);
@@ -272,7 +278,8 @@ app.factory("resourcesManager", ["$http", "$window", "$rootScope",
 app.filter("i18n", ["resourcesManager",
 	function (resourcesManager) {
 		return function (resourceName) {
-			return resourcesManager.getResource(resourceName);
+			// Pass exactly the same arguments that received (useful if additional parameters are provided)
+			return resourcesManager.getResource.apply(this, arguments);
 		};
 	}
 ]);
