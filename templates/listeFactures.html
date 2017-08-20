@@ -40,7 +40,7 @@
 				<span ng-bind="facture.dateDebut | date : 'MM/yyyy'"/>
 				<span style="margin-left:50px">
 					<span ng-show="facture.payee">Payée</span>
-					<span ng-show="!facture.payee" style="color:red" ng-bind="calculeRetard(facture)"></span>
+					<span ng-show="!facture.payee && facture.dateFin < now" style="color:red" ng-bind="calculeRetard(facture)"></span>
 
 				</span>
 			</td>

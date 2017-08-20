@@ -46,6 +46,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
         if (!$scope.facture) {
     	    $scope.facture = {lignes: [], debutTime: 0, finTime: 0};
 	    }
+	    $scope.now = new Date().getTime();
 	}
 
 	$scope.createFacture = function() {
