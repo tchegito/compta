@@ -1,8 +1,10 @@
 body {
+	overflow:hidden;
+}
+.mainContainer {
 	border: 4px solid #8ac007;
 	border-radius: 25px;
 	padding: 15px;
-	//overflow:hidden;
 }
 
 .formulaire {

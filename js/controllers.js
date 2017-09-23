@@ -87,9 +87,9 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams, $fi
     };
 
     // Called from page which need to fix header or footer table rows
-    $scope.fixTable = function(elementId) {
+    $scope.fixTable = function() {
         $timeout(function() {
-        	fixTableRows(elementId);
+        	fixTableRows();
     	}, 0, false);	// Last parameter at 'false' is to avoid infinite 'dirty checking'
     };
 

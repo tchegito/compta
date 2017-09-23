@@ -103,9 +103,16 @@ function hidePopup() {
     });
 }
 
-console.log("riri");
-$('#subWin').keydown(function(event) {
-    console.log("press key "+event.keyCode);
+// Set an event handler on keydown to allow popup closing with ESCAPE
+$(document).ready(function() {
+    $(document.body).keydown(function (event) {
+        if ($('#subWin').css('opacity') == 1) {
+            if (event.keyCode == 27) {  // User press ESCAPE
+                // Call the CLOSE button, found by 'close' class
+                $('.close').click();
+            }
+        }
+    });
 });
 
 function messageBottom(mess) {
@@ -126,6 +133,7 @@ function messageBottom(mess) {
     elem.animate( { top : "-="+height}, 1000);
     setTimeout(function() {
         // Diminush opacity, then remove completely element after a given time
+        if (false)
         elem.animate( { opacity : 0}, 3000, function() {
             elem.remove();
         });
@@ -140,10 +148,14 @@ function messageBottom(mess) {
     }
 }
 
-function fixTableRows(elementId) {
+function fixTableRows() {
     // Find header to fix: exclude the one already fixed by floatThead plugin
     var elements = $('table.roundTable:not(.floatThead-table)');
 
+    elements.each(function(e) {
+//        $(this).css('border', '2px solid green');
+       console.log("elem="+this);
+    });
     elements.each(function() {
         if ($(this).prop('class').indexOf('floatThead') == -1) {
             $(this).floatThead(
@@ -171,5 +183,7 @@ function addCommas(nStr)
 }
 
 $(document).ready(function() {
-    messageBottom('Tigernoma vous souhaite la bienvenue dans ComptaClient !');
+    setTimeout(function() {
+        messageBottom('Tigernoma vous souhaite la bienvenue dans ComptaClient !');
+    }, 100);
 });

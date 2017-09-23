@@ -234,9 +234,14 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	};
 
     $scope.calculeRetard = function(f) {
-		var dateRemise = new Date(f.dateFin);
-		var nbJours = ecartJours(dateRemise, new Date());
-		return $filter('i18n')("factureRetard", parseInt(nbJours, 10));
+        var dateRemise = new Date(f.dateFin);
+        var nbJoursStr = ecartJours(dateRemise, new Date());
+        var nbJours = parseInt(nbJoursStr, 10);
+        if (nbJours < 30) {
+            return "";
+        } else {
+    	    return $filter('i18n')("factureRetard", nbJours);
+	    }
 	};
 
 	$scope.formateDureeFacture = function(facture) {
