@@ -82,6 +82,8 @@ app.controller("main", function($scope, $location, $rootScope, $routeParams, $fi
 
     $scope.exportDb = function() {
     	var filename = 'data.txt';
+        sanitizeAngularLeftover();
+
         openFile('text/attachment', db, filename);
         messageBottom($filter('i18n')('exportDb') + filename);
     };

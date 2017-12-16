@@ -115,6 +115,9 @@ var dbEngine = {
 		sanitizeIds();
 		sanitizeContacts();
 		sanitizeNdfs();
+
+		// Angular leftovers
+
 	},
 	removeNdf: function (id) {
 		delete db.ndfs[id];
@@ -175,6 +178,42 @@ function sanitizeNdfs() {
 			if (ligne.error) {
 				delete ligne.error;
 			}
+		}
+	}
+}
+
+// Method which removes all '$$hashKey' that Angular put in our tab
+// A better way would have be to track them down before save, but it would be for
+// the next project. For now, we care about reliable and concise data.
+function sanitizeAngularLeftover() {
+    var arr = [db.clients, db.factures, db.ndfs, db.contacts, db.echeances];
+    arr.forEach(function(c) {
+    	sanitizeHashKey(c);
+	});
+    sanitizeHashKey(arr[i]);
+    // Details
+    sanitizeHashKey(db.factures, "lignes");
+    sanitizeHashKey(db.ndfs, "lignes");
+    sanitizeHashKey(db.echeances, "lignes");
+}
+
+function sanitizeHashKey(coll, field) {
+	var nbRemoved = 0;
+
+	function removeHashKey(elem) {
+        if (elem["$$hashKey"]) {
+            delete(elem["$$hashKey"]);
+            nbRemoved++;
+        }
+    }
+
+	console.log("coll="+coll);
+	for (var key in coll) {
+		var elem = coll[key];
+		//console.log("check sur "+JSON.stringify(elem));
+		removeHashKey(elem);
+		if (field && elem[field]) {
+			sanitizeHashKey(elem[field]);
 		}
 	}
 }
