@@ -173,7 +173,7 @@ app.directive('monthPicker', function($filter) {
 				SelectedMonth:initDate, // Init date at first view
 				OnAfterChooseMonth: function (date) {
 					initTimeField(date);
-					console.log('on sort de onselect' + date);
+					//console.log('on sort de onselect' + date);
 				}
 			});
 			function initTimeField(val) {

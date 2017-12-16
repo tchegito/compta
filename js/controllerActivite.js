@@ -46,7 +46,7 @@ app.controller("activite", function($scope, $location, $rootScope) {/**
             //console.log(key + " ==> " + joursParMois[key] + " / " + joursOuvresParMois[key]);
         }
 
-        console.log("conges="+nbConges+" jours");
+        //console.log("conges="+nbConges+" jours");
         return nbConges;
     };
 
@@ -61,7 +61,7 @@ app.controller("activite", function($scope, $location, $rootScope) {/**
                 var day = d1.getUTCDay();
                 if (day > 0 && day < 6) {
                     nbFeries++;
-                    console.log("Ferie:" + d1);
+                    //console.log("Ferie:" + d1);
                 }
             }
             d1 = addDay(d1, 1);

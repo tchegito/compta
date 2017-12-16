@@ -29,7 +29,6 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	};
 
 	if ($scope.idClient) {
-		console.log("on reinitialise "+$scope.idClient);
 		var client = db.clients[$scope.idClient];
 		// Create a copy ot keep original safe
 		$scope.client = angular.copy(client);
@@ -54,13 +53,11 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	$scope.openContact = function(idContact) {
 		$scope.contact = angular.copy(db.contacts[idContact]);
 		$scope.idContact = idContact;
-		console.log(idContact);
 	};
 
 	$scope.creerContact = function() {
 		$scope.contact = {};
 		$scope.idContact = undefined;
-		console.log($scope.idContact);
 	};
 
 	$scope.submitClient = function() {
@@ -75,14 +72,13 @@ app.controller("clients", function($scope, $location, $routeParams, $rootScope, 
 	$scope.submitContact = function() {
 		var contact = $scope.contact;
 		var idClient = $scope.idClient;
-		console.log(contact);
 		if (contact.id !== undefined) {
 			// Contact already exist : we just update it
 			dbEngine.persistContact(contact);
-			console.log('Mise a jour de '+contact);
+			//console.log('Mise a jour de '+contact);
 		} else {
 			dbEngine.addContact(db.clients[idClient], contact);
-			console.log('On vient de créer le contact'+contact+' sur le client '+idClient);
+			//console.log('On vient de créer le contact'+contact+' sur le client '+idClient);
             $scope.client.contacts.push(contact.id);
         }
 		$scope.updateContacts(idClient);

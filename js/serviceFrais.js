@@ -82,7 +82,7 @@ app.service('frais', function() {/**
     };
 
     this.calculeTva = function(debut, fin) {
-        console.log(debut+" a "+fin);
+        //console.log(debut+" a "+fin);
         var factures = this.getFacturesPeriod(debut, fin);
         var frais = this.getFraisPeriod(debut, fin);
         var sommeTvaFactures = 0;

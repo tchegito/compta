@@ -46,9 +46,9 @@ var dbEngine = {
 		db.contacts[contact.id] = contact;
 	},
 	removeContact: function(clientId, contactId) {
-		console.log('suppression du contact '+clientId+' du client '+clientId);
+		//console.log('suppression du contact '+clientId+' du client '+clientId);
 		var contacts = db.clients[clientId].contacts;
-		console.log("avant="+contacts);
+		//console.log("avant="+contacts);
 		var idx = contacts.indexOf(contactId);
 		contacts.splice(idx, 1);
 		delete db.contacts[contactId];
@@ -117,6 +117,7 @@ var dbEngine = {
 		sanitizeNdfs();
 
 		// Angular leftovers
+        sanitizeAngularLeftover();
 
 	},
 	removeNdf: function (id) {
@@ -163,7 +164,7 @@ function sanitizeContacts() {
 			arrIdContacts.splice( arrIdContacts.indexOf(idContact), 1);
 		}
 	}
-	console.log("remove "+arrIdContacts.length+" unused contacts");
+	//console.log("remove "+arrIdContacts.length+" unused contacts");
 	arrIdContacts.forEach(function(unusedId) {
 		delete db.contacts[unusedId];
 	});
@@ -207,15 +208,26 @@ function sanitizeHashKey(coll, field) {
         }
     }
 
-	console.log("coll="+coll);
+    function removeDateTimeField(elem) {
+		for (var p in elem) {
+			if (elem.hasOwnProperty(p)) {
+				if (p.endsWith('Time') && elem[p.replace('Time', '')]) {
+					delete(elem[p]);
+                    nbRemoved++;
+				}
+			}
+		}
+	}
 	for (var key in coll) {
 		var elem = coll[key];
 		//console.log("check sur "+JSON.stringify(elem));
 		removeHashKey(elem);
+		removeDateTimeField(elem);
 		if (field && elem[field]) {
 			sanitizeHashKey(elem[field]);
 		}
 	}
+	console.log(nbRemoved+" removed");
 }
 
 function findMax(collection) {
