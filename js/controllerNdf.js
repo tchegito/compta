@@ -1,5 +1,5 @@
 // Contrôleur des notes de frais
-app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter) {
+app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter, frais) {
 
     init();
 
@@ -21,10 +21,15 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	});
 
     $scope.initNdf = function(f, forPrint) {
-        // Create a copy ot keep original safe
+        // Create a copy to keep original safe
         $scope.ndf = angular.copy(f);
         // User real Date object
-        $scope.ndf.dateMoisTime = new Date($scope.ndf.dateMois);
+        var dateNdf = $scope.ndf.dateMois;
+        if (!dateNdf) {
+            $scope.ndf.template = true;
+        } else {
+        	$scope.ndf.dateMoisTime = new Date(dateNdf);
+		}
         for (var i=0;i<$scope.ndf.lignes.length;i++) {
             var ligne = $scope.ndf.lignes[i];
             if (ligne.dateNote != null) {
@@ -44,6 +49,12 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	if ($scope.idNdf) {
 		var ndf = db.ndfs[$scope.idNdf];
 		$scope.initNdf(ndf);
+	} else {
+        var f = db.frais;
+        if (!f) {
+        	f = { "salaire": 2600 };
+		}
+		$scope.frais = angular.copy(f);
 	}
 
     var countEvtRefreshModele;
@@ -63,6 +74,16 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 		$location.url("ndf");
 	};
 
+    // Find the template, if one exists
+    $scope.getTemplate = function() {
+		for (var key in db.ndfs) {
+            var ndf = db.ndfs[key];
+            if (!ndf.dateMois)
+                return ndf;
+        }
+		return null;
+	};
+
 	$scope.ajouteLigne = function() {
 		// Calculate quantity
 		$scope.ndf.lignes.push( {
@@ -78,8 +99,23 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 		// Update calculated fields
 		//console.log("On enregistre la note de frais, id="+$scope.ndf.id);
 		var ndf = $scope.ndf;
+		if ($scope.ndf.template) {
+			ndf.dateMoisTime = 0;
+		}
 		var valid = $scope.checkForm(ndf);
 		if (valid) {
+			if (!ndf.id) {
+                // Is there a template defined ?
+                var templateNote = $scope.getTemplate();
+                if (templateNote) {
+                    // Add default charges
+                    for (var j=0;j<templateNote.lignes.length;j++) {
+                    	var ligne = templateNote.lignes[j];
+                        ndf.lignes.push(ligne);
+                    }
+                }
+            }
+
 			// Use <date>.getTime() because JSON can't encode date properly
 			ndf.dateMois = retrieveDate(ndf.dateMoisTime);
 			ndf.montantTTC = $scope.getNdfTotal();
@@ -94,7 +130,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 			$scope.selNdf(-1);
 			$location.url("");
 		}
-	};
+
+
+    };
 
 	$scope.checkForm = function(ndf) {
 		var valid = true;
@@ -151,7 +189,7 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	// Calculate sum of TVA for each NDF
 	// Maybe a cache will be necessary one day for big data
 	$scope.getTvaTotal = function(ndf) {
-		return calculeTotalTvaNdf(ndf);
+		return frais.calculeTotalTvaNdf(ndf);
 	};
 
 	// Calculate sum for a line of note
@@ -162,7 +200,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	$scope.getListTotalTTC = function() {
 		var totalTTC = 0;
 		angular.forEach($scope.ndfs, function(ndf) {
-			totalTTC += addFloat(ndf.montantTTC);
+			if (ndf.dateMois) {	// Doesn't count template notes
+                totalTTC += addFloat(ndf.montantTTC);
+            }
 		});
 		return totalTTC;
 	};
@@ -170,7 +210,9 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	$scope.getListTotalTVA = function() {
 		var totalTVA = 0;
 		angular.forEach($scope.ndfs, function(ndf) {
-			totalTVA += $scope.getTvaTotal(ndf);
+            if (ndf.dateMois) {	// Doesn't count template notes
+                totalTVA += $scope.getTvaTotal(ndf);
+            }
 		});
 		return totalTVA;
 	};

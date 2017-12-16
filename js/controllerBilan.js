@@ -71,6 +71,7 @@ app.controller("bilan", function($scope, $location, $filter, frais) {/**
             cdate.setUTCHours(0, 0, 0, 0);
             var dateFinPeriode = finPeriode(cdate); //lastDayOfMonth(cdate);
             dateFinPeriode.setUTCHours(23, 59, 0, 0);
+            //console.log("d1="+cdate+" to d2="+dateFinPeriode);
             var montantCharges = frais.getChargesPeriod(cdate, dateFinPeriode);
             var montantCreditTTC = frais.getCreditsTTCPeriod(cdate, dateFinPeriode);
             var line = makeLine(cdate, montantCharges, montantCreditTTC);
