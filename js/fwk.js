@@ -133,7 +133,6 @@ function messageBottom(mess) {
     elem.animate( { top : "-="+height}, 1000);
     setTimeout(function() {
         // Diminush opacity, then remove completely element after a given time
-        if (false)
         elem.animate( { opacity : 0}, 3000, function() {
             elem.remove();
         });
@@ -152,10 +151,6 @@ function fixTableRows() {
     // Find header to fix: exclude the one already fixed by floatThead plugin
     var elements = $('table.roundTable:not(.floatThead-table)');
 
-    elements.each(function(e) {
-//        $(this).css('border', '2px solid green');
-       console.log("elem="+this);
-    });
     elements.each(function() {
         if ($(this).prop('class').indexOf('floatThead') == -1) {
             $(this).floatThead(

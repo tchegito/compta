@@ -30,8 +30,9 @@
 		<script src="js/controllerCompany.js"></script>
 		<script src="js/controllerEcheance.js"></script>
 		<script src="js/controllerActivite.js"></script>
+		<script src="js/controllerBilan.js"></script>
 		<script src="js/i18n/txtResources_fr.json"></script>
-		<script src="js/dao.js"></script>
+		<script src="js/serviceFrais.js"></script>
 
 		<!-- Jeu de test -->
 		<script>
@@ -61,7 +62,7 @@
 				Factures
 			</li>
 			<li ng-class="{active:selectedTab()==3}" ng-click="selectTab(3)">
-				Notes de frais
+				Frais
 			</li>
 			<li ng-class="{active:selectedTab()==4}" ng-click="selectTab(4)">
 				Echéances
@@ -71,6 +72,9 @@
 			</li>
 			<li ng-class="{active:selectedTab()==6}" ng-click="selectTab(6)">
 				Données
+			</li>
+			<li ng-class="{active:selectedTab()==7}" ng-click="selectTab(7)">
+				Bilan
 			</li>
 		</ul>
 
@@ -93,6 +97,9 @@
 		</div>
 		<div ng-show="selectedTab() === 6">
 			<div ng-controller="company" ng-include="'templates/donnees.html'"></div>
+		</div>
+		<div ng-if="selectedTab() === 7">
+			<div ng-controller="bilan" ng-include="'templates/bilan.html'"></div>
 		</div>
 		<div class="modal">
 			<div class="middle">

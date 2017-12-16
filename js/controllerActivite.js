@@ -1,13 +1,13 @@
-// ContrÙleur de l'onglet "ActivitÈ": statistiques sur les donnÈes
+// Contr√¥leur de l'onglet "Activit√©": statistiques sur les donn√©es
 app.controller("activite", function($scope, $location, $rootScope) {/**
  * Created by Tchegito on 15/11/2016.
  */
 
     $scope.calculeConges = function() {
-        // Date de dÈbut de prise en compte
+        // Date de d√©but de prise en compte
         var dateDebut = new Date($scope.rech.dateDebutTime); //createDate(2015, 9 - 1, 15);
         var dateFin = new Date($scope.rech.dateFinTime);
-        // On itËre sur toutes les factures et on somme les jours travaillÈs
+        // On it√®re sur toutes les factures et on somme les jours travaill√©s
         var joursParMois = {};
         var joursOuvresParMois = {};
         var nbJoursOuvres;
@@ -29,17 +29,17 @@ app.controller("activite", function($scope, $location, $rootScope) {/**
             });
             joursParMois[idMois] = nbJours;
 
-            // Jours ouvrÈs (si non encore calculÈ)
+            // Jours ouvr√©s (si non encore calcul√©)
             if (!joursOuvresParMois[idMois]) {
                 var debutMois = firstDayOfMonth(d2);
                 var finMois = lastDayOfMonth(d2);
                 nbJoursOuvres = ecartJoursOuvres(debutMois, finMois);
-                //console.log("mois "+dateToStringShort(debutMois) + " ‡ "+dateToStringShort(finMois)+ " pour "+
+                //console.log("mois "+dateToStringShort(debutMois) + " ÔøΩ "+dateToStringShort(finMois)+ " pour "+
                 //    idMois+" ==> "+nbJoursOuvres);
                 joursOuvresParMois[idMois] = nbJoursOuvres;
             }
         }
-        // On calcule le nombre de jours ouvrÈs pour chaque mois au passage
+        // On calcule le nombre de jours ouvr√©s pour chaque mois au passage
         var nbConges = 0;
         for (key in joursParMois) {
             nbConges += joursOuvresParMois[key] - joursParMois[key];
@@ -51,7 +51,7 @@ app.controller("activite", function($scope, $location, $rootScope) {/**
     };
 
     $scope.calculeFeries = function() {
-        // On compte les jours fÈriÈs entre les 2 dates
+        // On compte les jours f√©ri√©s entre les 2 dates
         var d1 = new Date($scope.rech.dateDebutTime);
         var d2 = new Date($scope.rech.dateFinTime);
         var nbFeries = 0;
@@ -70,7 +70,7 @@ app.controller("activite", function($scope, $location, $rootScope) {/**
         return nbFeries;
     };
 
-    // On rÈcupËre les champs de recherche s'ils ont dÈj‡ ÈtÈ modifiÈs
+    // On r√©cup√®re les champs de recherche s'ils ont d√©j√† √©t√© modifi√©s
     if (!$rootScope.rech) {
         $rootScope.rech = {
             dateDebut: createDate(2015, 9 - 1, 15),

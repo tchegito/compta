@@ -1,7 +1,7 @@
 ////////////////////////////
 // Contrôleur d'échéances //
 ////////////////////////////
-app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope) {
+app.controller("echeances", function($scope, $location, $routeParams, $filter, $rootScope, frais) {
     $scope.naturesDispo = [ 'Libre', 'TVA simplifiée'];
 
     init();
@@ -187,7 +187,7 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
 
     $scope.calculeTva= function(ligne) {
         // Take the two date and launch TVA calculation
-        return calculeTva(new Date(ligne.debutPeriode), new Date(ligne.finPeriode));
+        return frais.calculeTva(new Date(ligne.debutPeriode), new Date(ligne.finPeriode));
     };
 
 });

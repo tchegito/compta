@@ -148,6 +148,21 @@ function lastDayOfMonth(d) {
 	return addDay(addMonth(firstDayOfMonth(d), 1), -1);
 }
 
+function firstDayOfYear(d) {
+    return new Date(Date.UTC(
+        d.getUTCFullYear(),
+        1,
+        1));
+}
+
+function firstDayOfTrimester(d) {
+    var m = d.getUTCMonth();
+    return new Date(Date.UTC(
+        d.getUTCFullYear(),
+        m - (m % 3),
+        1));
+}
+
 function createDate(year, month, date) {
 	return new Date(Date.UTC(year, month, date));
 }

@@ -6,7 +6,9 @@
 
 	<p>
 		Mois:
-		<input type="text" month-picker="yes" ng-model="ndf.dateMois"/>
+		<input type="text" month-picker="yes" ng-disabled="ndf.template" ng-model="ndf.dateMois"/>
+		<!-- 'template' field: enable only when creating the ndf. If set=> disables the date -->
+		<input type="checkbox" ng-disabled="idNdf" ng-model="ndf.template"/> modèle
 	</p>
 	<form name="detailNdf" ng-submit="submitNdf()">
 		Lignes de la note de frais

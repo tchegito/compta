@@ -4,7 +4,25 @@
 </head>
 <body>
 
-<div class="clientTab">
+<div>
+	<!-- Form -->
+	<div class="formulaire">
+		<h2>
+			Versements
+		</h2>
+	<form name="detailCompany" ng-submit="submitFrais()">
+		<table>
+			<td>
+				<td class="formLabel">{{"frais.salaire" | i18n}}</td>
+				<td class="formData"><input type="text" numeric class="montant" ng-model="frais.salaire"/>{{"frais.salaireDesc" | i18n}}</td>
+			</tr>
+			<tr>
+				<td class="formLabel">{{"frais.primes" | i18n}}</td><td></td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class="clientTab">
 	<table border="0" class="roundTable">
 		<thead>
 			<tr class="clientHead">
@@ -23,13 +41,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr  class="clientLine" ng-repeat="ndf in ndfs | toArray | orderBy:'-dateMois'">
+			<tr ng-class="'clientLine ' + (!ndf.dateMois ? 'clientLineTemplate' : '')" ng-repeat="ndf in ndfs | toArray | orderBy:'-dateMois'">
 				<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
 					X
 				</td>
 				<td style="background-color: transparent">
 					<a ng-class="{active:selNdf()==ndf.id}" ng-click="selNdf(ndf.id)">
-						{{ndf.dateMois | date : "MMMM yyyy"}}
+						<div ng-show="ndf.dateMois" ng-bind="ndf.dateMois | date : 'MMMM yyyy'" />
+						<div ng-show="!ndf.dateMois">Template</div>
 					</a>
 				</td>
 				<td class="clientLineData">
@@ -57,6 +76,7 @@
 			</tr>
 		</tfoot>
 	</table>
+	</div>
 </div>
 <p>
 	<a class="appliBtn" ng-click="createNdf()">Créer une note de frais</a>

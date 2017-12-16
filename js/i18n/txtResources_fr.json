@@ -25,5 +25,9 @@
     "saveDb" : "Comptabilité enregistrée en local dans le navigateur.",
     "exportDb" : "Comptabilité exportée dans le fichier ",
 
-    "factureRetard" : "Retard: {0} jours"
+    "factureRetard" : "Retard: {0} jours",
+
+    "frais.salaire" : "Salaire",
+    "frais.salaireDesc" : " par mois",
+    "frais.primes" : "Primes"
 }

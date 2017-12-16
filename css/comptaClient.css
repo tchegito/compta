@@ -19,9 +19,7 @@ body {
 .formulaire form {
 	padding-left:10px;
 }
-.formulaire div {
-	padding-left:10px;
-}
+
 .formulaire p {
 	padding-left:10px;
 }
@@ -129,6 +127,9 @@ li a {
 	background-color: #44cc33;
 	position: relative;
 	color: #334488;
+}
+.clientLineTemplate {
+	background-color: #889933;
 }
 .clientLine td a {
 	cursor:pointer;

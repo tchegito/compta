@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" style="height:600px">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div>
+
+    <div class="formulaire">
+        <h2>
+            Bilan
+        </h2>
+        <table>
+            <tr>
+                <td>Périodes</td>
+                <td>
+
+                    <label ng-repeat="n in periodeRefs">
+                        <div>
+                            <input type="radio" ng-model="bilan.periode" ng-value="n.val" ng-change="updateTable()"/>{{n.text}}
+                        </div>
+                    </label>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Data -->
+        <div style="width:70%;padding-left:10px">
+        <div class="clientTab">
+            <table border="0" class="roundTable">
+                <thead>
+                    <tr class="clientHead">
+                        <th>Date</th>
+                        <th>Crébit</th>
+                        <th>Débit</th>
+                        <th>Pourcentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clientLine" ng-repeat="line in lines">
+                        <td>{{line.date}}</td>
+                        <td class="clientLineData" ng-bind="line.credit | currency"/></td>
+                        <td class="clientLineData" ng-bind="line.debit | currency"/></td>
+                        <td class="clientLineData" ng-bind="line.percent + '%'"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

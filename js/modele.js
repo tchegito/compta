@@ -4,13 +4,16 @@ var db = {
 	contacts: {},
 	factures: {},
 	ndfs: {},
+	frais: {},		// Unique
 	company: {},	// Unique
 	echeances: {},
+	primes: {},
 	idClient: 0,
 	idContact: 0,
 	idFacture: 0,
 	idNdf: 0,
-	idEcheance: 0
+	idEcheance: 0,
+	idPrime: 0
 };
 
 var dbEngine = {
@@ -134,6 +137,7 @@ function sanitizeIds() {
 	setIds(db.ndfs, "idNdf");
 	setIds(db.contacts, "idContact");
 	setIds(db.echeances, "idEcheance");
+	setIds(db.primes, "idPrime");
 
 	function setIds(collection, idName) {
 		if (db[idName] === undefined || db[idName] == null) {
@@ -261,7 +265,7 @@ var dataLigneNdf = function(fkNdf, dateNote, descriptif, tva55, tva10, tva20, tt
 	this.tva20 = tva10;
 };
 
-// Ech�ances
+// Echéances
 var dataEcheance = function(nom, nature, lignes) {
 	this.nom = nom;
 	this.nature = nature;
@@ -273,10 +277,18 @@ var dataEcheance = function(nom, nature, lignes) {
 };
 
 var dataLigneEcheance = function(dateLimite, montant, datePaiement, debutPeriode, finPeriode) {
-	this.dateLimite = dateLimite;
-	this.montant = montant;
-	this.datePaiement = datePaiement;
-	this.debutPeriode = debutPeriode;
-	this.finPeriode = finPeriode;
+    this.dateLimite = dateLimite;
+    this.montant = montant;
+    this.datePaiement = datePaiement;
+    this.debutPeriode = debutPeriode;
+    this.finPeriode = finPeriode;
+};
 
+var dataPrime = function(date, montant) {
+	this.datePrime = date;
+	this.montant = montant;
+};
+
+var frais = function(salaire) {
+	this.salaire = salaire;
 };
