@@ -88,7 +88,7 @@
                 for (var l=0;l<ech.lignes.length;l++) {
 
                     var echLine = ech.lignes[l];
-                    var dateLimit = new Date(echLine.dateLimiteTime);
+                    var dateLimit = new Date(echLine.dateLimite);
                     dataset.data.push( {
                         x:dateLimit.getTime(),
                         y:echLine.montant
