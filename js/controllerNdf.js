@@ -1,5 +1,5 @@
 // Contrôleur des notes de frais
-app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter, frais) {
+app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $filter, $interval, frais) {
 
     init();
 
@@ -241,6 +241,14 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
         if (++countEvtRefreshModele == 2) {
             // First time: div is compiled. Second time: image is loaded.
             $scope.exportPDF('modeleNoteDeFraisListe');
+
+            // Schedule because if we update scope data here, no rendering will be done
+            $interval(function() {
+                if ($scope.ndfsToPrint && $scope.ndfsToPrint.length > 0) {
+                    var ndfId = $scope.ndfsToPrint.pop();
+                    $scope.printNdf(ndfId);
+                }
+            }, 100, 1);
         }
     };
 
@@ -248,5 +256,29 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
         var ndf = db.ndfs[ndfId];
         $scope.initNdf(ndf, true);
         countEvtRefreshModele = 0;
+    };
+
+    $scope.printNdfs = function() {
+        var ids = [];
+        angular.forEach($scope.ndfs, function (ndf) {
+            if (ndf.checked) {
+                ids.push(ndf.id);
+            }
+        });
+        if (ids.length == 0) {
+            alert($filter('i18n')("error.printNoNdf"));
+        } else {
+            // Store all IDs to print
+            $scope.ndfsToPrint = ids;
+            console.log(ids);
+            // Launch the first one (remaining will be targeted in 'contentLoaded')
+            $scope.printNdf(ids.pop());
+        }
+    };
+
+    $scope.toggleCheckAll = function(val) {
+        angular.forEach($scope.ndfs, function(ndf) {
+            ndf.checked = val;
+        });
     };
 });

@@ -47,7 +47,6 @@ function ComputeStyle(o, styles) {
                 case "white-space": {
 
                     if (st[1] == "pre-wrap") {
-                        console.log("white space");
                         o.pre = true;
                     }
                     break;
@@ -199,7 +198,6 @@ function ParseElement(cnt, e, p, styles) {
 			ComputeStyle(st, styles);
 		}
         if (st.pre) {
-            console.log("on le tient !");
             st.stack.pre = st.pre;
         }
         ParseContainer(st.stack, e, p, styles);

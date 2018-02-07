@@ -26,7 +26,10 @@
 	<table border="0" class="roundTable">
 		<thead>
 			<tr class="clientHead">
-				<th colspan="2">
+				<th>
+					<input type="checkbox" ng-model='check_all' ng-click="toggleCheckAll(check_all)"/>
+				</th>
+				<th>
 					Liste des notes de frais
 				</th>
 				<th>
@@ -38,12 +41,13 @@
 				<th>
 					Impression
 				</th>
+				<th> </th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-class="'clientLine ' + (!ndf.dateMois ? 'clientLineTemplate' : '')" ng-repeat="ndf in ndfs | toArray | orderBy:'-dateMois'">
-				<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
-					X
+				<td>
+					<input type="checkbox" ng-model="ndf.checked"/>
 				</td>
 				<td style="background-color: transparent">
 					<a ng-class="{active:selNdf()==ndf.id}" ng-click="selNdf(ndf.id)">
@@ -59,6 +63,9 @@
 				</td>
 				<td>
 					<img class="clientLineActive" src="images/pdfIcon32x32.png" width="16" ng-click="printNdf(ndf.id)"/>
+				</td>
+				<td class="elementLineRemove" ng-click="deleteNdf(ndf.id)">
+					X
 				</td>
 			</tr>
 		</tbody>
@@ -80,6 +87,7 @@
 </div>
 <p>
 	<a class="appliBtn" ng-click="createNdf()">Créer une note de frais</a>
+	<a class="appliBtn" ng-click="printNdfs()">Imprimer les notes</a>
 </p>
 
 <div id="modeleNoteDeFraisListe" ng-include="'templates/print/modeleNoteDeFrais.html'" ng-if="ndf != null" style="display:none">
