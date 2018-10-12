@@ -85,8 +85,8 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	};
 
 	$scope.ajouteLigne = function() {
-		// Calculate quantity
-		$scope.ndf.lignes.push( {
+		// Add at the beginning
+		$scope.ndf.lignes.unshift( {
 			dateNote: '',
 			descriptif:"",
 			tva55:0,
