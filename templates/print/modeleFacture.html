@@ -6,6 +6,7 @@
 		<td>
 		<div style="font-family:times">
 			<p><b ng-bind="company.nom"></b></p>
+			<p ng-bind="company.email"></p>
 			<p ng-bind="company.adresse1"></p>
 			<p ng-bind="company.adresse2"></p>
 			<p ng-bind="company.adresse3"></p>
@@ -24,21 +25,16 @@
 </div>
 <br/>
 <br/>
+<br/>Le {{dateJour()}},
 <br/>
 <br/>
 <p><u>Facture n°{{getNumeroFacture(facture)}}</u>: {{formateDureeFacture(facture)}}</div></p>
 <br/>
-<table border="1" cellpadding="4" cellspacing="0">
-	<colgroup>
-		<col width="260">
-		<col width="136">
-		<col width="101">
-		<col width="112">
-	</colgroup>
+<table border="1" cellpadding="4" cellspacing="0" widths="50%,20%,10%,20%">
 	<thead>
 		<tr style="font-weight:bold">
 			<th>Prestations</th>
-			<th>Prix unitaire HT</th>
+			<th style="width:30%">Prix unitaire HT</th>
 			<th>Quantité</th>
 			<th>Total HT</th>
 		</tr>
@@ -57,7 +53,7 @@
 	<tr>
 		<td></td>
 		<td>
-			<table border="1" cellpadding="4" cellspacing="0" widths="50%,50%">
+			<table border="1" cellpadding="4" cellspacing="0" widths="60%,40%">
 				<tr>
 					<td style="text-align:right;font-weight:bold">Total HT</td>
 					<td ng-bind="getFactureTotalHT() | currency"></td>

@@ -248,6 +248,10 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
 	};
 
+	$scope.dateJour = function() {
+        return dateToString(new Date());
+	};
+
 	$scope.deleteFacture = function(id) {
 		console.log("vue sur "+$scope.selectedFacture());
 		if (confirm($filter('i18n')("confirm.removeFacture"))) {

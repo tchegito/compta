@@ -1,5 +1,6 @@
 {
     "compNom" : "Nom de l'entreprise",
+    "compEmail" : "Email",
     "compAdresse1" : "Adresse ligne 1",
     "compAdresse2" : "Adresse ligne 2",
     "compAdresse3" : "Adresse ligne 3",
