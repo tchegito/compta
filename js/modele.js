@@ -57,7 +57,7 @@ var dbEngine = {
 		var f = facture;
 		if (facture.id === undefined) {
 			f = new dataFacture(facture.idClient, facture.montantHT, facture.tva, facture.montantTTC,
-				facture.dateDebut, facture.dateFin, facture.paye, facture.datePaie);
+				facture.dateDebut, facture.dateFin, facture.paye, facture.datePaie, facture.devis);
 			f.id = db.idFacture++;
 		}
 		f.lignes = facture.lignes;
@@ -266,7 +266,7 @@ var dataContact = function(nom, prenom, tel, mail, info) {
 	this.info = info;
 };
 
-var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, dateFin, paye, datePaiement, lignes) {
+var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, dateFin, paye, datePaiement, lignes, devis) {
 	this.idClient = idClient;
 	this.montantHT = montantHT;
 	this.tva = tva;
@@ -276,6 +276,7 @@ var dataFacture = function(idClient, montantHT, tva, montantTTC, dateDebut, date
 	// These fields are a <date>.getTime() result (=ms since 1970). Because JSON can't encode/decode Date correctly
 	this.dateDebut = dateDebut;
 	this.dateFin = dateFin;
+	this.devis = devis;
 	if (lignes === undefined) {
 		this.lignes = [];
 	}else {

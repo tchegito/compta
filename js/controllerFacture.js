@@ -178,10 +178,11 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 	//	$scope.exportPDF();
 	//});
 	$scope.exportPDF = function(name) {
-		var fileName = this.getNomClient($scope.facture.idClient);
-		fileName += '_' + $scope.facture.debut;
-		filename = 'facture_'+fileName+'.pdf';
-		exportPdf(name, filename);
+		var nomClient = this.getNomClient($scope.facture.idClient);
+		var fileName = $scope.facture.devis ? "devis" : "facture";
+		fileName += '_' + nomClient + '_' + $scope.facture.debut;
+		fileName += '.pdf';
+		exportPdf(name, fileName);
 	};
 
 	var countEvtRefreshModele;

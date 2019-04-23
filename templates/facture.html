@@ -16,6 +16,9 @@
 			<input type="text" class="dateJour" date-picker="yes" ng-model="facture.datePaie" ng-change="syncPaidCheck()"/>
 	</div>
 	<p style="clear:both">
+		Devis: <input type="checkbox" ng-model="facture.devis"/>
+	</p>
+	<p style="clear:both">
 		Début de la mission:
 		<input type="text" class="dateJour" date-picker="yes" ng-model="facture.debut" ng-change="syncDates()"/>
 	</p>
