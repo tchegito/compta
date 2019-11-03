@@ -94,6 +94,11 @@ function dateToString(d) {
 	return d.getUTCDate() + " " + (jQuery.datepicker.regional.fr.monthNames[d.getUTCMonth()]) + " " + d.getUTCFullYear();
 }
 
+/**  Renvoie une date sous la forme "<mois> <année>". Par exemple "Novembre 2016" **/
+function dateToStringWithoutDay(d) {
+	return capitalizeFirstLetter(jQuery.datepicker.regional.fr.monthNames[d.getUTCMonth()]) + " " + d.getUTCFullYear();
+}
+
 function isFerie(d) {
 	var y = d.getYear();
 	if (feries[y] === undefined) {

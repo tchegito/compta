@@ -107,6 +107,7 @@ var dbEngine = {
 			db.ndfs = {};
 		}*/
 		// Be sure that every data is in an object, and not an array
+
 		db.clients = sanitizeObj(db.clients);
 		db.factures = sanitizeObj(db.factures);
 		db.ndfs = sanitizeObj(db.ndfs);
@@ -191,7 +192,6 @@ function sanitizeAngularLeftover() {
     arr.forEach(function(c) {
     	sanitizeHashKey(c);
 	});
-    sanitizeHashKey(arr[i]);
     // Details
     sanitizeHashKey(db.factures, "lignes");
     sanitizeHashKey(db.ndfs, "lignes");
