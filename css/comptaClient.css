@@ -86,7 +86,12 @@ li a {
 	//font-size:22;
 	color: #44ff22;
 }
-.clientTab {
+.overflowedHead {
+	background-color: #ffffff;
+	border-bottom:1px solid #e7e7e7;
+}
+
+.overflowTab {
 	border:2px solid blue;
 	border-radius:7px;
 	padding-left:0px;

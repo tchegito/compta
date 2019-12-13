@@ -156,7 +156,7 @@ function fixTableRows() {
             $(this).floatThead(
                 {
                     scrollContainer: function ($table) {
-                        return $table.closest('.clientTab');
+                        return $table.closest('.overflowTab');
                     }
                 }
             );
