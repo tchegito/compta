@@ -39,7 +39,7 @@
                         </thead>
                         <!-- We can't use dateLimite field because it's modified by datePicker directive -->
                         <tr ng-repeat="ligne in echeance.lignes | orderBy:'-dateLimiteTime'">
-                            <td class="action" ng-click="supprimeLigne($index)">X</td>
+                            <td class="action" ng-click="supprimeLigne(ligne)">X</td>
                             <td><input type="text" class="dateJour" date-picker="yes" ng-model="ligne.dateLimite"/></td>
 
                             <td><input type="text" numeric class="montant" ng-model="ligne.montant"/></td>

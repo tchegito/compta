@@ -68,8 +68,9 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
         });
     };
 
-    $scope.supprimeLigne = function(numLigne) {
-        $scope.echeance.lignes.splice(numLigne, 1);
+    $scope.supprimeLigne = function(item) {
+        var index = $scope.echeance.lignes.indexOf(item);
+        $scope.echeance.lignes.splice(index, 1);
     };
 
     // Check 'echeance' validity
