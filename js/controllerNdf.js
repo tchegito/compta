@@ -231,7 +231,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
 	};
 
     $scope.exportPDF = function(name) {
-        console.log("export PDF");
         var fileName = '_' + $scope.ndf.dateMois;
         filename = 'noteDeFrais_'+fileName+'.pdf';
         exportPdf(name, filename);
@@ -270,7 +269,6 @@ app.controller("ndfs", function($scope, $location, $routeParams, $rootScope, $fi
         } else {
             // Store all IDs to print
             $scope.ndfsToPrint = ids;
-            console.log(ids);
             // Launch the first one (remaining will be targeted in 'contentLoaded')
             $scope.printNdf(ids.pop());
         }

@@ -66,7 +66,15 @@
 						}
 					}
 				},
-				multiTooltipTemplate: "<%= 'rr' + addCommas(value) %>"
+				multiTooltipTemplate: "<%= 'rr' + addCommas(value) %>",
+				onClick: function handleClick(evt) {
+					var col = myPie.getElementAtEvent(evt);
+					if (col.length > 0) {
+						var index = col[0]._index;
+						var id = idFromIndex(index);
+						$('.clientLine #'+id).click();
+					}
+				}
 			};
 
 			// Build labels, with month/year
@@ -116,6 +124,10 @@
 
 
 			}
+			// When user clicks on a graph bar, we need its ID
+			function idFromIndex(index) {
+				return sortedNdf[index].id;
+			}
 			var myPie = new Chart(ctx, {
 				type: 'bar',
 				data: data,
@@ -128,6 +140,7 @@
 
 <div>
 	<!-- Form -->
+	<!--
 	<div class="formulaire">
 		<h2>
 			Versements
@@ -144,6 +157,7 @@
 		</table>
 	</form>
 	</div>
+	-->
 	<div class="overflowTab">
 		<script>
 			$(document).ready(prepareGraph());
@@ -176,7 +190,7 @@
 					<input type="checkbox" ng-model="ndf.checked"/>
 				</td>
 				<td style="background-color: transparent">
-					<a ng-class="{active:selNdf()==ndf.id}" ng-click="selNdf(ndf.id)">
+					<a ng-class="{active:selNdf()==ndf.id}" id="{{ndf.id}}" ng-click="selNdf(ndf.id)">
 						<div ng-show="ndf.dateMois" ng-bind="ndf.dateMois | date : 'MMMM yyyy'" />
 						<div ng-show="!ndf.dateMois">Template</div>
 					</a>

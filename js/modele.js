@@ -193,9 +193,10 @@ function sanitizeAngularLeftover() {
     	sanitizeHashKey(c);
 	});
     // Details
-    sanitizeHashKey(db.factures, "lignes");
-    sanitizeHashKey(db.ndfs, "lignes");
-    sanitizeHashKey(db.echeances, "lignes");
+	arr = [db.factures, db.ndfs, db.echeances];
+	arr.forEach(c => {
+		sanitizeHashKey(c, "lignes");
+	});
 }
 
 function sanitizeHashKey(coll, field) {
@@ -220,11 +221,14 @@ function sanitizeHashKey(coll, field) {
 	}
 	for (var key in coll) {
 		var elem = coll[key];
-		//console.log("check sur "+JSON.stringify(elem));
 		removeHashKey(elem);
 		removeDateTimeField(elem);
 		if (field && elem[field]) {
 			sanitizeHashKey(elem[field]);
+		}
+		// Checkbox information from UI
+		if (elem.checked !== undefined) {
+			delete elem.checked
 		}
 	}
 	console.log(nbRemoved+" removed");
