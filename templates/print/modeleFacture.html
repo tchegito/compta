@@ -25,7 +25,7 @@
 </div>
 <br/>
 <br/>
-<br/>Le {{dateJour()}},
+<br/>Le {{dateJourFacture(facture)}},
 <br/>
 <br/>
 <p ng-if="!facture.devis">
@@ -35,12 +35,13 @@
 	<u>Devis</u> pour {{getNbJours(facture)}} jours
 </p>
 <br/>
-<table border="1" cellpadding="4" cellspacing="0" widths="50%,20%,10%,20%">
+<table border="1" cellpadding="4" cellspacing="0" widths="50%,20%,10%,5%,20%">
 	<thead>
 		<tr style="font-weight:bold">
 			<th>Prestations</th>
 			<th style="width:30%">Prix unitaire HT</th>
 			<th>Quantité</th>
+			<th>TVA</th>
 			<th>Total HT</th>
 		</tr>
 	</thead>
@@ -49,6 +50,7 @@
 			<td>{{ligne.descriptif}}</td>
 			<td>{{ligne.pu}}</td>
 			<td>{{ligne.qte}}</td>
+			<td>{{ligne.sansTva ? 0 : 20}}</td>
 			<td ng-bind="calculLigneMontantHT(ligne) | currency"></td>
 		</tr>
 	</tbody>
@@ -65,7 +67,7 @@
 				</tr>
 				<tr>
 					<td style="text-align:right">TVA</tdstyle>
-					<td class="montant" ng-bind="0.2*getFactureTotalHT() | currency"></td>
+					<td class="montant" ng-bind="getFactureTotalTVA() | currency"></td>
 				</tr>
 				<tr>
 					<td style="text-align:right">Total TTC</td>

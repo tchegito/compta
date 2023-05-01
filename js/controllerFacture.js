@@ -97,6 +97,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 			descriptif:"Mission "+this.getNomClient(idClient),
 			qte:nbJours,
 			pu:tjm,
+			sansTva:false,
 			montantHT:0
 		});
 	};
@@ -124,8 +125,38 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		return total;
 	};
 
+	$scope.getFactureTotalTVA = function() {
+		var total = 0;
+		if ($scope.facture) {
+			var lignes = $scope.facture.lignes;
+			if (lignes) {
+				for (var i = 0; i < lignes.length; i++) {
+					var montant = lignes[i].montantHT;
+					if (!lignes[i].sansTva) {
+						total += montant*0.2;
+					}
+				}
+			}
+		}
+		return total;
+	}
+
 	$scope.getFactureTotalTTC = function() {
-		return $scope.getFactureTotalHT() * 1.20;
+		var total = 0;
+		if ($scope.facture) {
+			var lignes = $scope.facture.lignes;
+			if (lignes) {
+				for (var i = 0; i < lignes.length; i++) {
+					var montant = lignes[i].montantHT;
+					if (lignes[i].sansTva) {
+						total += montant;
+					}  else {
+						total += montant*1.2;
+					}
+				}
+			}
+		}
+		return total;
 	};
 
 	$scope.syncDates = function() {
@@ -238,7 +269,7 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
         var dateRemise = new Date(f.dateFin);
         var nbJoursStr = ecartJours(dateRemise, new Date());
         var nbJours = parseInt(nbJoursStr, 10);
-        if (nbJours < 30) {
+        if (nbJours < 30 || f.devis) {
             return "";
         } else {
     	    return $filter('i18n')("factureRetard", nbJours);
@@ -249,8 +280,17 @@ app.controller("factures", function($scope, $location, $routeParams, $rootScope,
 		return formateDureeString(new Date(facture.dateDebut), new Date(facture.dateFin));
 	};
 
-	$scope.dateJour = function() {
-        return dateToString(new Date());
+	// Si la date du jour n'est pas dans le mois de la facture, on renvoit la date de fin
+	$scope.dateJourFacture = function(facture) {
+		var d = new Date();
+		console.log("dateFin=", facture.dateFin);
+		if (facture.dateFin) {
+			console.log("last day = ", lastDayOfMonth(new Date(facture.dateFin)));
+		}
+		if (facture.dateFin && lastDayOfMonth(new Date(facture.dateFin)) < d) {
+			d = addDay(new Date(facture.dateFin), 1);
+		}
+		return dateToString(d);
 	};
 
 	$scope.deleteFacture = function(id) {

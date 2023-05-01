@@ -134,7 +134,8 @@ app.controller("echeances", function($scope, $location, $routeParams, $filter, $
                     var strDate = $filter('date')(new Date(ligne.dateLimite), 'dd/MM/yy');
                     var strAmount = $filter('currency')(ligne.montant);
                     return strDate + ": " + strAmount;
-                } else {
+                } else if (i == ech.lignes.length-1) {
+                    // Only on last line
                     return "En retard !!!";
                 }
             }

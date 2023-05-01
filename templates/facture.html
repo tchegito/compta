@@ -35,6 +35,7 @@
 				<th>Descriptif</th>
 				<th>Prix unitaire</th>
 				<th>Quantité</th>
+				<th>Sans TVA</th>
 				<th>Total HT</th>
 			</tr>
 			<tr ng-repeat="ligne in facture.lignes">
@@ -42,6 +43,7 @@
 				<td><input type="text" ng-model="ligne.descriptif"/></td>
 				<td><input type="text" ng-model="ligne.pu"/></td>
 				<td><input type="text" ng-model="ligne.qte"/></td>
+				<td><input type="checkbox" ng-model="ligne.sansTva"/></td>
 				<td class="montant" ng-bind="calculLigneMontantHT(ligne) | currency"></td>
 			</tr>
 			<!--Lignes de totalisation -->
@@ -53,7 +55,7 @@
 			<tr>
 				<td colspan="3"></td>
 				<td>TVA</td>
-				<td class="montant" ng-bind="0.2*getFactureTotalHT() | currency"></td>
+				<td class="montant" ng-bind="getFactureTotalTVA() | currency"></td>
 			</tr>
 			<tr>
 				<td colspan="3"></td>
