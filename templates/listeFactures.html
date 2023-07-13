@@ -41,7 +41,8 @@
 				<span style="margin-left:50px">
 					<span ng-show="facture.payee">Payée</span>
 					<span ng-show="facture.devis">Devis</span>
-					<span ng-show="!facture.payee && facture.dateFin < now" style="color:red" ng-bind="calculeRetard(facture)"></span>
+					<span ng-show="facture.avoir"><i>Avoir</i></span>
+					<span ng-show="!facture.payee && !facture.avoir && facture.dateFin < now" style="color:red" ng-bind="calculeRetard(facture)"></span>
 
 				</span>
 			</td>

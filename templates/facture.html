@@ -6,7 +6,7 @@
 
 	<div style="float:left">
 			Client:
-			<select ng-model="facture.idClient" ng-options="c.id as c.nom for c in clients">
+			<select ng-model="facture.idClient" ng-options="c.id as c.nom for c in clients | toArray | orderBy: 'nom'">
 			</select>
 			TJM:
 			<input type="text" class="montant" ng-model="facture.tjm"/>€
@@ -17,6 +17,9 @@
 	</div>
 	<p style="clear:both">
 		Devis: <input type="checkbox" ng-model="facture.devis"/>
+	</p>
+	<p style="clear:both">
+		Avoir: <input type="checkbox" ng-model="facture.avoir"/>
 	</p>
 	<p style="clear:both">
 		Début de la mission:

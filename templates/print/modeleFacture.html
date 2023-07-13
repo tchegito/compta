@@ -28,11 +28,14 @@
 <br/>Le {{dateJourFacture(facture)}},
 <br/>
 <br/>
-<p ng-if="!facture.devis">
+<p ng-if="!facture.devis && !facture.avoir">
 	<u>Facture n°{{getNumeroFacture(facture)}}</u>: {{formateDureeFacture(facture)}}
 </p>
 <p ng-if="facture.devis">
 	<u>Devis</u> pour {{getNbJours(facture)}} jours
+</p>
+<p ng-if="facture.avoir">
+	<u>Facture d'avoir n°{{getNumeroFacture(facture)}}: </u>
 </p>
 <br/>
 <table border="1" cellpadding="4" cellspacing="0" widths="50%,20%,10%,5%,20%">
